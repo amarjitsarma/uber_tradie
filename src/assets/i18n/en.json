@@ -8,26 +8,27 @@
   "LOGIN": "Sign in",
   "SIGNUP": "Sign up",
 
-  "TAB1_TITLE": "Items",
+  "TAB1_TITLE": "Home",
   "TAB2_TITLE": "Search",
-  "TAB3_TITLE": "Settings",
+  "TAB3_TITLE": "Categories",
+  "TAB4_TITLE": "Tasks",
 
   "MAP_TITLE": "Map",
 
   "TUTORIAL_SKIP_BUTTON": "Skip",
   "TUTORIAL_CONTINUE_BUTTON": "Continue",
 
-  "TUTORIAL_SLIDE1_TITLE": "Welcome to the Ionic Super Starter",
-  "TUTORIAL_SLIDE1_DESCRIPTION": "The <b>Ionic Super Starter</b> is a fully-featured Ionic starter with many pre-built pages and best practices.",
+  "TUTORIAL_SLIDE1_TITLE": "Best IT Proffessionals in Australia",
+  "TUTORIAL_SLIDE1_DESCRIPTION": "Find the top IT Proffessionals in Australia with us and get your job done from anywhere.",
 
-  "TUTORIAL_SLIDE2_TITLE": "How to use the Super Starter",
-  "TUTORIAL_SLIDE2_DESCRIPTION": "Assemble the various page types you want and remove the ones you don't. We've provided many common mobile app page layouts, like login and signup pages, tabs, and this tutorial page.",
+  "TUTORIAL_SLIDE2_TITLE": "Best Plumbers in Australia",
+  "TUTORIAL_SLIDE2_DESCRIPTION": "Fix your plumbling issues by the best Plumbers in Australia at your door step",
 
-  "TUTORIAL_SLIDE3_TITLE": "Getting Started",
-  "TUTORIAL_SLIDE3_DESCRIPTION": "Need help? Check out the Super Starter README for a full tutorial",
+  "TUTORIAL_SLIDE3_TITLE": "Get your make up done",
+  "TUTORIAL_SLIDE3_DESCRIPTION": "Best beauticians around you for your every occasion",
 
-  "TUTORIAL_SLIDE4_TITLE": "Ready to Play?",
-
+  "TUTORIAL_SLIDE4_TITLE": "Need more? Please continue",
+  "TUTORIAL_SLIDE4_DESCRIPTION": "Worry free moving your goods to your destinations with our best movers and packers",
   "WELCOME_INTRO": "The starting point for your next great Ionic app",
 
   "SETTINGS_TITLE": "Settings",

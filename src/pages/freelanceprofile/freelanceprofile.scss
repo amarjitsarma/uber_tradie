@@ -1,0 +1,48 @@
+page-freelanceprofile {
+	.item-ios p {
+		overflow: visible;
+		font-size: 1.3rem;
+		line-height: normal;
+		text-overflow: clip;
+		color: #000;
+		margin: 0 0 2px;
+		overflow-wrap: break-word;
+	}
+	.MiddleSpan{
+	    vertical-align: -webkit-baseline-middle;
+	}
+	.round_icon{
+	    border: 1px #000 solid;
+		border-radius: 20px;
+		padding: 3px;
+		width: 41px;
+		text-align: center;
+		font-size: xx-large;
+	}
+	.contact_details {
+		font-size: large;
+		position: relative;
+		top: -4px;
+	}
+	.color-primary{
+		color:#ffce00;
+	}
+	textarea{
+		height: 100px !important;
+		border-radius:5px !important;
+	}
+	
+	.round_icon_small{
+	    border: 1px #000 solid;
+		border-radius: 20px;
+		padding: 2px;
+		width: 20px;
+		text-align: center;
+		font-size: normal;
+	}
+	.contact_details_small {
+		font-size: normal;
+		position: relative;
+		top: -1px;
+	}
+}

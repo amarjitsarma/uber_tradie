@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar color="primary" class="NavBar">	
+    <ion-title>Keywords</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+	
+	<ion-grid>
+		<ion-row>
+			
+		</ion-row>
+		<ion-row>
+			<ion-col col-6>
+				<select-searchable
+					item-content
+					[(ngModel)]="SearchBusiness"
+					[items]="Services1"
+					itemValueField="DistrictName"
+					itemTextField="DistrictName"
+					[canSearch]="true"
+					(onChange)="portChange($event)" placeholder="Keyword"  class="SearchBox">
+				</select-searchable>
+			</ion-col>
+			<ion-col col-2>
+				<button ion-button>Add</button>
+			</ion-col>
+			<ion-col col-4>
+				<button ion-button><ion-icon name="add-circle-outline"></ion-icon>&nbsp;Add new</button>
+			</ion-col>
+		</ion-row>
+		<ion-list>
+			<ion-item>
+				<ion-label>1. Best CMS Website Builder</ion-label>
+				<ion-checkbox color="dark" ></ion-checkbox>
+			</ion-item>
+			<ion-item>
+				<ion-label>2. E-Commerce Websites</ion-label>
+				<ion-checkbox color="dark" ></ion-checkbox>
+			</ion-item>
+			<ion-item>
+				<ion-label>3. Magento Specialist</ion-label>
+				<ion-checkbox color="dark" checked="true"></ion-checkbox>
+			</ion-item>
+			<ion-item text-right>
+				<button ion-button>Delete Selected</button>
+			</ion-item>
+		</ion-list>
+		<ion-row>
+			<ion-col col-4>
+				<button ion-button>Previous</button>
+			</ion-col>
+			<ion-col col-2>
+				
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button>List as Freelancer</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

@@ -5,19 +5,28 @@ import { TranslateService } from '@ngx-translate/core';
 import { Config, Nav, Platform } from 'ionic-angular';
 
 import { FirstRunPage } from '../pages/pages';
+import { Freelancelist1Page } from '../pages/freelancelist1/freelancelist1';
+import { Freelancelist2Page } from '../pages/freelancelist2/freelancelist2';
+import { Freelancelist3Page } from '../pages/freelancelist3/freelancelist3';
+import { Freelancelist4Page } from '../pages/freelancelist4/freelancelist4';
+import { Freelancelist5Page } from '../pages/freelancelist5/freelancelist5';
+import { Freelancelist6Page } from '../pages/freelancelist6/freelancelist6';
+import { Freelancelist7Page } from '../pages/freelancelist7/freelancelist7';
+import { Freelancelist8Page } from '../pages/freelancelist8/freelancelist8';
 import { Settings } from '../providers/providers';
 
 @Component({
   template: `<ion-menu [content]="content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Pages</ion-title>
-      </ion-toolbar>
-    </ion-header>
 
-    <ion-content>
-      <ion-list>
-        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+    <ion-content class="card-background-page">
+		<ion-card>
+			<img src="assets/img/profile_bg.jpg"/>
+			<div class="card-title">Amarjit Sarma</div>
+			<div class="card-subtitle">Melbourne, Australia</div>
+			<div class="card-subtitle"><button ion-button clear color="light"><ion-icon name="create"></ion-icon> View Profile</button></div>
+		</ion-card>
+      <ion-list class="menu-list">
+        <button menuClose ion-item class="menu-buttons" *ngFor="let p of pages" (click)="openPage(p)">
           {{p.title}}
         </button>
       </ion-list>
@@ -32,17 +41,13 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   pages: any[] = [
-    { title: 'Tutorial', component: 'TutorialPage' },
-    { title: 'Welcome', component: 'WelcomePage' },
-    { title: 'Tabs', component: 'TabsPage' },
-    { title: 'Cards', component: 'CardsPage' },
-    { title: 'Content', component: 'ContentPage' },
-    { title: 'Login', component: 'LoginPage' },
-    { title: 'Signup', component: 'SignupPage' },
-    { title: 'Master Detail', component: 'ListMasterPage' },
-    { title: 'Menu', component: 'MenuPage' },
-    { title: 'Settings', component: 'SettingsPage' },
-    { title: 'Search', component: 'SearchPage' }
+    { title: 'Home', component: 'TutorialPage' },
+    { title: 'Categories', component: 'WelcomePage' },
+    { title: 'Tasks', component: 'TabsPage' },
+    { title: 'Terms & Conditions', component: 'CardsPage' },
+    { title: 'Privacy Policy', component: 'ContentPage' },
+    { title: 'My Posts', component: 'WelcomePage' },
+	{ title: 'My Tasks', component: 'WelcomePage' }
   ]
 
   constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {

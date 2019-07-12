@@ -14,6 +14,18 @@ import { Settings } from '../providers/providers';
 import { User } from '../providers/providers';
 import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
+import { Device } from '@ionic-native/device';
+import { SelectSearchableModule } from 'ionic-select-searchable';
+
+//Pages
+import { Freelancelist1Page } from '../pages/freelancelist1/freelancelist1';
+import { Freelancelist2Page } from '../pages/freelancelist2/freelancelist2';
+import { Freelancelist3Page } from '../pages/freelancelist3/freelancelist3';
+import { Freelancelist4Page } from '../pages/freelancelist4/freelancelist4';
+import { Freelancelist5Page } from '../pages/freelancelist5/freelancelist5';
+import { Freelancelist6Page } from '../pages/freelancelist6/freelancelist6';
+import { Freelancelist7Page } from '../pages/freelancelist7/freelancelist7';
+import { Freelancelist8Page } from '../pages/freelancelist8/freelancelist8';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -38,9 +50,18 @@ export function provideSettings(storage: Storage) {
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
+	Freelancelist1Page,
+	Freelancelist2Page,
+	Freelancelist3Page,
+	Freelancelist4Page,
+	Freelancelist5Page,
+	Freelancelist6Page,
+	Freelancelist7Page,
+	Freelancelist8Page
   ],
   imports: [
+	SelectSearchableModule,
     BrowserModule,
     HttpClientModule,
     TranslateModule.forRoot({
@@ -55,7 +76,15 @@ export function provideSettings(storage: Storage) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp
+    MyApp,
+	Freelancelist1Page,
+	Freelancelist2Page,
+	Freelancelist3Page,
+	Freelancelist4Page,
+	Freelancelist5Page,
+	Freelancelist6Page,
+	Freelancelist7Page,
+	Freelancelist8Page
   ],
   providers: [
     Api,
@@ -64,6 +93,7 @@ export function provideSettings(storage: Storage) {
     Camera,
     SplashScreen,
     StatusBar,
+	Device,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }

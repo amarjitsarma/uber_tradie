@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar color="primary" class="NavBar">	
+    <ion-title>Register as Tasker</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+
+<ion-content>
+	<ion-list>
+		<ion-item>
+			<ion-label>Select Category</ion-label>
+			<select-searchable
+				item-content
+				[(ngModel)]="Sector"
+				[items]="Sectors"
+				itemValueField="DistrictName"
+				itemTextField="DistrictName"
+				[canSearch]="true"
+				(onChange)="portChange($event)" placeholder="Select">
+			</select-searchable>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Name</ion-label>
+			<ion-input type="text"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Location</ion-label>
+			<ion-input type="text"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Address</ion-label>
+			<ion-input type="textarea"></ion-input>
+		</ion-item>	
+		<ion-item>
+			<ion-label floating>Zip</ion-label>
+			<ion-input type="text"></ion-input>
+		</ion-item>	
+		<ion-item>
+			<ion-label floating>Street Name</ion-label>
+			<ion-input type="text"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Landmark <ion-icon name="add" class="round_icon_small"></ion-icon></ion-label>
+			<ion-input type="text"></ion-input>
+		</ion-item>
+		<ion-item>
+				<button ion-button full (click)="SaveBasic();">Next</button>
+		</ion-item>
+	</ion-list>
+</ion-content>

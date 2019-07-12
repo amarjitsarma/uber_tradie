@@ -14,3 +14,55 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+ion-content{
+	background-image: url("../assets/img/app_bg.jpg");
+	background-repeat: no-repeat;
+    background-size: cover;
+	-webkit-background-repeat: no-repeat;
+    -moz-background-repeat: no-repeat;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+}
+page-welcome .splash-bg{
+		filter: alpha(opacity=50);
+}
+.menu-list{
+	background:rgba(255,255,255,0.5);
+}
+.menu-buttons{
+	background:rgba(255,255,255,0.5);
+}
+.card-background-page {
+		ion-card {
+			position: relative;
+			text-align: center;
+		}
+		
+		.card-title {
+			position: absolute;
+			top: 36%;
+			font-size: 2.0em;
+			width: 100%;
+			font-weight: bold;
+			color: #fff;
+		}
+		
+		.card-subtitle {
+			font-size: 1.0em;
+			position: absolute;
+			top: 52%;
+			width: 100%;
+			color: #fff;
+		}
+		.card-md {
+			margin: 0px;
+			width:100%;
+		}
+		.list-md {
+			margin: 0px 0 0px;
+		}
+	}
+	.item-md, .grid, .row{
+		background-color:rgba(255,255,255,0.8);
+	}
