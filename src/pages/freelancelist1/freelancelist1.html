@@ -4,46 +4,63 @@
   </ion-navbar>
 </ion-header>
 
-
-
 <ion-content>
 	<ion-list>
 		<ion-item>
 			<ion-label>Select Category</ion-label>
 			<select-searchable
 				item-content
-				[(ngModel)]="Sector"
-				[items]="Sectors"
-				itemValueField="DistrictName"
-				itemTextField="DistrictName"
+				[(ngModel)]="category"
+				[items]="Categories"
+				itemValueField="ID"
+				itemTextField="Name"
 				[canSearch]="true"
 				(onChange)="portChange($event)" placeholder="Select">
 			</select-searchable>
 		</ion-item>
 		<ion-item>
+			<ion-label>Select Sub Category</ion-label>
+			<select-searchable
+				item-content
+				[(ngModel)]="sub_category"
+				[items]="SubCategories"
+				itemValueField="ID"
+				itemTextField="Name"
+				[canSearch]="true" placeholder="Select">
+			</select-searchable>
+		</ion-item>
+		<ion-item>
 			<ion-label floating>Name</ion-label>
-			<ion-input type="text"></ion-input>
+			<ion-input type="text" [(ngModel)]="fullname"></ion-input>
 		</ion-item>
 		<ion-item>
 			<ion-label floating>Location</ion-label>
-			<ion-input type="text"></ion-input>
+			<ion-input type="text" [(ngModel)]="location"></ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-label floating>Address</ion-label>
-			<ion-input type="textarea"></ion-input>
-		</ion-item>	
-		<ion-item>
-			<ion-label floating>Zip</ion-label>
-			<ion-input type="text"></ion-input>
-		</ion-item>	
+			<ion-label floating>House No</ion-label>
+			<ion-input type="text" [(ngModel)]="house_no"></ion-input>
+		</ion-item>
 		<ion-item>
 			<ion-label floating>Street Name</ion-label>
-			<ion-input type="text"></ion-input>
+			<ion-input type="text" [(ngModel)]="street_name"></ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-label floating>Landmark <ion-icon name="add" class="round_icon_small"></ion-icon></ion-label>
-			<ion-input type="text"></ion-input>
+			<ion-label floating>Suburb</ion-label>
+			<ion-input type="text" [(ngModel)]="suburb"></ion-input>
 		</ion-item>
+		<ion-item>
+			<ion-label floating>State</ion-label>
+			<ion-input type="text" [(ngModel)]="state"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Code</ion-label>
+			<ion-input type="text" [(ngModel)]="code"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Post Code</ion-label>
+			<ion-input type="text" [(ngModel)]="postcode"></ion-input>
+		</ion-item>	
 		<ion-item>
 				<button ion-button full (click)="SaveBasic();">Next</button>
 		</ion-item>

@@ -46,10 +46,8 @@ export class LoginPage {
 	}
 	if(this.account.username!="" && this.account.password!="")
 	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/login',{
-			DeviceID:this.DeviceID,
-			username:this.account.username,
-			password:this.account.password
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/CheckLogin',{
+			DeviceID:this.DeviceID
 		})
 		.subscribe(data => {
 			if(data.Error!=0)

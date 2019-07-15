@@ -8,112 +8,112 @@
 <ion-content>
 	<ion-grid>
 		<ion-row>
-			<ion-col col-4>
-				<h4>Sunday</h4>
+			<ion-col col-3>
+				<h6>Sunday</h6>
 			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="sunFrom" pickerFormat="h mm A" ></ion-datetime>
 			</ion-col>
-			<ion-col col-2 text-center>
-				<h4>To</h4>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
 			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="sunTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Monday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="monFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="monTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Tuesday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="tueFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="tueTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Wednesday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="wedFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="wedTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Thursday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="thuFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="thuTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Friday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="friFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="friTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Saturday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="satFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="satTo" pickerFormat="h mm A" ></ion-datetime>
 			</ion-col>
 		</ion-row>
 		<ion-row>
 			<ion-col col-4>
-				<h4>Monday</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-			<ion-col col-2 text-center>
-				<h4>To</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-		</ion-row>
-		<ion-row>
-			<ion-col col-4>
-				<h4>Tuesday</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-			<ion-col col-2 text-center>
-				<h4>To</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-		</ion-row>
-		<ion-row>
-			<ion-col col-4>
-				<h4>Wednesday</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-			<ion-col col-2 text-center>
-				<h4>To</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-		</ion-row>
-		<ion-row>
-			<ion-col col-4>
-				<h4>Thursday</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-			<ion-col col-2 text-center>
-				<h4>To</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-		</ion-row>
-		<ion-row>
-			<ion-col col-4>
-				<h4>Friday</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-			<ion-col col-2 text-center>
-				<h4>To</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-		</ion-row>
-		<ion-row>
-			<ion-col col-4>
-				<h4>Saturday</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-			<ion-col col-2 text-center>
-				<h4>To</h4>
-			</ion-col>
-			<ion-col col-3 ion-item>
-				<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
-			</ion-col>
-		</ion-row>
-		<ion-row>
-			<ion-col col-4>
-				<button ion-button full>Previous</button>
+				<button ion-button full (click)="GoPrevious();">Previous</button>
 			</ion-col>
 			<ion-col col-4>
-				<button ion-button full>Skip</button>
+				<button ion-button full (click)="Skip();">Skip</button>
 			</ion-col>
 			<ion-col col-4>
-				<button ion-button full>Next</button>
+				<button ion-button full (click)="SaveWorkingHour();">Next</button>
 			</ion-col>
 		</ion-row>
 	</ion-grid>

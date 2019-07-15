@@ -8,35 +8,35 @@
 <ion-content>
 	
 	<ion-item>
-		<ion-label floating>Phone(+977)</ion-label>
-		<ion-input type="text"[(ngModel)]="MobileNo"></ion-input>
+		<ion-label floating>Phone(+61)</ion-label>
+		<ion-input type="text"[(ngModel)]="phone"></ion-input>
 	</ion-item>
 	<ion-item>
-		<ion-label floating>Mobile(+977)</ion-label>
-		<ion-input type="text"[(ngModel)]="MobileNo"></ion-input>
+		<ion-label floating>Mobile(+61)</ion-label>
+		<ion-input type="text"[(ngModel)]="mobile"></ion-input>
 	</ion-item>
 	<ion-item>
 		<ion-label floating>Email</ion-label>
-		<ion-input type="text"[(ngModel)]="MobileNo"></ion-input>
+		<ion-input type="text"[(ngModel)]="email"></ion-input>
 	</ion-item>
 	<ion-item>
 		<ion-label floating>Website</ion-label>
-		<ion-input type="text"[(ngModel)]="MobileNo"></ion-input>
+		<ion-input type="text"[(ngModel)]="website"></ion-input>
 	</ion-item>
 	<ion-item>
 		<ion-label floating>Contact Name</ion-label>
-		<ion-input type="text"[(ngModel)]="ContactName"></ion-input>
+		<ion-input type="text"[(ngModel)]="contact_name"></ion-input>
 	</ion-item>
 	<ion-grid>
 		<ion-row>
 			<ion-col col-4>
-				<button ion-button full>Previous</button>
+				<button ion-button full (click)="GoPrevious();">Previous</button>
 			</ion-col>
 			<ion-col col-4>
 				
 			</ion-col>
 			<ion-col col-4>
-				<button ion-button full>Next</button>
+				<button ion-button full (click)="SaveContact();">Next</button>
 			</ion-col>
 		</ion-row>
 	</ion-grid>

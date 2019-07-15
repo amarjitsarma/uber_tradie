@@ -6,75 +6,66 @@ import { SearchPage } from './../search/search';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
-import { Freelancelist2Page } from './../freelancelist2/freelancelist2';
+import { Freelancelist2Page } from '../freelancelist2/freelancelist2';
 @IonicPage()
 class Port1 {
-    public DistrictID: number;
-    public DistrictName: string;
+    public ID: number;
+    public Name: string;
 }
 @Component({
   selector: 'page-freelancelist1',
   templateUrl: 'freelancelist1.html',
 })
 export class Freelancelist1Page {
-	Services:any=[];
-	SubCategories:any=[];
-	Services1:Port1[]=[];
-	SearchBusiness:any="";
-	Sectors:Port1[]=[];
-	Sector:any="";
-	Types:Port1[]=[];
-	Type:any="";
-	ports: Port1[]=[];
-    port: Port1;
-	
-	States:Port1[]=[];
-	State:any="";
-	Districts:Port1[]=[];
-	District:any="";
-	Gaunapalikas:Port1[]=[];
-	Gaunapalika:any="";
-	Towns:Port1[]=[];
-	Town:any="";
-	Municipalties:Port1[]=[];
-	Municipalty:any="";
-	Cities:Port1[]=[];
-	City:any="";
-	Wards:Port1[]=[];
-	Ward:any="";
-	Toles:Port1[]=[];
-	Tole:any="";
+	//id 	user_id 	category 	sub_category 	fullname 	location 	house_no 	street_name 	
+	//suburb 	state 	code 	postcode 	longitude 	latitude 	radius 	status
+	Categories:Port1[]=[];
+	SubCategories:Port1[]=[];
+	port:Port1;
+	category:Port1;
+	sub_category:Port1;
+	fullname:string="";
+	location:string="";
+	house_no:string="";
+	street_name:string="";
+	suburb:string="";
+	state:string="";
+	code:string="";
+	postcode:string="";
+	longitude:string="";
+	latitude:string="";
+	radius:string="";
 	DeviceID:any="";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav) {
-	  this.LoadJobSectors();
+	  this.LoadCategories();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Freelancelist1Page');
   }
-	LoadJobSectors()
+	LoadCategories()
 	{
-		this.httpClient.get<any>('http://blist.ptezone.com.au/api/GetAllJobSectors').subscribe(data => {
-			//this.Districts=data;
-			for(var i=0;i<data.length;i++)
+		this.httpClient.get<any>('http://uber.ptezone.com.au/api/GetCategories').subscribe(data => {
+			for(var i=0;i<data.Categories.length;i++)
 			{
-				this.port={DistrictID:data[i].JobSectorID,DistrictName:data[i].JobSectorName};
-				this.Sectors.push(this.port);
+				this.port={ID:data.Categories[i].ID, Name:data.Categories[i].CategoryName};
+				this.Categories.push(this.port);	
 			}
+			console.log(this.Categories);
 		},
 		err => {
 				console.log(err);	
 		});
 	}
-	LoadJobTypes()
+	LoadSubCategories()
 	{
-		this.httpClient.post<any>('http://blist.ptezone.com.au/api/GetJobs',{ID:this.Sector.DistrictID}).subscribe(data => {
-			//this.Cities=data;
-			this.Types=[];
-			for(var i=0;i<data.length;i++)
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
+			this.SubCategories=[];
+			this.sub_category="";
+			for(var i=0;i<data.SubCategories.length;i++)
 			{
-				this.port={DistrictID: data[i].JobTypeID,DistrictName:data[i].SubTypeName};
-				this.Types.push(this.port);
+				this.port={ID: data.SubCategories[i].ID,Name:data.SubCategories[i].SubCategoryName};
+				this.SubCategories.push(this.port);
 			}
 		},
 		err => {
@@ -85,133 +76,42 @@ export class Freelancelist1Page {
         component: SelectSearchableComponent,
         value: any 
     }) {
-        console.log('port:', event.value);
-		console.log(this.Sector);
-		if(this.Sector!="")
+		if(this.category!="")
 		{
-			this.LoadJobTypes();
+			this.LoadSubCategories();
 		}
     }
-	LoadStates()
-	{
-		this.httpClient.get<any>('http://blist.ptezone.com.au/api/GetAllStates').subscribe(data => {
-			//this.Districts=data;
-			for(var i=0;i<data.length;i++)
-			{
-				this.port={DistrictID:data[i].StateID,DistrictName:data[i].StateName};
-				this.States.push(this.port);
-			}
-		},
-		err => {
-				console.log(err);	
-		});
-	}
-	LoadDistricts()
-	{
-		this.httpClient.get<any>('http://blist.ptezone.com.au/api/GetDistrictByState?State='+this.State.DistrictName).subscribe(data => {
-			//this.Districts=data;
-			for(var i=0;i<data.length;i++)
-			{
-				this.port={DistrictID:data[i].DistrictID,DistrictName:data[i].DistrictName};
-				this.Districts.push(this.port);
-			}
-		},
-		err => {
-				console.log(err);	
-		});
-	}
-	LoadGaunapalikas()
-	{
-		this.httpClient.get<any>('http://blist.ptezone.com.au/api/GetVDCMunics?District='+this.District.DistrictName).subscribe(data => {
-			//this.Districts=data;
-			for(var i=0;i<data.length;i++)
-			{
-				this.port={DistrictID:data[i].DistrictID,DistrictName:data[i].DistrictName};
-				this.Gaunapalikas.push(this.port);
-			}
-		},
-		err => {
-				console.log(err);	
-		});
-	}
-	LoadTowns()
-	{
-		this.httpClient.get<any>('http://blist.ptezone.com.au/api/GetVDCMunics?District='+this.District.DistrictName).subscribe(data => {
-			//this.Districts=data;
-			for(var i=0;i<data.length;i++)
-			{
-				this.port={DistrictID:data[i].DistrictID,DistrictName:data[i].DistrictName};
-				this.Towns.push(this.port);
-			}
-		},
-		err => {
-				console.log(err);	
-		});
-	}
-	LoadMunicipalties()
-	{
-		this.httpClient.post<any>('http://blist.ptezone.com.au/api/GetMunics',{DistrictID:this.District.DistrictID}).subscribe(data => {
-			//this.Districts=data;
-			for(var i=0;i<data.length;i++)
-			{
-				this.port={DistrictID:data[i].DistrictID,DistrictName:data[i].DistrictName};
-				this.Municipalties.push(this.port);
-			}
-		},
-		err => {
-				console.log(err);	
-		});
-	}
-	LoadCities()
-	{
-		this.httpClient.get<any>('http://blist.ptezone.com.au/api/GetVDCMunics?District='+this.District.DistrictName).subscribe(data => {
-			//this.Districts=data;
-			for(var i=0;i<data.length;i++)
-			{
-				this.port={DistrictID:data[i].DistrictID,DistrictName:data[i].DistrictName};
-				this.Cities.push(this.port);
-			}
-		},
-		err => {
-				console.log(err);	
-		});
-	}
-	LoadWards()
-	{
-		this.httpClient.post<any>('http://blist.ptezone.com.au/api/GetWards',{VdcID: this.Municipalty.DistrictID, MunicID: this.Municipalty.DistrictID}).subscribe(data => {
-			//this.Districts=data;
-			for(var i=0;i<data.length;i++)
-			{
-				this.port={DistrictID:data[i].DistrictID,DistrictName:data[i].DistrictName};
-				this.Municipalties.push(this.port);
-			}
-		},
-		err => {
-				console.log(err);	
-		});
-	}
 	SaveBasic()
 	{
-		this.httpClient.get<any>('http://blist.ptezone.com.au/api/SaveFreelanceBasic',
+		this.DeviceID=this.device.uuid;
+		if(this.DeviceID==null)
 		{
-			job_sector:this.Sector,
-			job_type:this.Type,
-			fullname:this.Fullname,
-			state:this.State,
-			district:this.District,
-			gaunapalika:this.Gaunapalika,
-			town:this.Town,
-			municipalty:this.Municipalty,
-			city:this.City,
-			ward_no:this.Ward,
-			toll_name:this.Tole,
-			street_name:this.Street,
-			landmark:this.LandMark,
-		}).subscribe(data => {
-			this.navCtrl.setRoot(Freelancelist2Page);
-		},
-		err => {
-				console.log(err);	
-		});
+			this.DeviceID="534b8b5aeb906015";
+		}
+		if(this.category!="" && this.sub_category!="" && this.fullname!="" && this.location!="" && this.house_no!="" && this.street_name!="" && this.suburb!="" && this.state!="" && this.code!="" && this.postcode!="")
+		{
+			this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveFreelanceBasic',
+			{
+				device_id:this.DeviceID,
+				category:this.category.ID,
+				sub_category:this.sub_category.ID,
+				fullname:this.fullname,
+				location:this.location,
+				house_no:this.house_no,
+				street_name:this.street_name,
+				suburb:this.suburb,
+				state:this.state,
+				code:this.code,
+				postcode:this.postcode,
+				longitude:this.longitude,
+				latitude:this.latitude,
+				radius:this.radius
+			}).subscribe(data => {
+				this.navCtrl.setRoot(Freelancelist2Page,{basic_id:data.id});
+			},
+			err => {
+					console.log(err);	
+			});
+		}
 	}
 }
