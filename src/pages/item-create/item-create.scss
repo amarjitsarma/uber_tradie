@@ -4,14 +4,12 @@ page-item-create {
     margin: 20px 0;
 
     .profile-image {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-
+      width: 100%;
+	  min-height:200px;
+	  height:100%;
+	  background-size:contain;
       display: inline-block;
-
       background-repeat: no-repeat;
-      background-size: cover;
       background-position: center;
     }
 

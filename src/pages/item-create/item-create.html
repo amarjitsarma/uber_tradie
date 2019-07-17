@@ -23,7 +23,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content padding>
   <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
     <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
     <div class="profile-image-wrapper" (click)="getPicture()">
@@ -34,6 +34,12 @@
         </div>
       </div>
       <div class="profile-image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
-    </div>
+	</div>
   </form>
+	<ion-list>
+		<ion-item>
+			<ion-label stacked>Title</ion-label>
+			<ion-input type="text" [(ngModel)]="account.title" name="Title" placeholder="Title"></ion-input>
+		</ion-item>
+	</ion-list>
 </ion-content>

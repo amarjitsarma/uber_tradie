@@ -61,7 +61,8 @@ export class Freelancelist1Page {
 	{
 		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
 			this.SubCategories=[];
-			this.sub_category="";
+			this.sub_category.ID=0;
+			this.sub_category.Name="";
 			for(var i=0;i<data.SubCategories.length;i++)
 			{
 				this.port={ID: data.SubCategories[i].ID,Name:data.SubCategories[i].SubCategoryName};
@@ -76,7 +77,7 @@ export class Freelancelist1Page {
         component: SelectSearchableComponent,
         value: any 
     }) {
-		if(this.category!="")
+		if(this.sub_category.Name!="")
 		{
 			this.LoadSubCategories();
 		}

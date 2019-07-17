@@ -12,29 +12,21 @@
 
 <ion-content padding>
 	<ion-list>
-		<ion-item>
-			<img src="https://www.interactpartners.com/cms/resources/cruselaptop-4-w500.jpg">
-		</ion-item>
-		<ion-item>
-			<img src="https://www.interactpartners.com/cms/resources/cruselaptop-4-w500.jpg">
-		</ion-item>
-		<ion-item>
-			<img src="https://www.interactpartners.com/cms/resources/cruselaptop-4-w500.jpg">
-		</ion-item>
-		<ion-item>
-			<img src="https://www.interactpartners.com/cms/resources/cruselaptop-4-w500.jpg">
+		<ion-item *ngFor="let Photo of Photos" text-center>
+			<img src="http://uber.ptezone.com.au/uploads/{{Photo.Photo}}">
+			<h5>{{Photo.title}}</h5>
 		</ion-item>
 	</ion-list>
 	<ion-grid>
 		<ion-row>
 			<ion-col col-4>
-				<button ion-button full>Previous</button>
+				<button ion-button full (click)="GoPrevious();">Previous</button>
 			</ion-col>
 			<ion-col col-4>
-				<button ion-button full>Skip</button>
+				
 			</ion-col>
 			<ion-col col-4>
-				<button ion-button full>Next</button>
+				<button ion-button full (click)="GoNext();">Next</button>
 			</ion-col>
 		</ion-row>
 	</ion-grid>

@@ -7,18 +7,18 @@
 <ion-content>
 	<ion-item>
 		<ion-label floating>Services Offered</ion-label>
-		<ion-textarea></ion-textarea>
+		<ion-textarea [(ngModel)]="services"></ion-textarea>
 	</ion-item>
 	<ion-grid>
 		<ion-row>
 			<ion-col col-4>
-				<button ion-button full>Previous</button>
+				<button ion-button full (click)="GoPrevious();">Previous</button>
 			</ion-col>
 			<ion-col col-4>
-				<button ion-button full>Skip</button>
+				<button ion-button full (click)="Skip();">Skip</button>
 			</ion-col>
 			<ion-col col-4>
-				<button ion-button full>Next</button>
+				<button ion-button full (click)="SaveService();">Next</button>
 			</ion-col>
 		</ion-row>
 	</ion-grid>

@@ -7,19 +7,23 @@
 
 <ion-content>
 	<ion-item>
+		<ion-label floating>Short Description</ion-label>
+		<ion-textarea [(ngModel)]="short_desc"></ion-textarea>
+	</ion-item>
+	<ion-item>
 		<ion-label floating>About</ion-label>
-		<ion-textarea></ion-textarea>
+		<ion-textarea [(ngModel)]="about"></ion-textarea>
 	</ion-item>
 	<ion-grid>
 		<ion-row>
 			<ion-col col-4>
-				<button ion-button full>Previous</button>
+				<button ion-button full (click)="GoPrevious();">Previous</button>
 			</ion-col>
 			<ion-col col-4>
 				
 			</ion-col>
 			<ion-col col-4>
-				<button ion-button full>Next</button>
+				<button ion-button full (click)="SaveAbout();">Next</button>
 			</ion-col>
 		</ion-row>
 	</ion-grid>

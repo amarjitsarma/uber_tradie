@@ -36,7 +36,7 @@ import { Settings } from '../providers/providers';
   <ion-nav #content [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  rootPage = Freelancelist4Page;
+  rootPage = Freelancelist8Page;
 
   @ViewChild(Nav) nav: Nav;
 
