@@ -11,31 +11,31 @@
   <form (submit)="SignUp()">
     <ion-list>
 
-      <ion-item>
-        <ion-label fixed>First Name</ion-label>
+      <ion-item no-lines>
+        <ion-label stacked>First Name</ion-label>
         <ion-input type="text" [(ngModel)]="account.firstname" name="First Name"></ion-input>
       </ion-item>
 	  
-	  <ion-item>
-        <ion-label fixed>Last Name</ion-label>
+	  <ion-item no-lines>
+        <ion-label stacked>Last Name</ion-label>
         <ion-input type="text" [(ngModel)]="account.lastname" name="Last Name"></ion-input>
       </ion-item>
 	  
-	  <ion-item>
-        <ion-label fixed>Phone</ion-label>
+	  <ion-item no-lines>
+        <ion-label stacked>Phone</ion-label>
         <ion-input type="tel" [(ngModel)]="account.phone" name="Phone"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label fixed>Email</ion-label>
+      <ion-item no-lines>
+        <ion-label stacked>Email</ion-label>
         <ion-input type="email" [(ngModel)]="account.email" name="email"></ion-input>
       </ion-item>
-	  <ion-item>
-        <ion-label fixed>Username</ion-label>
+	  <ion-item no-lines>
+        <ion-label stacked>Username</ion-label>
         <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
+      <ion-item no-lines>
+        <ion-label stacked>{{ 'PASSWORD' | translate }}</ion-label>
         <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
       </ion-item>
 

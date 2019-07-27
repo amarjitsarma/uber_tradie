@@ -1,3 +1,40 @@
-page-home {
-
-}
+page-content {
+	ion-slides{
+	height:auto;
+  }
+  .business-title{
+	font-size:2rem;
+	font-weight:bold;
+  }
+  .sub-title{
+	font-size: 1.9rem;
+    font-weight: 450;
+  }
+  .keyword{
+	background: #6dd6f5;
+    color: #fff;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin: 1px;
+  }
+  .tagline{
+	background: #00bb6d;
+    color: #fff;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin: 1px;
+  }
+  .list-ios{
+	margin:0px;
+  }
+  p,h2{
+	white-space: normal;
+	text-align: justify;
+  }
+  .label-ios{
+	white-space: normal;
+  }
+  .small_h3{
+	font-size:13px;
+  }
+}	

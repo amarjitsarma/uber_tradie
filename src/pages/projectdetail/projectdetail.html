@@ -1,0 +1,56 @@
+<!--
+  Generated template for the ProjectdetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Detail</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<ion-list *ngIf="Project!=null">
+		<ion-item no-lines>
+			<h2 class="job_no">Job#{{Project.id}}</h2>
+			<h2 class="posted_by">
+				Posted By <ion-icon name="person"></ion-icon>&nbsp;
+				<span class="posted_by_name">{{Project.User.first_name}}</span>
+			</h2>
+			<h2 class="Category">{{Project.Category.CategoryName}}&nbsp;->&nbsp;{{Project.SubCategory.SubCategoryName}}</h2>
+			<h2 class="Status{{Project.status}}" *ngIf="Project.status==1">Not assigned</h2>
+			<h2 class="Status{{Project.status}}" *ngIf="Project.status==2">Already ssigned</h2>
+        </ion-item>
+		<ion-item no-lines>
+			<h2 class="Location" *ngIf="Project.location_type=='online'">
+				<ion-icon name="locate"></ion-icon>&nbsp;Online
+			</h2>
+			<h2 class="Location" *ngIf="Project.location_type=='onsite'">
+				<ion-icon name="locate"></ion-icon>&nbsp;
+				{{Project.Address.street_name}}, {{Project.Address.suberb}}, {{Project.Address.state}}
+			</h2>
+		</ion-item>
+		<ion-item no-lines>
+			<h2 class="Title">{{Project.title}}</h2>
+			<h2>Detail</h2>
+			<p>{{Project.description}}</p>
+			<h2>Skills Needed</h2>
+			<p>{{Project.skills}}</p>
+			<h2>Budget Type: <b *ngIf="Project.payment_mode=='full'">Total Budget</b><b *ngIf="Project.payment_mode=='hourly'">Per Hour Budget</b></h2>
+			<h2 class="Budget">Estimated Budget:&nbsp;<b>$ {{Project.estimate_budget}}</b></h2>
+			<h2 *ngIf="Project.payment_mode=='hourly'">Estimated Duration: <b>{{Project.working_hour}}</b> Hours</h2>
+			<button ion-button color="secondary" *ngIf="Project.status==1" (click)="BidNow(Project.id);" full>
+				<ion-icon name="calculator"></ion-icon>&nbsp;Bid Now
+			</button>
+		</ion-item>
+	</ion-list>
+</ion-content>

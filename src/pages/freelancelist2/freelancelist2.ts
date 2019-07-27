@@ -14,7 +14,7 @@ import { Freelancelist1Page } from '../freelancelist1/freelancelist1';
 })
 export class Freelancelist2Page {
 	
-	fl_basic_id:number=1;
+	fl_basic_id:number=2;
 	sunFrom:string="";
 	sunTo:string="";
 	monFrom:string="";

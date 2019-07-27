@@ -89,7 +89,7 @@ export class Freelancelist1Page {
 		{
 			this.DeviceID="534b8b5aeb906015";
 		}
-		if(this.category!="" && this.sub_category!="" && this.fullname!="" && this.location!="" && this.house_no!="" && this.street_name!="" && this.suburb!="" && this.state!="" && this.code!="" && this.postcode!="")
+		if(this.category.Name!="" && this.sub_category.Name!="" && this.fullname!="" && this.location!="" && this.house_no!="" && this.street_name!="" && this.suburb!="" && this.state!="" && this.code!="" && this.postcode!="")
 		{
 			this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveFreelanceBasic',
 			{

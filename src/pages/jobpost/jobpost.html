@@ -1,0 +1,192 @@
+<!--
+  Generated template for the JobpostPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Post a Job</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-slides (ionSlideDidChange)="slideChanged()">
+		<ion-slide>
+			<ion-list>
+				<ion-item no-lines>
+					<ion-label>Select Category</ion-label>
+					<select-searchable
+						item-content
+						[(ngModel)]="category"
+						[items]="Categories"
+						itemValueField="ID"
+						itemTextField="Name"
+						[canSearch]="true"
+						(onChange)="portChange($event)" placeholder="Select">
+					</select-searchable>
+				</ion-item>
+				<ion-item no-lines>
+					<ion-label>Select Sub Category</ion-label>
+					<select-searchable
+						item-content
+						[(ngModel)]="sub_category"
+						[items]="SubCategories"
+						itemValueField="ID"
+						itemTextField="Name"
+						[canSearch]="true" placeholder="Select">
+					</select-searchable>
+				</ion-item>
+				<ion-item no-lines>
+					<ion-label stacked>Job title</ion-label>
+					<ion-input type="text" [(ngModel)]="title"></ion-input>
+				</ion-item>
+				<ion-item>
+					<ion-label stacked>Job Description</ion-label>
+					<ion-textarea [(ngModel)]="description"></ion-textarea>
+				</ion-item>
+			</ion-list>
+			<button ion-button large clear color="dark" (click)="Close();">
+				<ion-icon name="close"></ion-icon>
+				&nbsp;Close
+			</button>
+			<button ion-button large clear icon-end color="primary" (click)="GoNext();">
+				Next
+				<ion-icon name="arrow-forward"></ion-icon>
+			</button>
+		</ion-slide>
+		<ion-slide>
+			<ion-list>
+				<ion-item no-lines>
+					<ion-label>Job Location</ion-label>
+					<ion-select [(ngModel)]="job_location">
+						<ion-option value="online" selected>Online</ion-option>
+						<ion-option value="onsite">On site</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item no-lines>
+					<ion-label stacked>Skills Required</ion-label>
+					<ion-textarea [(ngModel)]="skills"></ion-textarea>
+				</ion-item>
+			</ion-list>
+			<button ion-button large clear color="primary" (click)="GoPrevious();">
+				<ion-icon name="arrow-back"></ion-icon>
+				&nbsp;Previous
+			</button>
+			<button ion-button large clear icon-end color="primary" (click)="GoNext();">
+				Next
+				<ion-icon name="arrow-forward"></ion-icon>
+			</button>
+		</ion-slide>
+		<ion-slide>
+			<ion-list>
+				<ion-item no-lines>
+					<ion-label>Budget Type</ion-label>
+					<ion-select [(ngModel)]="payment_type">
+						<ion-option value="full" selected>Full Work</ion-option>
+						<ion-option value="hourly">Hourly Rate</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item no-lines>
+					<ion-label stacked>Estimate Budget</ion-label>
+					<ion-input type="text" [(ngModel)]="budget"></ion-input>
+				</ion-item>
+				<ion-item no-lines *ngIf="payment_type=='hourly'">
+					<ion-label stacked>Estimate Working Hours</ion-label>
+					<ion-input type="text" [(ngModel)]="working_hour"></ion-input>
+				</ion-item>
+			</ion-list>
+			<button ion-button large clear color="primary" (click)="GoPrevious();">
+				<ion-icon name="arrow-back"></ion-icon>
+				&nbsp;Previous
+			</button>
+			<button ion-button large clear icon-end color="primary" (click)="GoNext();">
+				Next
+				<ion-icon name="arrow-forward"></ion-icon>
+			</button>
+		</ion-slide>
+		<ion-slide *ngIf="job_location=='onsite'">
+			<ion-list>
+				<ion-item no-lines>
+					<ion-label stacked>House No</ion-label>
+					<ion-input type="text" [(ngModel)]="address.house_no"></ion-input>
+				</ion-item>
+				<ion-item no-lines>
+					<ion-label stacked>Street Name</ion-label>
+					<ion-input type="text" [(ngModel)]="address.street_name"></ion-input>
+				</ion-item>
+				<ion-item no-lines>
+					<ion-label stacked>Suberb</ion-label>
+					<ion-input type="text" [(ngModel)]="address.suberb"></ion-input>
+				</ion-item>
+				<ion-item no-lines>
+					<ion-label stacked>State</ion-label>
+					<ion-input type="text" [(ngModel)]="address.state"></ion-input>
+				</ion-item>
+				<ion-item no-lines>
+					<ion-label stacked>Zip Code</ion-label>
+					<ion-input type="text" [(ngModel)]="address.code"></ion-input>
+				</ion-item>
+			</ion-list>
+			<button ion-button large clear color="primary" (click)="GoPrevious();">
+				<ion-icon name="arrow-back"></ion-icon>
+				&nbsp;Previous
+			</button>
+			<button ion-button large clear icon-end color="primary" (click)="GoNext();">
+				Next
+				<ion-icon name="arrow-forward"></ion-icon>
+			</button>
+		</ion-slide>
+		<ion-slide>
+			<ion-list>
+				<ion-item no-lines>
+					<h2>{{category.Name}}&nbsp;->&nbsp;{{sub_category.Name}}</h2>
+				</ion-item>
+				<ion-item no-lines>
+					<h2>{{title}}</h2>
+				</ion-item>
+				<ion-item no-lines>
+					<p>{{description}}</p>
+				</ion-item>
+				<ion-item>
+					<p>Job location: <span *ngIf="job_location=='online'">Online</span><span *ngIf="job_location=='onsite'">On site</span></p>
+				</ion-item>
+				<ion-item no-lines>
+					<p>{{skills}}</p>
+				</ion-item>
+				<ion-item>
+					<p>Budget Type: <span *ngIf="payment_type=='full'">Full budget</span><span *ngIf="payment_type=='hourly'">Per hour budget</span></p>
+				</ion-item>
+				<ion-item no-lines>
+					<p>Budget: {{budget}}</p>
+				</ion-item>
+				<ion-item no-lines *ngIf="payment_type=='hourly'">
+					<p>Working Hours: {{working_hours}}</p>
+				</ion-item>
+				<ion-item no-lines *ngIf="job_location=='onsite'">
+					<p>House No: {{address.house_no}}</p>
+					<p>Street Name: {{address.street_name}}</p>
+					<p>Suberb: {{address.suberb}}</p>
+					<p>State: {{address.state}}</p>
+					<p>Zip Code: {{address.code}}</p>
+				</ion-item>
+			</ion-list>
+			<button ion-button large clear color="primary" (click)="GoPrevious();">
+				<ion-icon name="arrow-back"></ion-icon>
+				&nbsp;Previous
+			</button>
+			<button ion-button large clear icon-end color="primary" (click)="Submit();">
+				Next
+				<ion-icon name="arrow-forward"></ion-icon>
+			</button>
+		</ion-slide>
+	</ion-slides>
+</ion-content>

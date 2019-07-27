@@ -1,0 +1,37 @@
+<!--
+  Generated template for the BidformPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Post a Bid</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<ion-list>
+		<ion-item no-lines>
+			<ion-label stacked>Amount</ion-label>
+			<ion-input type="text" [(ngModel)]="bid_amount" required></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label stacked>Completion Time</ion-label>
+			<ion-input type="text" [(ngModel)]="completion_time" required></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label stacked>How your bid is better?</ion-label>
+			<ion-textarea [(ngModel)]="bid_desc" required></ion-textarea>
+		</ion-item>
+	</ion-list>
+	<button ion-button full (click)="PlaceBid();">Place your bid</button>
+</ion-content>

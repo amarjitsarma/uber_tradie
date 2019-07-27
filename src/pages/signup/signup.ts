@@ -16,7 +16,7 @@ export class SignupPage {
   // The account fields for the login form.
   // If you're using the username field with or without email, make
   // sure to add it to the type
-  account: { firstname: string, lastname: string, phone: string, email: string, password: string } = {
+  account: { firstname: string, lastname: string, phone: string, email: string, username: string, password: string } = {
     firstname: '',
 	lastname: '',
 	phone: '',
@@ -24,7 +24,7 @@ export class SignupPage {
 	username: '',
     password: ''
   };
-
+	DeviceID:string="";
   // Our translated text strings
   private signupErrorString: string;
 

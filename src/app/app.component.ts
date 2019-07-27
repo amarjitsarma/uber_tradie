@@ -13,6 +13,14 @@ import { Freelancelist5Page } from '../pages/freelancelist5/freelancelist5';
 import { Freelancelist6Page } from '../pages/freelancelist6/freelancelist6';
 import { Freelancelist7Page } from '../pages/freelancelist7/freelancelist7';
 import { Freelancelist8Page } from '../pages/freelancelist8/freelancelist8';
+import { CardsPage } from '../pages/cards/cards';
+import { ItemDetailPage } from '../pages/item-detail/item-detail';
+import { JobpostPage } from '../pages/jobpost/jobpost';
+import { JoblistPage } from '../pages/joblist/joblist';
+import { CategorylistPage } from '../pages/categorylist/categorylist';
+import { SubcategorylistPage } from '../pages/subcategorylist/subcategorylist';
+import { QuoteformPage } from '../pages/quoteform/quoteform';
+import { QuotelistPage } from '../pages/quotelist/quotelist';
 import { Settings } from '../providers/providers';
 
 @Component({
@@ -26,7 +34,7 @@ import { Settings } from '../providers/providers';
 			<div class="card-subtitle"><button ion-button clear color="light"><ion-icon name="create"></ion-icon> View Profile</button></div>
 		</ion-card>
       <ion-list class="menu-list">
-        <button menuClose ion-item class="menu-buttons" *ngFor="let p of pages" (click)="openPage(p)">
+        <button menuClose ion-item no-lines class="menu-buttons" *ngFor="let p of pages" (click)="openPage(p)">
           {{p.title}}
         </button>
       </ion-list>
@@ -36,14 +44,14 @@ import { Settings } from '../providers/providers';
   <ion-nav #content [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  rootPage = Freelancelist8Page;
+  rootPage = QuotelistPage;
 
   @ViewChild(Nav) nav: Nav;
 
   pages: any[] = [
-    { title: 'Home', component: 'TutorialPage' },
-    { title: 'Categories', component: 'WelcomePage' },
-    { title: 'Tasks', component: 'TabsPage' },
+    { title: 'Home', component: 'ContentPage' },
+    { title: 'Categories', component: 'CategorylistPage' },
+    { title: 'Tasks', component: 'JoblistPage' },
     { title: 'Terms & Conditions', component: 'CardsPage' },
     { title: 'Privacy Policy', component: 'ContentPage' },
     { title: 'My Posts', component: 'WelcomePage' },

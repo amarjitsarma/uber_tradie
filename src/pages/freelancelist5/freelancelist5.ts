@@ -29,7 +29,7 @@ export class Freelancelist5Page {
 	SaveAbout()
 	{
 		this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveAbout',{
-			fl_basic_id:1,
+			fl_basic_id:2,
 			short_desc:this.short_desc,
 			about:this.about
 		}).subscribe(data => {

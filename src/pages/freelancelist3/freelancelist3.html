@@ -1,5 +1,10 @@
 <ion-header>
-  <ion-navbar color="primary" class="NavBar">
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
     <ion-title>Contact Details</ion-title>
   </ion-navbar>
 </ion-header>
@@ -7,24 +12,24 @@
 
 <ion-content>
 	
-	<ion-item>
-		<ion-label floating>Phone(+61)</ion-label>
+	<ion-item no-lines>
+		<ion-label stacked>Phone(+61)</ion-label>
 		<ion-input type="text"[(ngModel)]="phone"></ion-input>
 	</ion-item>
-	<ion-item>
-		<ion-label floating>Mobile(+61)</ion-label>
+	<ion-item no-lines>
+		<ion-label stacked>Mobile(+61)</ion-label>
 		<ion-input type="text"[(ngModel)]="mobile"></ion-input>
 	</ion-item>
-	<ion-item>
-		<ion-label floating>Email</ion-label>
+	<ion-item no-lines>
+		<ion-label stacked>Email</ion-label>
 		<ion-input type="text"[(ngModel)]="email"></ion-input>
 	</ion-item>
-	<ion-item>
-		<ion-label floating>Website</ion-label>
+	<ion-item no-lines>
+		<ion-label stacked>Website</ion-label>
 		<ion-input type="text"[(ngModel)]="website"></ion-input>
 	</ion-item>
-	<ion-item>
-		<ion-label floating>Contact Name</ion-label>
+	<ion-item no-lines>
+		<ion-label stacked>Contact Name</ion-label>
 		<ion-input type="text"[(ngModel)]="contact_name"></ion-input>
 	</ion-item>
 	<ion-grid>

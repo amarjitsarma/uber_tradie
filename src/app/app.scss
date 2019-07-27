@@ -51,7 +51,7 @@ page-welcome .splash-bg{
 		.card-subtitle {
 			font-size: 1.0em;
 			position: absolute;
-			top: 52%;
+			top: 61%;
 			width: 100%;
 			color: #fff;
 		}
@@ -65,4 +65,10 @@ page-welcome .splash-bg{
 	}
 	.item-md, .grid, .row{
 		background-color:rgba(255,255,255,0.8);
+	}
+	.toolbar-title-ios{
+		font-size:1.5rem;
+	}
+	p,h2,h3{
+		White-space: normal;
 	}

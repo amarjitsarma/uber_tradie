@@ -88,7 +88,7 @@ export class ItemCreatePage {
     if(this.photo!="" && this.account.title!="")
 	{
 		this.httpClient.post<any>('http://uber.ptezone.com.au/api/SavePhoto',{
-			basic_id:1,
+			basic_id:3,
 			Photos:[this.photo],
 			title:this.account.title
 		}).subscribe(data => {

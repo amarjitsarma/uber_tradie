@@ -24,7 +24,7 @@ export class LoginPage {
 
   // Our translated text strings
   private loginErrorString: string;
-
+	DeviceID:string="";
   constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,

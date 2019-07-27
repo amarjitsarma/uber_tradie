@@ -15,7 +15,7 @@ import { Freelancelist2Page } from '../freelancelist2/freelancelist2';
 })
 export class Freelancelist3Page {
 	
-	fl_basic_id:number=1;
+	fl_basic_id:number=2;
 	phone:string="";
 	mobile:string="";
 	email:string="";

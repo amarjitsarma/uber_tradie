@@ -1,0 +1,17 @@
+page-bidform {
+	textarea{
+		min-height:150px;
+	}
+	ion-input{
+		border: 1px #000 solid;
+	}
+	ion-textarea{
+		border: 1px #000 solid;
+	}
+	input[type="text"]{
+		padding:0px 10px;
+	}
+	textarea{
+		padding:5px 10px !important;
+	}
+}

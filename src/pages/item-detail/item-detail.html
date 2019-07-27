@@ -1,18 +1,72 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>{{ item.name }}</ion-title>
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Details</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <div class="item-profile" text-center #profilePic [style.background-image]="'url(' + item.profilePic + ')'">
-  </div>
-
-  <div class="item-detail" padding>
-    <h2>{{item.name}}</h2>
-    <p>{{item.about}}</p>
-  </div>
+	<ion-list>
+		<ion-item no-lines>
+			<h2 class="business-title">{{item.fullname}}</h2>
+			<p>{{item.Category.CategoryName}}->{{item.SubCategory.SubCategoryName}}</p>
+		</ion-item>
+	</ion-list>
+	<ion-slides>
+		<ion-slide *ngFor="let Photo of item.Photos">
+			<img src="http://uber.ptezone.com.au/uploads/{{Photo.Photo}}">
+			<h2 class='photo-title'>{{Photo.title}}</h2>
+		</ion-slide>
+	</ion-slides>
+	<ion-list>
+		<ion-item padding no-lines>
+			<h2 class="main-location"><ion-icon name="pin"></ion-icon>&nbsp;{{item.location}}</h2>
+		</ion-item>
+		<ion-item padding no-lines>
+			<h2>{{item.About.short_desc}}</h2>
+			<p [innerHtml]='item.About.about'></p>
+		</ion-item>
+		<ion-item no-lines><span *ngFor="let tagline of item.Taglines" class="tagline">#{{tagline.tagline}}</span></ion-item>
+		<button ion-item no-lines class="sub-title" (click)="showAddress();">Address</button>
+		<ion-item padding no-lines *ngIf="add==1">
+			<p>{{item.house_no}}, {{item.street_name}}, {{item.suburb}}, {{item.state}} {{item.code}}</p>
+			<p>Zip/Post code: {{item.postcode}}</p>
+			<button ion-button outline full color="dark"><ion-icon name="locate"></ion-icon>&nbsp;Get Direction</button>
+		</ion-item>
+		<button ion-item no-lines class="sub-title" (click)="showWorkingHour();">Working Hours</button>
+		<ion-item no-lines *ngIf="wh==1">
+			
+			<p *ngIf="item.WorkingHour.sunday!='-'">Sunday: {{ConvertTime(item.WorkingHour.sunday.substr(0,item.WorkingHour.sunday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.sunday.substr(item.WorkingHour.sunday.indexOf("-")+1))}}</p>
+			<p *ngIf="item.WorkingHour.monday!='-'">Monday: {{ConvertTime(item.WorkingHour.monday.substr(0,item.WorkingHour.monday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.monday.substr(item.WorkingHour.monday.indexOf("-")+1))}}</p>
+			<p *ngIf="item.WorkingHour.tuesday!='-'">Tuesday: {{ConvertTime(item.WorkingHour.tuesday.substr(0,item.WorkingHour.tuesday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.tuesday.substr(item.WorkingHour.tuesday.indexOf("-")+1))}}</p>
+			<p *ngIf="item.WorkingHour.wednessday!='-'">Wednesday: {{ConvertTime(item.WorkingHour.wednessday.substr(0,item.WorkingHour.wednessday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.wednessday.substr(item.WorkingHour.wednessday.indexOf("-")+1))}}</p>
+			<p *ngIf="item.WorkingHour.thursday!='-'">Thursday: {{ConvertTime(item.WorkingHour.thursday.substr(0,item.WorkingHour.thursday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.thursday.substr(item.WorkingHour.thursday.indexOf("-")+1))}}</p>
+			<p *ngIf="item.WorkingHour.friday!='-'">Friday: {{ConvertTime(item.WorkingHour.friday.substr(0,item.WorkingHour.friday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.friday.substr(item.WorkingHour.friday.indexOf("-")+1))}}</p>
+			<p *ngIf="item.WorkingHour.saturday!='-'">Saturday: {{ConvertTime(item.WorkingHour.saturday.substr(0,item.WorkingHour.saturday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.saturday.substr(item.WorkingHour.saturday.indexOf("-")+1))}}</p>
+		</ion-item>
+		<button no-lines ion-item class="sub-title" (click)="showKeywords();">Keywords</button>
+		<ion-item no-lines *ngIf="kw==1"><span *ngFor="let keyword of item.Keywords" class="keyword">{{keyword.keyword}}</span></ion-item>
+		<button no-lines ion-item class="sub-title" (click)="showService();">Services</button>
+		<ion-item no-lines *ngIf="serv==1"><p [innerHtml]='item.Service.services'></p></ion-item>
+	</ion-list>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-3>
+				<button ion-button full><ion-icon name="mail"></ion-icon>&nbsp;Mail</button>
+			</ion-col>
+			<ion-col col-3>
+				<button ion-button full><ion-icon name="call"></ion-icon>&nbsp;Call</button>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button full (click)="RequestQuote(item.id);"><ion-icon name="quote"></ion-icon>&nbsp;Request Quote</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
 </ion-content>

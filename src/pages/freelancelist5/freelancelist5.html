@@ -1,17 +1,22 @@
 <ion-header>
-  <ion-navbar color="primary" class="NavBar">
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
     <ion-title>About</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
-	<ion-item>
-		<ion-label floating>Short Description</ion-label>
+	<ion-item no-lines>
+		<ion-label stacked>Short Description</ion-label>
 		<ion-textarea [(ngModel)]="short_desc"></ion-textarea>
 	</ion-item>
-	<ion-item>
-		<ion-label floating>About</ion-label>
+	<ion-item no-lines>
+		<ion-label stacked>About</ion-label>
 		<ion-textarea [(ngModel)]="about"></ion-textarea>
 	</ion-item>
 	<ion-grid>

@@ -1,12 +1,17 @@
 <ion-header>
-  <ion-navbar color="primary" class="NavBar">	
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
     <ion-title>Register as Tasker</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
 	<ion-list>
-		<ion-item>
+		<ion-item no-lines>
 			<ion-label>Select Category</ion-label>
 			<select-searchable
 				item-content
@@ -18,7 +23,7 @@
 				(onChange)="portChange($event)" placeholder="Select">
 			</select-searchable>
 		</ion-item>
-		<ion-item>
+		<ion-item no-lines>
 			<ion-label>Select Sub Category</ion-label>
 			<select-searchable
 				item-content
@@ -29,39 +34,39 @@
 				[canSearch]="true" placeholder="Select">
 			</select-searchable>
 		</ion-item>
-		<ion-item>
-			<ion-label floating>Name</ion-label>
+		<ion-item no-lines>
+			<ion-label stacked>Name</ion-label>
 			<ion-input type="text" [(ngModel)]="fullname"></ion-input>
 		</ion-item>
-		<ion-item>
-			<ion-label floating>Location</ion-label>
+		<ion-item no-lines>
+			<ion-label stacked>Location</ion-label>
 			<ion-input type="text" [(ngModel)]="location"></ion-input>
 		</ion-item>
-		<ion-item>
-			<ion-label floating>House No</ion-label>
+		<ion-item no-lines>
+			<ion-label stacked>House No</ion-label>
 			<ion-input type="text" [(ngModel)]="house_no"></ion-input>
 		</ion-item>
-		<ion-item>
-			<ion-label floating>Street Name</ion-label>
+		<ion-item no-lines>
+			<ion-label stacked>Street Name</ion-label>
 			<ion-input type="text" [(ngModel)]="street_name"></ion-input>
 		</ion-item>
-		<ion-item>
-			<ion-label floating>Suburb</ion-label>
+		<ion-item no-lines>
+			<ion-label stacked>Suburb</ion-label>
 			<ion-input type="text" [(ngModel)]="suburb"></ion-input>
 		</ion-item>
-		<ion-item>
-			<ion-label floating>State</ion-label>
+		<ion-item no-lines>
+			<ion-label stacked>State</ion-label>
 			<ion-input type="text" [(ngModel)]="state"></ion-input>
 		</ion-item>
-		<ion-item>
-			<ion-label floating>Code</ion-label>
+		<ion-item no-lines *ngIf="false">
+			<ion-label stacked>Code</ion-label>
 			<ion-input type="text" [(ngModel)]="code"></ion-input>
 		</ion-item>
-		<ion-item>
-			<ion-label floating>Post Code</ion-label>
+		<ion-item no-lines>
+			<ion-label stacked>Post Code</ion-label>
 			<ion-input type="text" [(ngModel)]="postcode"></ion-input>
 		</ion-item>	
-		<ion-item>
+		<ion-item no-lines>
 				<button ion-button full (click)="SaveBasic();">Next</button>
 		</ion-item>
 	</ion-list>

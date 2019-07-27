@@ -1,5 +1,10 @@
 <ion-header>
-  <ion-navbar color="primary" class="NavBar">
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
     <ion-title>Photos</ion-title>
 	<ion-buttons end>
       <button ion-button icon-only (click)="addItem()">
@@ -12,7 +17,7 @@
 
 <ion-content padding>
 	<ion-list>
-		<ion-item *ngFor="let Photo of Photos" text-center>
+		<ion-item no-lines *ngFor="let Photo of Photos" text-center>
 			<img src="http://uber.ptezone.com.au/uploads/{{Photo.Photo}}">
 			<h5>{{Photo.title}}</h5>
 		</ion-item>

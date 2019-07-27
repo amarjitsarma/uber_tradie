@@ -1,12 +1,17 @@
 <ion-header>
-  <ion-navbar color="primary" class="NavBar">	
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
     <ion-title>Services Offered</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-	<ion-item>
-		<ion-label floating>Services Offered</ion-label>
+	<ion-item no-lines>
+		<ion-label stacked>Services Offered</ion-label>
 		<ion-textarea [(ngModel)]="services"></ion-textarea>
 	</ion-item>
 	<ion-grid>

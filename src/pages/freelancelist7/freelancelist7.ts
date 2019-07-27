@@ -39,7 +39,6 @@ export class Freelancelist7Page {
 				this.port={ID:data.Taglines[i].ID, Name:data.Taglines[i].tagline};
 				this.SavedTaglines.push(this.port);	
 			}
-			console.log(this.Categories);
 		},
 		err => {
 				console.log(err);	

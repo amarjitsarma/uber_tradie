@@ -1,0 +1,39 @@
+page-projectdetail {
+	.job_no{
+		color: #047ec7;
+		font-style: italic;
+		font-weight: bold;
+	}
+	.posted_by{
+		font-weight: 300;
+	}
+	.posted_by_name{
+		font-weight: bold;
+	}
+	.Category{
+	    font-style: italic;
+		font-size: 13px;
+		font-weight: bold;
+	}
+	.Status1{
+		color: #00b700;
+		font-size:13px;
+		font-weight:bold;
+	}
+	.Status2{
+		color: #0000b7;
+		font-size:13px;
+		font-weight:bold;
+	}
+	.Location{}
+	.Title{}
+	.Budget{}
+	.project_card{
+		border: #00ffff 2px solid;
+		border-radius: 5px;
+		box-shadow: 5px 10px #d0414159;
+	}
+	.half{
+		width:49%;
+	}
+}

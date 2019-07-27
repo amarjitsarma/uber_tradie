@@ -1,0 +1,34 @@
+page-quotedetail {
+	.Quote{
+		box-shadow: #65dcd1 1px 1px 5px 1px;
+	}
+	.quote_no {
+		font-style: italic;
+		font-size: small;
+		font-weight: bold;
+		color: #00d4e0;
+	}
+	.sender {
+		color: #0281a9;
+	}
+	.receiver {
+		color: #32db64;
+	}
+	.status {
+		font-size: small;
+		font-weight: bold;
+		color: crimson;
+	}
+	.title {
+		font-weight: 300;
+    }
+	.time
+	{
+		font-size: x-small;
+		font-weight: 300
+	}
+	.budget{
+		font-size: x-small;
+		color: #052cfb;
+	}
+}

@@ -1,18 +1,44 @@
 <ion-header>
   <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
     <ion-title>
-      Content
+      Home
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-	<ion-card>
-		<img src="assets/img/freelancer.jpg"/>
-		<div class="card-title">
+	<img src="assets/img/freelancer.jpg">
+	<ion-slides slidesPerView="3">
+		<ion-slide *ngFor="let Category of Categories">
+			<img src="http://uber.ptezone.com.au/uploads/{{Category.thumbnail}}">
+			<h3 class="small_h3">{{Category.CategoryName}}</h3>
+		</ion-slide>
+	</ion-slides>
+	<ion-list>
+		<ion-item no-lines>
 			<button ion-button full (click)="FreeLancer();">
 				Join as Tradie
 			</button>
-		</div>
-	</ion-card>
+		</ion-item>
+	</ion-list>
+	<ion-list>
+		<ion-item no-lines *ngFor="let SubCategory of SubCategories">
+			<ion-avatar item-start>
+				<img src="http://uber.ptezone.com.au/uploads/{{SubCategory.Icon}}">
+			</ion-avatar>
+			<h2>{{SubCategory.SubCategoryName}}</h2>
+		</ion-item>
+	</ion-list>
+	<ion-list>
+		<ion-item no-lines>
+			<button ion-button full (click)="PostProject();">
+				Post a Project
+			</button>
+		</ion-item>
+	</ion-list>
 </ion-content>

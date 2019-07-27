@@ -1,14 +1,46 @@
 page-item-detail {
-  .item-profile {
-    width: 100%;
-    background-position: center center;
-    background-size: cover;
-    height: 250px;
+  ion-slides{
+	height:auto;
   }
-
-  .item-detail {
-    width: 100%;
-    background: white;
-    position: absolute;
+  .photo-title{
+	position: relative;
+    top: -73px;
+	margin-bottom: -73px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    padding: 11px;
+	text-align:center;
+  }
+  .business-title{
+	font-size:2rem;
+	font-weight:bold;
+  }
+  .sub-title{
+	font-size: 1.9rem;
+    font-weight: 450;
+  }
+  .keyword{
+	background: #6dd6f5;
+    color: #fff;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin: 1px;
+  }
+  .tagline{
+	background: #00bb6d;
+    color: #fff;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin: 1px;
+  }
+  .list-ios{
+	margin:0px;
+  }
+  p,h2{
+	white-space: normal;
+	text-align: justify;
+  }
+  .label-ios{
+	white-space: normal;
   }
 }

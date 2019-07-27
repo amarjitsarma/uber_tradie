@@ -1,7 +1,12 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>{{ 'CARDS_TITLE' | translate }}</ion-title>
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Tradies</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -12,36 +17,45 @@
   <ion-card *ngFor="let item of cardItems">
 
     <ion-item>
-      <ion-avatar item-start>
-        <img [src]="item.user.avatar">
-      </ion-avatar>
-      <h2>{{item.user.name}}</h2>
-      <p>{{item.date}}</p>
+      <h2>{{item.fullname}}</h2>
+      <p>{{item.Category.CategoryName}}->{{item.SubCategory.SubCategoryName}}</p>
     </ion-item>
 
-    <img [src]="item.image">
+    <img src="http://uber.ptezone.com.au/uploads/{{item.Photos[0].Photo}}">
 
     <ion-card-content>
-      <p>{{item.content}}</p>
+      <p>{{item.location}}</p>
     </ion-card-content>
 
     <ion-row>
-      <ion-col>
+      <ion-col col-4>
         <button ion-button color="primary" clear small icon-start>
-            <ion-icon name='thumbs-up'></ion-icon>
-            12 Likes
+            <ion-icon name="star"></ion-icon>
+			<ion-icon name="star"></ion-icon>
+			<ion-icon name="star"></ion-icon>
+			<ion-icon name="star"></ion-icon>
+			<ion-icon name="star-half"></ion-icon>
           </button>
       </ion-col>
-      <ion-col>
+      <ion-col col-4 text-right>
         <button ion-button color="primary" clear small icon-start>
-            <ion-icon name='text'></ion-icon>
-            4 Comments
+            (4 Reviews)
           </button>
       </ion-col>
-      <ion-col center text-center>
-        <ion-note>
-          11h ago
-        </ion-note>
+      <ion-col col-1 center text-right>
+			<button ion-button color="primary" clear small icon-start>
+				<ion-icon name="call"></ion-icon>
+			</button>
+		</ion-col>
+		<ion-col col-1 center text-right>
+			<button ion-button color="primary" clear small icon-start>
+				<ion-icon name="mail"></ion-icon>
+			</button>
+		</ion-col>
+		<ion-col col-1 center text-right>
+		<button ion-button color="primary" clear small icon-start (click)="ReadMore(item.id);">
+			<ion-icon name="more"></ion-icon>
+		</button>
       </ion-col>
     </ion-row>
   </ion-card>

@@ -15,7 +15,7 @@ import { Freelancelist7Page } from '../freelancelist7/freelancelist7';
   templateUrl: 'freelancelist6.html',
 })
 export class Freelancelist6Page {
-
+	service:string="";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController) {
   }
 

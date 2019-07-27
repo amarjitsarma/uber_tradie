@@ -16,7 +16,7 @@ import { ContentPage } from '../content/content';
   templateUrl: 'welcome.html'
 })
 export class WelcomePage {
-
+	DeviceID:string="";
   constructor(public navCtrl: NavController, public device:Device, public httpClient:HttpClient) {
 	  this.checklogin();
   }

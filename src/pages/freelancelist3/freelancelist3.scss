@@ -1,8 +1,20 @@
 page-freelancelist3 {
-	ion-item{
-		border:none;
+	textarea{
+		min-height:100px;
 	}
-	.item-ios.item-block .item-inner{
-		border:none;
+	ion-slide{
+		background: rgba(255, 255, 255, 0.87);
+	}
+	ion-input{
+		border: 1px #000 solid;
+	}
+	ion-textarea{
+		border: 1px #000 solid;
+	}
+	input[type="text"]{
+		padding:0px 10px;
+	}
+	textarea{
+		padding:5px 10px !important;
 	}
 }
