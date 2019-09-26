@@ -4,7 +4,6 @@ import { Camera } from '@ionic-native/camera';
 import { IonicPage, NavController, ViewController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav } from 'ionic-angular';
 
 import { HttpClient } from '@angular/common/http';
-import { SearchPage } from './../search/search';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
@@ -88,7 +87,7 @@ export class ItemCreatePage {
     if(this.photo!="" && this.account.title!="")
 	{
 		this.httpClient.post<any>('http://uber.ptezone.com.au/api/SavePhoto',{
-			basic_id:3,
+			basic_id:this.navParams.get("basic_id"),
 			Photos:[this.photo],
 			title:this.account.title
 		}).subscribe(data => {

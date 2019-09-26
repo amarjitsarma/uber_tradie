@@ -17,10 +17,10 @@
 	<ion-list>
 		<ion-item no-lines>
 			<ion-label>Remote Location?</ion-label>
-			<ion-toggle checked="true" [(ngModel)]="RemotLocation"></ion-toggle>
+			<ion-toggle checked="true" (onChange)="RemoteEnable();" [(ngModel)]="RemotLocation"></ion-toggle>
 		</ion-item>
 		<ion-item no-lines *ngIf="RemotLocation==false">
-			<ion-label>Suberb</ion-label>
+			<ion-label><ion-icon name="locate"></ion-icon></ion-label>
 			<select-searchable
 				item-content
 				[(ngModel)]="suberb"
@@ -32,8 +32,9 @@
 			</select-searchable>
 		</ion-item>
 	</ion-list>
-	<ion-list *ngFor="let Project of Projects" class="project_card">
-		<ion-item no-lines>
+	<div *ngFor="let Project of Projects"> 
+	<ion-list class="project_card" *ngIf="DoShow(Project);">
+		<ion-item no-lines *ngIf="DoShow(Project);">
 			<h2 class="job_no">Job#{{Project.id}}</h2>
 			<h2 class="posted_by">
 				Posted By <ion-icon name="person"></ion-icon>&nbsp;
@@ -41,9 +42,11 @@
 			</h2>
 			<h2 class="Category">{{Project.Category.CategoryName}}&nbsp;->&nbsp;{{Project.SubCategory.SubCategoryName}}</h2>
 			<h2 class="Status{{Project.status}}" *ngIf="Project.status==1">Not assigned</h2>
-			<h2 class="Status{{Project.status}}" *ngIf="Project.status==2">Already ssigned</h2>
+			<h2 class="Status{{Project.status}}" *ngIf="Project.status==2">Already Assigned</h2>
+			<h2 class="Status{{Project.status}}" *ngIf="Project.status==3">Already Finished</h2>
+			<h2 class="Status{{Project.status}}" *ngIf="Project.status==4">Already Cancelled</h2>
         </ion-item>
-		<ion-item no-lines>
+		<ion-item no-lines *ngIf="DoShow(Project);">
 			<h2 class="Location" *ngIf="Project.location_type=='online'">
 				<ion-icon name="locate"></ion-icon>&nbsp;Online
 			</h2>
@@ -52,22 +55,25 @@
 				{{Project.Address.street_name}}, {{Project.Address.suberb}}, {{Project.Address.state}}
 			</h2>
 		</ion-item>
-		<ion-item no-lines>
+		<ion-item no-lines *ngIf="DoShow(Project);">
 			<h2 class="Title">{{Project.title}}</h2>
 			<h2 class="Budget">Estimated Budget:&nbsp;<b>$ {{Project.estimate_budget}}</b></h2>
-			<button ion-button color="secondary" class="half" *ngIf="Project.status==1" (click)="BidNow(Project.id);">
-				<ion-icon name="calculator"></ion-icon>&nbsp;Bid Now
-			</button>
 			<button ion-button class="half" (click)="GoDetail(Project.id);">
 				More&nbsp;<ion-icon name="return-right"></ion-icon>
 			</button>
+			<button ion-button color="secondary" class="half" *ngIf="Project.status==1" (click)="BidNow(Project.id);">
+				<ion-icon name="calculator"></ion-icon>&nbsp;Bid Now
+			</button>
+			
 		</ion-item>
 	</ion-list>
+	</div>
 	<ion-fab right bottom>
     <button ion-fab color="light"><ion-icon name="arrow-dropleft"></ion-icon></button>
     <ion-fab-list side="left">
       <button ion-fab (click)="BrowsePrice();"><ion-icon name="pricetag"></ion-icon></button>
       <button ion-fab (click)="BrowseStatus();"><ion-icon name="time"></ion-icon></button>
+	  <button ion-fab (click)="SortBy();"><ion-icon name="arrow-down"></ion-icon></button>
     </ion-fab-list>
   </ion-fab>
 </ion-content>

@@ -23,7 +23,7 @@
 		<ion-slide>
 			<ion-list>
 				<ion-item no-lines>
-					<ion-label>Select Category</ion-label>
+					<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
 					<select-searchable
 						item-content
 						[(ngModel)]="category"
@@ -31,27 +31,27 @@
 						itemValueField="ID"
 						itemTextField="Name"
 						[canSearch]="true"
-						(onChange)="portChange($event)" placeholder="Select">
+						(onChange)="portChange($event)" placeholder="Select Category">
 					</select-searchable>
 				</ion-item>
 				<ion-item no-lines>
-					<ion-label>Select Sub Category</ion-label>
+					<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
 					<select-searchable
 						item-content
 						[(ngModel)]="sub_category"
 						[items]="SubCategories"
 						itemValueField="ID"
 						itemTextField="Name"
-						[canSearch]="true" placeholder="Select">
+						[canSearch]="true" placeholder="Select Subcategory">
 					</select-searchable>
 				</ion-item>
 				<ion-item no-lines>
-					<ion-label stacked>Job title</ion-label>
-					<ion-input type="text" [(ngModel)]="title"></ion-input>
+					<ion-label><ion-icon name="browsers" color="primary"></ion-icon></ion-label>
+					<ion-input placeholder="Job title" type="text" [(ngModel)]="title"></ion-input>
 				</ion-item>
 				<ion-item>
-					<ion-label stacked>Job Description</ion-label>
-					<ion-textarea [(ngModel)]="description"></ion-textarea>
+					<ion-label><ion-icon name="clipboard" color="primary"></ion-icon></ion-label>
+					<ion-textarea placeholder="Job Description" [(ngModel)]="description"></ion-textarea>
 				</ion-item>
 			</ion-list>
 			<button ion-button large clear color="dark" (click)="Close();">
@@ -66,15 +66,15 @@
 		<ion-slide>
 			<ion-list>
 				<ion-item no-lines>
-					<ion-label>Job Location</ion-label>
+					<ion-label><ion-icon name="pin" color="primary"></ion-icon></ion-label>
 					<ion-select [(ngModel)]="job_location">
 						<ion-option value="online" selected>Online</ion-option>
 						<ion-option value="onsite">On site</ion-option>
 					</ion-select>
 				</ion-item>
 				<ion-item no-lines>
-					<ion-label stacked>Skills Required</ion-label>
-					<ion-textarea [(ngModel)]="skills"></ion-textarea>
+					<ion-label><ion-icon name="list-box" color="primary"></ion-icon></ion-label>
+					<ion-textarea [(ngModel)]="skills" placeholder="Skills Required"></ion-textarea>
 				</ion-item>
 			</ion-list>
 			<button ion-button large clear color="primary" (click)="GoPrevious();">
@@ -89,19 +89,19 @@
 		<ion-slide>
 			<ion-list>
 				<ion-item no-lines>
-					<ion-label>Budget Type</ion-label>
+					<ion-label><ion-icon name="pricetag" color="primary"></ion-icon></ion-label>
 					<ion-select [(ngModel)]="payment_type">
-						<ion-option value="full" selected>Full Work</ion-option>
+						<ion-option value="full" selected>Full Work Amount</ion-option>
 						<ion-option value="hourly">Hourly Rate</ion-option>
 					</ion-select>
 				</ion-item>
 				<ion-item no-lines>
-					<ion-label stacked>Estimate Budget</ion-label>
-					<ion-input type="text" [(ngModel)]="budget"></ion-input>
+					<ion-label><ion-icon name="cash" color="primary"></ion-icon></ion-label>
+					<ion-input type="text" [(ngModel)]="budget" placeholder="Estimate Budget"></ion-input>
 				</ion-item>
 				<ion-item no-lines *ngIf="payment_type=='hourly'">
-					<ion-label stacked>Estimate Working Hours</ion-label>
-					<ion-input type="text" [(ngModel)]="working_hour"></ion-input>
+					<ion-label><ion-icon name="time" color="primary"></ion-icon></ion-label>
+					<ion-input type="text" [(ngModel)]="working_hour" placeholder="Estimate Working Hours"></ion-input>
 				</ion-item>
 			</ion-list>
 			<button ion-button large clear color="primary" (click)="GoPrevious();">
@@ -116,24 +116,24 @@
 		<ion-slide *ngIf="job_location=='onsite'">
 			<ion-list>
 				<ion-item no-lines>
-					<ion-label stacked>House No</ion-label>
-					<ion-input type="text" [(ngModel)]="address.house_no"></ion-input>
+					<ion-label><ion-icon name="home" color="primary"></ion-icon></ion-label>
+					<ion-input type="text" [(ngModel)]="address.house_no" placeholder="House No"></ion-input>
 				</ion-item>
 				<ion-item no-lines>
-					<ion-label stacked>Street Name</ion-label>
-					<ion-input type="text" [(ngModel)]="address.street_name"></ion-input>
+					<ion-label><ion-icon name="git-pull-request" color="primary"></ion-icon></ion-label>
+					<ion-input type="text" [(ngModel)]="address.street_name" placeholder="Street Name"></ion-input>
 				</ion-item>
 				<ion-item no-lines>
-					<ion-label stacked>Suberb</ion-label>
-					<ion-input type="text" [(ngModel)]="address.suberb"></ion-input>
+					<ion-label><ion-icon name="locate" color="primary"></ion-icon></ion-label>
+					<ion-input type="text" [(ngModel)]="address.suberb" placeholder="Suberb"></ion-input>
 				</ion-item>
 				<ion-item no-lines>
-					<ion-label stacked>State</ion-label>
-					<ion-input type="text" [(ngModel)]="address.state"></ion-input>
+					<ion-label><ion-icon name="map" color="primary"></ion-icon></ion-label>
+					<ion-input type="text" [(ngModel)]="address.state" placeholder="State"></ion-input>
 				</ion-item>
 				<ion-item no-lines>
-					<ion-label stacked>Zip Code</ion-label>
-					<ion-input type="text" [(ngModel)]="address.code"></ion-input>
+					<ion-label><ion-icon name="code-working" color="primary"></ion-icon></ion-label>
+					<ion-input type="text" [(ngModel)]="address.code" placeholder="Postal Code"></ion-input>
 				</ion-item>
 			</ion-list>
 			<button ion-button large clear color="primary" (click)="GoPrevious();">

@@ -2,7 +2,6 @@ import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { IonicPage, NavController, ModalController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
-import { SearchPage } from './../search/search';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
@@ -22,9 +21,19 @@ export class Freelancelist8Page {
     port: Port1;
 	Keywords:any;
 	delItems:any=[];
+	fl_basic_id:number=0;
+	ShowAlert(Title, Detail) {
+        let alert = this.alertCtrl.create({
+            title: Title,
+            subTitle: Detail,
+            buttons: ['Ok']
+        });
+        alert.present();
+    }
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController) {
 	  this.LoadKeywords();
 	  this.LoadSavedKeywords();
+	  this.fl_basic_id=this.navParams.get("basic_id");
   }
 
   ionViewDidLoad() {
@@ -43,9 +52,20 @@ export class Freelancelist8Page {
 				console.log(err);	
 		});
 	}
+	AddNew()
+	{
+		let addModal = this.modalCtrl.create('KeywordcreatePage');
+		addModal.onDidDismiss(item => {
+			if (item) {
+				this.LoadSavedKeywords();
+			}
+		})
+		addModal.present();
+	}
 	LoadKeywords()
 	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetKeywords',{fl_basic_id:1}).subscribe(data => {
+		this.fl_basic_id=this.navParams.get("basic_id");
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetKeywords',{fl_basic_id:this.fl_basic_id}).subscribe(data => {
 			this.Keywords=data.Keywords;
 		},
 		err => {
@@ -54,7 +74,8 @@ export class Freelancelist8Page {
 	}
 	AddKeyword()
 	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveKeyword',{fl_basic_id:1,keyword:this.keyword.Name}).subscribe(data => {
+		this.fl_basic_id=this.navParams.get("basic_id");
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveKeyword',{fl_basic_id:this.fl_basic_id,keyword:this.keyword.Name}).subscribe(data => {
 			this.LoadKeywords();
 		},
 		err => {
@@ -76,10 +97,20 @@ export class Freelancelist8Page {
 	}
 	GoPrevious()
 	{
-		this.navCtrl.setRoot(Freelancelist7Page);
+		this.navCtrl.setRoot(Freelancelist7Page,{basic_id:this.fl_basic_id});
 	}
 	Done()
 	{
-		
+		this.ShowAlert("Success","Thank you. Your details are saved.");
+		this.navCtrl.setRoot('ContentPage');
+	}
+	DeleteSelected()
+	{
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/DeleteKeyword',{ids:this.delItems}).subscribe(data => {
+			this.LoadKeywords();
+		},
+		err => {
+				console.log(err);	
+		});
 	}
 }

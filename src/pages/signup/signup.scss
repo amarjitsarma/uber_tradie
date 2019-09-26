@@ -1,14 +1,20 @@
 page-signup {
+	ion-item{
+		border: 1px solid #30c9f5 !important;
+		border-radius: 50px !important;
+		margin-bottom:5px !important;
+	}
+	.no-border{
+		border: 0px solid #30c9f5 !important;
+		border-radius: 0px !important;
+		background:#ffffff44;
+	}
+	
 	textarea{
 		min-height:100px;
 	}
-	ion-input{
-		border: 1px #000 solid;
-	}
-	ion-textarea{
-		border: 1px #000 solid;
-	}
-	input[type="text"]{
+	
+	input[type="text"],input[type="tel"],input[type="email"],input[type="password"]{
 		padding:0px 10px;
 	}
 	textarea{

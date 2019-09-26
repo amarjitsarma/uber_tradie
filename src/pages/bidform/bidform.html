@@ -18,19 +18,19 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content padding>
 	<ion-list>
 		<ion-item no-lines>
-			<ion-label stacked>Amount</ion-label>
-			<ion-input type="text" [(ngModel)]="bid_amount" required></ion-input>
+			<ion-label><ion-icon name="cash" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="bid_amount" placeholder="Amount" required></ion-input>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>Completion Time</ion-label>
-			<ion-input type="text" [(ngModel)]="completion_time" required></ion-input>
+			<ion-label><ion-icon name="time" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="completion_time" placeholder="Completion Time" required></ion-input>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>How your bid is better?</ion-label>
-			<ion-textarea [(ngModel)]="bid_desc" required></ion-textarea>
+			<ion-label><ion-icon name="text" color="primary"></ion-icon></ion-label>
+			<ion-textarea [(ngModel)]="bid_desc" required placeholder="How your bid is better?"></ion-textarea>
 		</ion-item>
 	</ion-list>
 	<button ion-button full (click)="PlaceBid();">Place your bid</button>

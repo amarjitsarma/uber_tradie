@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, MenuController } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 import { HttpClient } from '@angular/common/http';
-
-import { ContentPage } from '../content/content';
 /**
  * The Welcome Page is a splash page that quickly describes the app,
  * and then directs the user to create an account or log in.
@@ -17,7 +15,8 @@ import { ContentPage } from '../content/content';
 })
 export class WelcomePage {
 	DeviceID:string="";
-  constructor(public navCtrl: NavController, public device:Device, public httpClient:HttpClient) {
+  constructor(public navCtrl: NavController, public device:Device, public httpClient:HttpClient, public menuController:MenuController) {
+	  this.menuController.swipeEnable(false);
 	  this.checklogin();
   }
 

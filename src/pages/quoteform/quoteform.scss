@@ -2,16 +2,24 @@ page-quoteform {
 	textarea{
 		min-height:100px;
 	}
-	ion-input{
-		border: 1px #000 solid;
-	}
-	ion-textarea{
-		border: 1px #000 solid;
-	}
 	input[type="text"]{
 		padding:0px 10px;
 	}
 	textarea{
 		padding:5px 10px !important;
+	}
+	ion-item{
+		border: 1px solid #30c9f5 !important;
+		border-radius: 25px !important;
+		margin-bottom:5px !important;
+	}
+	.no-border{
+		border: 0px solid #30c9f5 !important;
+		border-radius: 0px !important;
+		background:#ffffff44;
+	}
+	ion-select{
+		max-width:100%;
+		width:90%;
 	}
 }

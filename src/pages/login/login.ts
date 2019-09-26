@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, MenuController } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 import { HttpClient } from '@angular/common/http';
 import { FirstRunPage } from '../pages';
@@ -30,11 +30,21 @@ export class LoginPage {
     public toastCtrl: ToastController,
     public translateService: TranslateService,
 	public device:Device,
-	public httpClient:HttpClient) {
-
+	public httpClient:HttpClient,
+	public menuController:MenuController) {
+		this.menuController.swipeEnable(false);
+	this.TryLogin();
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
-    })
+    });
+	
+  }
+  presentToast(Message) {
+    const toast = this.toastCtrl.create({
+      message: Message,
+      duration: 3000
+    });
+    toast.present();
   }
 
   // Attempt to login in through our User service
@@ -46,17 +56,21 @@ export class LoginPage {
 	}
 	if(this.account.username!="" && this.account.password!="")
 	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/CheckLogin',{
-			DeviceID:this.DeviceID
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/login',{
+			DeviceID:this.DeviceID,
+			username:this.account.username,
+			password:this.account.password
 		})
 		.subscribe(data => {
-			if(data.Error!=0)
+			if(data.Error==0)
 			{
-				alert("Correct details");
+				this.presentToast("Login successful");
+				//location.reload();
+				this.navCtrl.setRoot("LoginasPage");
 			}
 			else
 			{
-				alert("Incorrect details");
+				this.presentToast("Incorrect Username or Password");
 			}
 		},
 		err => {
@@ -64,7 +78,36 @@ export class LoginPage {
 		})
 	}
 	else{
-		alert("Please fill up data");
+		this.presentToast("Please fill up data");
 	}
   }
+  TryLogin()
+	{
+		
+		this.DeviceID=this.device.uuid;
+		if(this.DeviceID==null)
+		{
+			this.DeviceID="534b8b5aeb906015";
+		}
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/CheckLogin',{
+			DeviceID:this.DeviceID
+		})
+		.subscribe(data => {
+			if(data.Status==1)
+			{
+				this.navCtrl.setRoot("ContentPage");
+			}
+		},
+		err => {
+			
+		})
+	}
+	ForgotPassword()
+	{
+		this.navCtrl.setRoot('ForgotpasswordPage');
+	}
+	SignUp()
+	{
+		this.navCtrl.setRoot('SignupPage');
+	}
 }

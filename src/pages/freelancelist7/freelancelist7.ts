@@ -2,11 +2,9 @@ import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { IonicPage, NavController, ModalController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
-import { SearchPage } from './../search/search';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
-import { Freelancelist6Page } from '../freelancelist6/freelancelist6';
 import { Freelancelist8Page } from '../freelancelist8/freelancelist8';
 class Port1 {
     public ID: number;
@@ -23,9 +21,11 @@ export class Freelancelist7Page {
     port: Port1;
 	Taglines:any;
 	delItems:any=[];
+	fl_basic_id:number=0;
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController) {
 	  this.LoadTaglines();
 	  this.LoadSavedTaglines();
+	  this.fl_basic_id=this.navParams.get("basic_id");
   }
 
   ionViewDidLoad() {
@@ -44,9 +44,19 @@ export class Freelancelist7Page {
 				console.log(err);	
 		});
 	}
+	NewTagline(){
+		let addModal = this.modalCtrl.create('TaglinecreatePage');
+		addModal.onDidDismiss(item => {
+			if (item) {
+				this.LoadSavedTaglines();
+			}
+		})
+		addModal.present();
+	}
 	LoadTaglines()
 	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetTaglines',{fl_basic_id:1}).subscribe(data => {
+		this.fl_basic_id=this.navParams.get("basic_id");this.fl_basic_id=this.navParams.get("basic_id");
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetTaglines',{fl_basic_id:this.fl_basic_id}).subscribe(data => {
 			this.Taglines=data.Taglines;
 		},
 		err => {
@@ -55,7 +65,8 @@ export class Freelancelist7Page {
 	}
 	AddTagline()
 	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveTagline',{fl_basic_id:1,tagline:this.tagline.Name}).subscribe(data => {
+		this.fl_basic_id=this.navParams.get("basic_id");
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveTagline',{fl_basic_id:this.fl_basic_id,tagline:this.tagline.Name}).subscribe(data => {
 			this.LoadTaglines();
 		},
 		err => {
@@ -77,10 +88,19 @@ export class Freelancelist7Page {
 	}
 	GoPrevious()
 	{
-		this.navCtrl.setRoot(Freelancelist6Page);
+	this.navCtrl.setRoot('Freelancelist6Page',{basic_id:this.fl_basic_id});
 	}
 	GoNext()
 	{
-		this.navCtrl.setRoot(Freelancelist8Page);
+		this.navCtrl.setRoot(Freelancelist8Page,{basic_id:this.fl_basic_id});
+	}
+	DeleteSelected()
+	{
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/DeleteTagline',{ids:this.delItems}).subscribe(data => {
+			this.LoadTaglines();
+		},
+		err => {
+				console.log(err);	
+		});
 	}
 }

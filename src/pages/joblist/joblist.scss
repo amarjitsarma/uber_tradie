@@ -29,11 +29,24 @@ page-joblist {
 	.Title{}
 	.Budget{}
 	.project_card{
-		border: #00ffff 2px solid;
+		border: #e6e6e6 1px solid;
 		border-radius: 5px;
-		box-shadow: 5px 10px #d0414159;
+		-webkit-box-shadow: 5px 10px #d0414159;
+		box-shadow: 5px 5px rgba(0,0,0,0.1);
 	}
 	.half{
-		width:48%;
+		width:45%;
+	}
+	textarea{
+		min-height:100px;
+	}
+	ion-textarea{
+		border: 1px #000 solid;
+	}
+	input[type="text"]{
+		padding:0px 10px;
+	}
+	textarea{
+		padding:5px 10px !important;
 	}
 }

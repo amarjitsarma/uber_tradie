@@ -1,17 +1,63 @@
 page-login {
-	textarea{
-		min-height:100px;
+	ion-item{
+		border: 1px solid #30c9f5 !important;
+		border-radius: 50px !important;
+		margin-bottom:5px !important;
 	}
-	ion-input{
-		border: 1px #000 solid;
-	}
-	ion-textarea{
-		border: 1px #000 solid;
-	}
-	input[type="text"]{
+	input[type="text"],input[type="password"]{
 		padding:0px 10px;
 	}
 	textarea{
 		padding:5px 10px !important;
 	}
+	.splash-bg {
+    position: relative;
+    background: url('../assets/img/splashbg.png') no-repeat transparent;
+    background-size: cover;
+    height: 30%;
+    z-index: 1;
+    background-repeat: repeat-x;
+    animation: animatedBackground 40s linear infinite;
+  }
+
+  @keyframes animatedBackground {
+    from { background-position: 0 0; }
+    to { background-position: 100% 0; }
+  }
+
+  .splash-info {
+    position: relative;
+    z-index: 2;
+    margin-top: -64px;
+    text-align: center;
+  }
+  .splash-logo {
+    margin: auto;
+    background: url('../assets/img/appicon.png') repeat transparent;
+    background-size: 100%;
+    width: 128px;
+    height: 128px;
+  }
+  .splash-intro {
+    font-size: 18px;
+    font-weight: bold;
+    max-width: 80%;
+    margin: auto;
+  }
+  .item-ios{
+	background:rgba(255,255,255,0.8);
+  }
+  .bottom-div{
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+	background: #fff;
+	min-height: 50px;
+  }
+  .sign-up{
+	color: #00a5f7;
+  }
+  .forgot-password{
+	color: #28801e;
+  }
 }

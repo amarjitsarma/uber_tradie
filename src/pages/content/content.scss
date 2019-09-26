@@ -37,4 +37,46 @@ page-content {
   .small_h3{
 	font-size:13px;
   }
+  .round-image{
+	border-radius:100px;
+	box-shadow: 1px 1px 6px 1px rgba(0,0,0,0.3);
+	width:85%;
+	}
+	
+	.job_no{
+		color: #047ec7;
+		font-style: italic;
+		font-weight: bold;
+	}
+	.posted_by{
+		font-weight: 300;
+	}
+	.posted_by_name{
+		font-weight: bold;
+	}
+	.Category{
+	    font-style: italic;
+		font-size: 13px;
+		font-weight: bold;
+	}
+	.Status1{
+		color: #00b700;
+		font-size:13px;
+		font-weight:bold;
+	}
+	.Status2{
+		color: #0000b7;
+		font-size:13px;
+		font-weight:bold;
+	}
+	.Location{}
+	.Title{}
+	.Budget{}
+	.project_card{
+		margin-top:10px;
+		border: #e6e6e6 1px solid;
+		border-radius: 5px;
+		-webkit-box-shadow: 1px 5px #d0414159;
+		box-shadow: 1px 5px rgba(0,0,0,0.1);
+	}
 }	

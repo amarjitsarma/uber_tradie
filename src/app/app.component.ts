@@ -3,71 +3,75 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { Config, Nav, Platform } from 'ionic-angular';
-
-import { FirstRunPage } from '../pages/pages';
-import { Freelancelist1Page } from '../pages/freelancelist1/freelancelist1';
-import { Freelancelist2Page } from '../pages/freelancelist2/freelancelist2';
-import { Freelancelist3Page } from '../pages/freelancelist3/freelancelist3';
-import { Freelancelist4Page } from '../pages/freelancelist4/freelancelist4';
-import { Freelancelist5Page } from '../pages/freelancelist5/freelancelist5';
-import { Freelancelist6Page } from '../pages/freelancelist6/freelancelist6';
-import { Freelancelist7Page } from '../pages/freelancelist7/freelancelist7';
-import { Freelancelist8Page } from '../pages/freelancelist8/freelancelist8';
-import { CardsPage } from '../pages/cards/cards';
-import { ItemDetailPage } from '../pages/item-detail/item-detail';
-import { JobpostPage } from '../pages/jobpost/jobpost';
+import { HttpClient } from '@angular/common/http';
+import { Device } from '@ionic-native/device';
 import { JoblistPage } from '../pages/joblist/joblist';
-import { CategorylistPage } from '../pages/categorylist/categorylist';
-import { SubcategorylistPage } from '../pages/subcategorylist/subcategorylist';
-import { QuoteformPage } from '../pages/quoteform/quoteform';
-import { QuotelistPage } from '../pages/quotelist/quotelist';
+import { CardsPage } from '../pages/cards/cards';
+import { FirstRunPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
-
+import { Freelancelist1Page } from '../pages/freelancelist1/freelancelist1';
 @Component({
-  template: `<ion-menu [content]="content">
-
-    <ion-content class="card-background-page">
-		<ion-card>
-			<img src="assets/img/profile_bg.jpg"/>
-			<div class="card-title">Amarjit Sarma</div>
-			<div class="card-subtitle">Melbourne, Australia</div>
-			<div class="card-subtitle"><button ion-button clear color="light"><ion-icon name="create"></ion-icon> View Profile</button></div>
-		</ion-card>
-      <ion-list class="menu-list">
-        <button menuClose ion-item no-lines class="menu-buttons" *ngFor="let p of pages" (click)="openPage(p)">
-          {{p.title}}
-        </button>
-      </ion-list>
-    </ion-content>
-
-  </ion-menu>
-  <ion-nav #content [root]="rootPage"></ion-nav>`
+  templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = QuotelistPage;
+  rootPage = FirstRunPage;
 
   @ViewChild(Nav) nav: Nav;
-
+	DeviceID:string="";
+	User:any={
+		avatar: '',
+		created_at: '',
+		dob: '',
+		email: '',
+		first_name: '',
+		id: 0,
+		last_login: '',
+		last_name: '',
+		password: '',
+		permissions: '',
+		phone: '',
+		status: 0,
+		updated_at: '',
+		username: ''
+	};
   pages: any[] = [
-    { title: 'Home', component: 'ContentPage' },
-    { title: 'Categories', component: 'CategorylistPage' },
-    { title: 'Tasks', component: 'JoblistPage' },
-    { title: 'Terms & Conditions', component: 'CardsPage' },
-    { title: 'Privacy Policy', component: 'ContentPage' },
-    { title: 'My Posts', component: 'WelcomePage' },
-	{ title: 'My Tasks', component: 'WelcomePage' }
+    { title: 'Home', component: 'ContentPage', icon:'home' },
+    { title: 'Categories', component: 'CategorylistPage', icon:'copy' },
+    { title: 'Tasks', component: JoblistPage, icon:'clipboard' },
+    { title: 'Tradies', component: CardsPage, icon:'people' },
+    { title: 'Privacy Policy', component: 'PrivacyPage', icon:'paper' },
+    { title: 'My Posts', component: 'MypostsPage', icon:'pricetags' },
+	{ title: 'My Tasks', component: 'MytasksPage', icon:'attach' },
+	{ title: 'My Bids', component: 'MybidsPage', icon:'chatboxes' },
+	{ title: 'My Quotes', component: 'QuotelistPage', icon:'quote' }
   ]
 
-  constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
+  constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen, public httpClient:HttpClient, public device:Device) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
     this.initTranslate();
+	this.CheckLogin();
   }
-
+	CheckLogin()
+	{
+		this.DeviceID=this.device.uuid;
+		if(this.DeviceID==null)
+		{
+			this.DeviceID="534b8b5aeb906015";
+		}
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/CheckLogin',{
+			DeviceID:this.DeviceID
+		})
+		.subscribe(data => {
+			console.log(data);
+			this.User=data.User;
+		},
+		err => {
+			
+		})
+	}
   initTranslate() {
     // Set the default language for translation strings, and the current language.
     this.translate.setDefaultLang('en');
@@ -99,5 +103,9 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+  }
+  EditProfile()
+  {
+	  this.nav.setRoot('EditprofilePage');
   }
 }

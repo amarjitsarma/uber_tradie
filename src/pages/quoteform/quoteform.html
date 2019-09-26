@@ -18,30 +18,30 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content padding>
 	<ion-list>
 		<ion-item no-lines>
-			<ion-label stacked>Title</ion-label>
-			<ion-input type="text" [(ngModel)]="title"></ion-input>
+			<ion-label><ion-icon name="browsers" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="title" placeholder="Title"></ion-input>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>Description</ion-label>
-			<ion-textarea [(ngModel)]="description"></ion-textarea>
+			<ion-label><ion-icon name="clipboard" color="primary"></ion-icon></ion-label>
+			<ion-textarea [(ngModel)]="description" placeholder="Description"></ion-textarea>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>Skills Required</ion-label>
-			<ion-textarea [(ngModel)]="skills"></ion-textarea>
+			<ion-label><ion-icon name="list-box" color="primary"></ion-icon></ion-label>
+			<ion-textarea [(ngModel)]="skills" placeholder="Skills Required"></ion-textarea>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label>Budget Mode</ion-label>
-			<ion-select [(ngModel)]="payment_mode">
-				<ion-option value="full">Total Amount</ion-option>
+			<ion-label><ion-icon name="pricetag" color="primary"></ion-icon></ion-label>
+			<ion-select [(ngModel)]="payment_mode" placeholder="Payment Type">
+				<ion-option value="full" selected>Total Amount</ion-option>
 				<ion-option value="hourly">Per Hour Rate</ion-option>
 			</ion-select>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>Duration (Estimated)</ion-label>
-			<ion-input type="text" [(ngModel)]="estimate_duration"></ion-input>
+			<ion-label><ion-icon name="time" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="estimate_duration" placeholder="Duration (Estimated)"></ion-input>
 		</ion-item>
 	</ion-list>
 	<button ion-button full (click)="RequestQuote();">Request Quote</button>

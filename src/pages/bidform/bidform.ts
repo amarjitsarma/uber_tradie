@@ -45,7 +45,7 @@ export class BidformPage {
 			}
 			this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveBid',postData).subscribe(data => {
 				this.ShowAlert("Success","Your bid is submitted");
-				this.navCtrl.setRoot(FirstRunPage);
+				this.navCtrl.setRoot('ContentPage');
 			},
 			err => {
 					console.log(err);	

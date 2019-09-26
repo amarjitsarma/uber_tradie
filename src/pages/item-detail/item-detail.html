@@ -34,26 +34,76 @@
 			<p [innerHtml]='item.About.about'></p>
 		</ion-item>
 		<ion-item no-lines><span *ngFor="let tagline of item.Taglines" class="tagline">#{{tagline.tagline}}</span></ion-item>
-		<button ion-item no-lines class="sub-title" (click)="showAddress();">Address</button>
+		<button ion-item no-lines class="sub-title" (click)="showAddress();"><ion-icon name="arrow-down"></ion-icon> Address</button>
 		<ion-item padding no-lines *ngIf="add==1">
 			<p>{{item.house_no}}, {{item.street_name}}, {{item.suburb}}, {{item.state}} {{item.code}}</p>
 			<p>Zip/Post code: {{item.postcode}}</p>
 			<button ion-button outline full color="dark"><ion-icon name="locate"></ion-icon>&nbsp;Get Direction</button>
 		</ion-item>
-		<button ion-item no-lines class="sub-title" (click)="showWorkingHour();">Working Hours</button>
+		<button ion-item no-lines class="sub-title" (click)="showWorkingHour();"><ion-icon name="arrow-down"></ion-icon> Working Hours</button>
 		<ion-item no-lines *ngIf="wh==1">
-			
-			<p *ngIf="item.WorkingHour.sunday!='-'">Sunday: {{ConvertTime(item.WorkingHour.sunday.substr(0,item.WorkingHour.sunday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.sunday.substr(item.WorkingHour.sunday.indexOf("-")+1))}}</p>
-			<p *ngIf="item.WorkingHour.monday!='-'">Monday: {{ConvertTime(item.WorkingHour.monday.substr(0,item.WorkingHour.monday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.monday.substr(item.WorkingHour.monday.indexOf("-")+1))}}</p>
-			<p *ngIf="item.WorkingHour.tuesday!='-'">Tuesday: {{ConvertTime(item.WorkingHour.tuesday.substr(0,item.WorkingHour.tuesday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.tuesday.substr(item.WorkingHour.tuesday.indexOf("-")+1))}}</p>
-			<p *ngIf="item.WorkingHour.wednessday!='-'">Wednesday: {{ConvertTime(item.WorkingHour.wednessday.substr(0,item.WorkingHour.wednessday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.wednessday.substr(item.WorkingHour.wednessday.indexOf("-")+1))}}</p>
-			<p *ngIf="item.WorkingHour.thursday!='-'">Thursday: {{ConvertTime(item.WorkingHour.thursday.substr(0,item.WorkingHour.thursday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.thursday.substr(item.WorkingHour.thursday.indexOf("-")+1))}}</p>
-			<p *ngIf="item.WorkingHour.friday!='-'">Friday: {{ConvertTime(item.WorkingHour.friday.substr(0,item.WorkingHour.friday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.friday.substr(item.WorkingHour.friday.indexOf("-")+1))}}</p>
-			<p *ngIf="item.WorkingHour.saturday!='-'">Saturday: {{ConvertTime(item.WorkingHour.saturday.substr(0,item.WorkingHour.saturday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.saturday.substr(item.WorkingHour.saturday.indexOf("-")+1))}}</p>
+			<ion-grid>
+				<ion-row *ngIf="item.WorkingHour.sunday!='-'">
+					<ion-col col-5>
+						Sunday
+					</ion-col>
+					<ion-col col-7>
+						: {{ConvertTime(item.WorkingHour.sunday.substr(0,item.WorkingHour.sunday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.sunday.substr(item.WorkingHour.sunday.indexOf("-")+1))}}
+					</ion-col>
+				</ion-row>
+				<ion-row *ngIf="item.WorkingHour.monday!='-'">
+					<ion-col col-5>
+						Monday
+					</ion-col>
+					<ion-col col-7>
+						: {{ConvertTime(item.WorkingHour.monday.substr(0,item.WorkingHour.monday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.monday.substr(item.WorkingHour.monday.indexOf("-")+1))}}
+					</ion-col>
+				</ion-row>
+				<ion-row *ngIf="item.WorkingHour.tuesday!='-'">
+					<ion-col col-5>
+						Tuesday
+					</ion-col>
+					<ion-col col-7>
+						: {{ConvertTime(item.WorkingHour.tuesday.substr(0,item.WorkingHour.tuesday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.tuesday.substr(item.WorkingHour.tuesday.indexOf("-")+1))}}
+					</ion-col>
+				</ion-row>
+				<ion-row *ngIf="item.WorkingHour.wednessday!='-'">
+					<ion-col col-5>
+						Wednesday
+					</ion-col>
+					<ion-col col-7>
+						: {{ConvertTime(item.WorkingHour.wednessday.substr(0,item.WorkingHour.wednessday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.wednessday.substr(item.WorkingHour.wednessday.indexOf("-")+1))}}
+					</ion-col>
+				</ion-row>
+				<ion-row *ngIf="item.WorkingHour.thursday!='-'">
+					<ion-col col-5>
+						Thursday
+					</ion-col>
+					<ion-col col-7>
+						: {{ConvertTime(item.WorkingHour.thursday.substr(0,item.WorkingHour.thursday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.thursday.substr(item.WorkingHour.thursday.indexOf("-")+1))}}
+					</ion-col>
+				</ion-row>
+				<ion-row *ngIf="item.WorkingHour.friday!='-'">
+					<ion-col col-5>
+						Friday
+					</ion-col>
+					<ion-col col-7>
+						: {{ConvertTime(item.WorkingHour.friday.substr(0,item.WorkingHour.friday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.friday.substr(item.WorkingHour.friday.indexOf("-")+1))}}
+					</ion-col>
+				</ion-row>
+				<ion-row *ngIf="item.WorkingHour.saturday!='-'">
+					<ion-col col-5>
+						Saturday
+					</ion-col>
+					<ion-col col-7>
+						: {{ConvertTime(item.WorkingHour.saturday.substr(0,item.WorkingHour.saturday.indexOf("-")))}}&nbsp;To&nbsp;{{ConvertTime(item.WorkingHour.saturday.substr(item.WorkingHour.saturday.indexOf("-")+1))}}
+					</ion-col>
+				</ion-row>
+			</ion-grid>
 		</ion-item>
-		<button no-lines ion-item class="sub-title" (click)="showKeywords();">Keywords</button>
+		<button no-lines ion-item class="sub-title" (click)="showKeywords();"><ion-icon name="arrow-down"></ion-icon> Keywords</button>
 		<ion-item no-lines *ngIf="kw==1"><span *ngFor="let keyword of item.Keywords" class="keyword">{{keyword.keyword}}</span></ion-item>
-		<button no-lines ion-item class="sub-title" (click)="showService();">Services</button>
+		<button no-lines ion-item class="sub-title" (click)="showService();"><ion-icon name="arrow-down"></ion-icon> Services</button>
 		<ion-item no-lines *ngIf="serv==1"><p [innerHtml]='item.Service.services'></p></ion-item>
 	</ion-list>
 	<ion-grid>

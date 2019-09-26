@@ -1,33 +1,35 @@
-<ion-header>
-
-  <ion-navbar color="primary">
-    <ion-title>{{ 'LOGIN_TITLE' | translate }}</ion-title>
-  </ion-navbar>
-
-</ion-header>
 
 
-<ion-content>
-  <form (submit)="Login()">
+<ion-content scroll="false">
+	<div class="splash-bg"></div>
+  <div class="splash-info">
+    <div class="splash-logo"></div>
+    <div class="splash-intro">
+      Welcome to Uber Tradie App
+    </div>
+  </div>
+  <form padding (submit)="Login()">
     <ion-list>
 
       <ion-item no-lines>
-        <ion-label stacked>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
+        <ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
+        <ion-input type="text" [(ngModel)]="account.username" name="username" placeholder="Username"></ion-input>
       </ion-item>
       <ion-item no-lines>
-        <ion-label stacked>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+        <ion-label><ion-icon name="key" color="primary"></ion-icon></ion-label>
+        <ion-input type="password" [(ngModel)]="account.password" name="password" placeholder="Password"></ion-input>
       </ion-item>
 
       <div padding>
         <button ion-button color="primary" block (click)="Login();">Log in</button>
-      </div>
-	  <div padding>
         <button ion-button color="primary" block>
-			Log in with &nbsp;<ion-icon name="logo-facebook"></ion-icon>
+			Continue with &nbsp;<ion-icon name="logo-facebook"></ion-icon>
 		</button>
 	  </div>
     </ion-list>
   </form>
+  <div class="bottom-div" text-center padding>
+	<p>Do not have an account? <span class="sign-up" (click)="SignUp();">Sign Up!</span></p>
+	<p (click)="ForgotPassword();" class="forgot-password" >Forgot password?</p>
+  </div>
 </ion-content>

@@ -13,21 +13,45 @@
 
 <ion-content>
 	<img src="assets/img/freelancer.jpg">
-	<ion-slides slidesPerView="3">
-		<ion-slide *ngFor="let Category of Categories">
-			<img src="http://uber.ptezone.com.au/uploads/{{Category.thumbnail}}">
+	<ion-slides slidesPerView="3" loop="true">
+		<ion-slide *ngFor="let Category of Categories" (click)="OpenSubcategories(Category.ID);">
+			<img class="round-image" src="http://uber.ptezone.com.au/uploads/{{Category.thumbnail}}">
 			<h3 class="small_h3">{{Category.CategoryName}}</h3>
 		</ion-slide>
 	</ion-slides>
 	<ion-list>
-		<ion-item no-lines>
+		<ion-item no-lines *ngIf="User.Tradie==null">
 			<button ion-button full (click)="FreeLancer();">
 				Join as Tradie
 			</button>
 		</ion-item>
+		<ion-item no-lines *ngIf="User.Tradie!=null">
+			<button ion-button full (click)="FreeLancer();">
+				Edit Tradie Profile
+			</button>
+		</ion-item>
+	</ion-list>
+	<ion-title text-center>Recent Projects</ion-title>
+	<ion-list padding>
+		<ion-item no-lines class="project_card" *ngFor="let Project of Projects" (click)="GoDetail(Project.id);">
+			<p class="posted_by">
+				Posted By <ion-icon name="person"></ion-icon>&nbsp;
+				<span class="posted_by_name">{{Project.User.first_name}}</span>
+			</p>
+			<p class="Location" *ngIf="Project.location_type=='online'">
+				<ion-icon name="locate"></ion-icon>&nbsp;Online
+			</p>
+			<p class="Location" *ngIf="Project.location_type=='onsite'">
+				<ion-icon name="locate"></ion-icon>&nbsp;
+				{{Project.Address.street_name}}, {{Project.Address.suberb}}, {{Project.Address.state}}
+			</p>
+			<p class="Title">{{Project.title}}</p>
+			<p class="Budget">Estimated Budget:&nbsp;<b>$ {{Project.estimate_budget}}</b></p>
+		</ion-item>
+		<ion-item><button ion-button full (click)="ViewMoreJobs();">View More</button></ion-item>
 	</ion-list>
 	<ion-list>
-		<ion-item no-lines *ngFor="let SubCategory of SubCategories">
+		<ion-item no-lines *ngFor="let SubCategory of SubCategories" (click)="OpenDetails(SubCategory.ID);">
 			<ion-avatar item-start>
 				<img src="http://uber.ptezone.com.au/uploads/{{SubCategory.Icon}}">
 			</ion-avatar>

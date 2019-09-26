@@ -9,10 +9,10 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
 	<ion-list>
 		<ion-item no-lines>
-			<ion-label>Select Category</ion-label>
+			<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
 			<select-searchable
 				item-content
 				[(ngModel)]="category"
@@ -20,53 +20,53 @@
 				itemValueField="ID"
 				itemTextField="Name"
 				[canSearch]="true"
-				(onChange)="portChange($event)" placeholder="Select">
+				(onChange)="portChange($event)" placeholder="Select Category">
 			</select-searchable>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label>Select Sub Category</ion-label>
+			<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
 			<select-searchable
 				item-content
 				[(ngModel)]="sub_category"
 				[items]="SubCategories"
 				itemValueField="ID"
 				itemTextField="Name"
-				[canSearch]="true" placeholder="Select">
+				[canSearch]="true" placeholder="Select Subcategory">
 			</select-searchable>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>Name</ion-label>
-			<ion-input type="text" [(ngModel)]="fullname"></ion-input>
+			<ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="fullname" placeholder="Name"></ion-input>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>Location</ion-label>
-			<ion-input type="text" [(ngModel)]="location"></ion-input>
+			<ion-label><ion-icon name="pin" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="location" placeholder="Location"></ion-input>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>House No</ion-label>
-			<ion-input type="text" [(ngModel)]="house_no"></ion-input>
+			<ion-label><ion-icon name="home" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="house_no" placeholder="House No"></ion-input>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>Street Name</ion-label>
-			<ion-input type="text" [(ngModel)]="street_name"></ion-input>
+			<ion-label><ion-icon name="git-compare" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="street_name" placeholder="Street Name"></ion-input>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>Suburb</ion-label>
-			<ion-input type="text" [(ngModel)]="suburb"></ion-input>
+			<ion-label><ion-icon name="navigate" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="suburb" placeholder="Suberb"></ion-input>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>State</ion-label>
-			<ion-input type="text" [(ngModel)]="state"></ion-input>
+			<ion-label><ion-icon name="locate" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="state" placeholder="State"></ion-input>
 		</ion-item>
 		<ion-item no-lines *ngIf="false">
-			<ion-label stacked>Code</ion-label>
+			<ion-label>Code</ion-label>
 			<ion-input type="text" [(ngModel)]="code"></ion-input>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label stacked>Post Code</ion-label>
-			<ion-input type="text" [(ngModel)]="postcode"></ion-input>
+			<ion-label><ion-icon name="code-working" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="postcode" placeholder="Post Code"></ion-input>
 		</ion-item>	
-		<ion-item no-lines>
+		<ion-item no-lines class="no-border">
 				<button ion-button full (click)="SaveBasic();">Next</button>
 		</ion-item>
 	</ion-list>

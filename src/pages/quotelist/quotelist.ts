@@ -2,11 +2,9 @@ import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
-import { SearchPage } from './../search/search';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
-import { QuotedetailPage } from '../quotedetail/quotedetail';
 
 @IonicPage()
 @Component({
@@ -31,9 +29,10 @@ export class QuotelistPage {
 			this.DeviceID="534b8b5aeb906015";
 		}
 		let type=this.navParams.get("type");
+		let PostData=null;
 		if(type=="receiver")
 		{
-			let PostData={
+			PostData={
 				type:"receiver",
 				device_id:this.DeviceID
 			};
@@ -41,7 +40,7 @@ export class QuotelistPage {
 		}
 		else
 		{
-			let PostData={
+			PostData={
 				type:"sender",
 				device_id:this.DeviceID
 			};
@@ -55,6 +54,6 @@ export class QuotelistPage {
 	}
 	ViewQuote(id)
 	{
-		this.navCtrl.push(QuotedetailPage,{id:id});
+		this.navCtrl.push('QuotedetailPage',{id:id});
 	}
 }

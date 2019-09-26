@@ -10,14 +10,14 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content padding>
 	<ion-item no-lines>
-		<ion-label stacked>Short Description</ion-label>
-		<ion-textarea [(ngModel)]="short_desc"></ion-textarea>
+		<ion-label><ion-icon name="text" color="primary"></ion-icon></ion-label>
+		<ion-textarea [(ngModel)]="short_desc" placeholder="Short Description"></ion-textarea>
 	</ion-item>
 	<ion-item no-lines>
-		<ion-label stacked>About</ion-label>
-		<ion-textarea [(ngModel)]="about"></ion-textarea>
+		<ion-label><ion-icon name="text" color="primary"></ion-icon></ion-label>
+		<ion-textarea [(ngModel)]="about" placeholder="About"></ion-textarea>
 	</ion-item>
 	<ion-grid>
 		<ion-row>

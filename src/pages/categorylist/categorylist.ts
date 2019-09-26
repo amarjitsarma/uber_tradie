@@ -5,7 +5,6 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
 import { FirstRunPage } from '../pages';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
-import { SubcategorylistPage } from '../subcategorylist/subcategorylist';
 @IonicPage()
 @Component({
   selector: 'page-categorylist',
@@ -27,7 +26,7 @@ export class CategorylistPage {
 	}
 	OpenSubcategories(ID)
 	{
-		this.navCtrl.push(SubcategorylistPage,{ID:ID});
+		this.navCtrl.push('SubcategorylistPage',{ID:ID});
 	}
   ionViewDidLoad() {
     console.log('ionViewDidLoad CategorylistPage');

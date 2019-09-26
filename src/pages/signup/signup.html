@@ -1,48 +1,52 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>{{ 'SIGNUP_TITLE' | translate }}</ion-title>
+    <ion-title>Registration</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <form (submit)="SignUp()">
+  <form padding>
     <ion-list>
 
       <ion-item no-lines>
-        <ion-label stacked>First Name</ion-label>
-        <ion-input type="text" [(ngModel)]="account.firstname" name="First Name"></ion-input>
+        <ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
+        <ion-input type="text" [(ngModel)]="account.firstname" name="First Name" placeholder="First Name"></ion-input>
       </ion-item>
 	  
 	  <ion-item no-lines>
-        <ion-label stacked>Last Name</ion-label>
-        <ion-input type="text" [(ngModel)]="account.lastname" name="Last Name"></ion-input>
+        <ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
+        <ion-input type="text" [(ngModel)]="account.lastname" name="Last Name" placeholder="Last Name"></ion-input>
       </ion-item>
 	  
 	  <ion-item no-lines>
-        <ion-label stacked>Phone</ion-label>
-        <ion-input type="tel" [(ngModel)]="account.phone" name="Phone"></ion-input>
+        <ion-label><ion-icon name="call" color="primary"></ion-icon></ion-label>
+        <ion-input type="tel" [(ngModel)]="account.phone" name="Phone" placeholder="Phone"></ion-input>
       </ion-item>
 
       <ion-item no-lines>
-        <ion-label stacked>Email</ion-label>
-        <ion-input type="email" [(ngModel)]="account.email" name="email"></ion-input>
+        <ion-label><ion-icon name="mail" color="primary"></ion-icon></ion-label>
+        <ion-input type="email" [(ngModel)]="account.email" name="email" placeholder="Email"></ion-input>
       </ion-item>
 	  <ion-item no-lines>
-        <ion-label stacked>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
+        <ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
+        <ion-input type="text" [(ngModel)]="account.username" name="username" placeholder="Username"></ion-input>
       </ion-item>
       <ion-item no-lines>
-        <ion-label stacked>{{ 'PASSWORD' | translate }}</ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+        <ion-label><ion-icon name="key" color="primary"></ion-icon></ion-label>
+        <ion-input type="password" [(ngModel)]="account.password" name="password" placeholder="Password"></ion-input>
       </ion-item>
-
-      <div padding>
-        <button ion-button color="primary" block (click)="SignUp();">{{ 'SIGNUP_BUTTON' | translate }}</button>
-      </div>
-
+	  <ion-item no-lines class="no-border">
+			<ion-label><b>I accept your Terms &amp; Conditions<button ion-button outline small (click)="Terms();">View</button></b></ion-label>
+			<ion-checkbox color="primary" checked="false" [(ngModel)]="account.Terms" name="Terms"></ion-checkbox>
+		</ion-item>
     </ion-list>
+	
+
+	<button ion-button color="primary" block (click)="SignUp();">Sign Up</button>
+	<ion-title>Already have an account?</ion-title>
+	<button ion-button outline color="primary" block (click)="Login();">Login</button>
   </form>
 </ion-content>

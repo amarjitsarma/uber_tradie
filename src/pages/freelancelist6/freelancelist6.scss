@@ -5,11 +5,15 @@ page-freelancelist6 {
 	ion-slide{
 		background: rgba(255, 255, 255, 0.87);
 	}
-	ion-input{
-		border: 1px #000 solid;
+	ion-item{
+		border: 1px solid #30c9f5 !important;
+		border-radius: 25px !important;
+		margin-bottom:5px !important;
 	}
-	ion-textarea{
-		border: 1px #000 solid;
+	.no-border{
+		border: 0px solid #30c9f5 !important;
+		border-radius: 0px !important;
+		background:#ffffff44;
 	}
 	input[type="text"]{
 		padding:0px 10px;

@@ -22,8 +22,8 @@ export class JobpostPage {
 	Categories:JobPort1[]=[];
 	SubCategories:JobPort1[]=[];
 	port:JobPort1={ID:0,Name:""};
-	category:JobPort1={ID:0,Name:""};
-	sub_category:JobPort1={ID:0,Name:""};
+	category:JobPort1={ID:0,Name:"Select Category"};
+	sub_category:JobPort1={ID:0,Name:"Select Subcategory"};
 	title:string="";
 	description:string="";
 	job_location:string="online";
@@ -67,7 +67,7 @@ export class JobpostPage {
 		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
 			this.SubCategories=[];
 			this.sub_category.ID=0;
-			this.sub_category.Name="";
+			this.sub_category.Name="Select Subcategory";
 			for(var i=0;i<data.SubCategories.length;i++)
 			{
 				this.port={ID: data.SubCategories[i].ID,Name:data.SubCategories[i].SubCategoryName};
@@ -96,7 +96,7 @@ export class JobpostPage {
 		}
 		else
 		{
-			this.ShowAlert("Error","Please fill up correctly");
+			this.presentToast("Please fill up correctly");
 		}
 	}
 	GoPrevious()
@@ -106,7 +106,7 @@ export class JobpostPage {
 		this.content.scrollToTop();
 	}
 	Close(){
-		this.navCtrl.setRoot(FirstRunPage);
+		this.navCtrl.setRoot('ContentPage');
 	}
 	slideChanged()
 	{
@@ -184,6 +184,13 @@ export class JobpostPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device)  {
 	  this.LoadCategories();
   }
+  presentToast(Message) {
+    const toast = this.toastCtrl.create({
+      message: Message,
+      duration: 3000
+    });
+    toast.present();
+  }
 	Submit()
 	{
 		this.DeviceID=this.device.uuid;
@@ -210,8 +217,8 @@ export class JobpostPage {
 			code:this.address.code
 		}
 		this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveProject',postData).subscribe(data => {
-			this.ShowAlert("Success","Your project is submitted");
-			this.navCtrl.setRoot(FirstRunPage);
+			this.presentToast("Your project is submitted");
+			this.navCtrl.setRoot('ContentPage');
 		},
 		err => {
 				console.log(err);	

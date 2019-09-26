@@ -13,7 +13,20 @@
 
 
 <ion-content>
-
+	<ion-list>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="locate"></ion-icon></ion-label>
+			<select-searchable 
+				item-content 
+				[(ngModel)]="suberb" 
+				[items]="Suberbs" 
+				itemValueField="Suberb"
+				itemTextField="Suberb"
+				[canSearch]="true"
+				(onChange)="portChange($event)" placeholder="Select">
+			</select-searchable>
+		</ion-item>
+	</ion-list>
   <ion-card *ngFor="let item of cardItems">
 
     <ion-item>

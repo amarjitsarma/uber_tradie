@@ -14,7 +14,7 @@
 	
 	<ion-grid>
 		<ion-row>
-			<ion-col col-6>
+			<ion-col col-12>
 				<select-searchable
 					item-content
 					[(ngModel)]="tagline"
@@ -22,14 +22,14 @@
 					itemValueField="Name"
 					itemTextField="Name"
 					[canSearch]="true"
-					placeholder="Tagline">
+					placeholder="Please select Tagline">
 				</select-searchable>
 			</ion-col>
-			<ion-col col-2>
+			<ion-col col-6>
 				<button ion-button full (click)="AddTagline();">Add</button>
 			</ion-col>
-			<ion-col col-4>
-				<button ion-button full><ion-icon name="add-circle-outline"></ion-icon>&nbsp;Create new</button>
+			<ion-col col-6>
+				<button ion-button full (click)="NewTagline();"><ion-icon name="add-circle-outline"></ion-icon>&nbsp;Create new</button>
 			</ion-col>
 		</ion-row>
 		<ion-list>

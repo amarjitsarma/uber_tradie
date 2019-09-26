@@ -16,13 +16,14 @@
 // automatically applied to the <body> element in the app.
 
 ion-content{
-	background-image: url("../assets/img/app_bg.jpg");
+	/*background-image: url("../assets/img/app_bg.jpg");
 	background-repeat: no-repeat;
     background-size: cover;
 	-webkit-background-repeat: no-repeat;
     -moz-background-repeat: no-repeat;
 	-webkit-background-size: cover;
-	-moz-background-size: cover;
+	-moz-background-size: cover;*/
+	background-color:#fff;
 }
 page-welcome .splash-bg{
 		filter: alpha(opacity=50);
@@ -71,4 +72,11 @@ page-welcome .splash-bg{
 	}
 	p,h2,h3{
 		White-space: normal;
+	}
+	ion-item{
+		background: rgba(255,255,255,0.8);
+	}
+	.select-searchable{
+		max-width:100%;
+		width:90%;
 	}

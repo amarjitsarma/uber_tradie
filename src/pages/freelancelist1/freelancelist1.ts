@@ -2,11 +2,9 @@ import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
-import { SearchPage } from './../search/search';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
-import { Freelancelist2Page } from '../freelancelist2/freelancelist2';
 @IonicPage()
 class Port1 {
     public ID: number;
@@ -36,13 +34,75 @@ export class Freelancelist1Page {
 	latitude:string="";
 	radius:string="";
 	DeviceID:any="";
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav) {
-	  this.LoadCategories();
-  }
+	basic_id:any=0;
+	constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav) {
+		this.LoadBasic();
+		this.LoadCategories();
+		
+	}
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad Freelancelist1Page');
-  }
+	ionViewDidLoad() {
+		console.log('ionViewDidLoad Freelancelist1Page');
+	}
+	LoadBasic()
+	{
+		this.DeviceID=this.device.uuid;
+		if(this.DeviceID==null)
+		{
+			this.DeviceID="534b8b5aeb906015";
+		}
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetFreelancebasic',{device_id:this.DeviceID})
+		.subscribe(data => {
+			if(data.Basic!=null)
+			{
+				for(var i=0; i<this.Categories.length;i++)
+				{
+					if(this.Categories[i].ID==data.Basic.category)
+					{
+						this.category=this.Categories[i];
+						this.LoadSubCategories();
+					}
+				}
+				this.SetSubcategories(data.Basic.sub_category);
+				this.fullname=data.Basic.fullname;
+				this.location=data.Basic.location;
+				this.house_no=data.Basic.house_no;
+				this.street_name=data.Basic.street_name;
+				this.suburb=data.Basic.suburb;
+				this.state=data.Basic.state;
+				this.code=data.Basic.code;
+				this.postcode=data.Basic.postcode;
+				this.longitude=data.Basic.longitude;
+				this.latitude=data.Basic.latitude;
+				this.radius=data.Basic.radius;
+				this.basic_id=data.Basic.id;
+			}
+		},
+		err => {
+				console.log(err);	
+		});
+	}
+	SetSubcategories(SC)
+	{
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
+			this.SubCategories=[];
+			this.sub_category=new Port1();/*.ID=0;
+			this.sub_category.Name="";*/
+			for(var i=0;i<data.SubCategories.length;i++)
+			{
+				this.port={ID: data.SubCategories[i].ID,Name:data.SubCategories[i].SubCategoryName};
+				this.SubCategories.push(this.port);
+				if(this.port.ID==SC)
+				{
+					this.sub_category=this.port;
+				}
+			}
+		},
+		err => {
+					
+		});
+		
+	}
 	LoadCategories()
 	{
 		this.httpClient.get<any>('http://uber.ptezone.com.au/api/GetCategories').subscribe(data => {
@@ -61,8 +121,8 @@ export class Freelancelist1Page {
 	{
 		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
 			this.SubCategories=[];
-			this.sub_category.ID=0;
-			this.sub_category.Name="";
+			this.sub_category=new Port1();/*.ID=0;
+			this.sub_category.Name="";*/
 			for(var i=0;i<data.SubCategories.length;i++)
 			{
 				this.port={ID: data.SubCategories[i].ID,Name:data.SubCategories[i].SubCategoryName};
@@ -77,7 +137,7 @@ export class Freelancelist1Page {
         component: SelectSearchableComponent,
         value: any 
     }) {
-		if(this.sub_category.Name!="")
+		if(this.category.Name!="")
 		{
 			this.LoadSubCategories();
 		}
@@ -89,7 +149,7 @@ export class Freelancelist1Page {
 		{
 			this.DeviceID="534b8b5aeb906015";
 		}
-		if(this.category.Name!="" && this.sub_category.Name!="" && this.fullname!="" && this.location!="" && this.house_no!="" && this.street_name!="" && this.suburb!="" && this.state!="" && this.code!="" && this.postcode!="")
+		if(this.category.Name!="" && this.sub_category.Name!="" && this.fullname!="" && this.location!="" && this.house_no!="" && this.street_name!="" && this.suburb!="" && this.state!="" && this.postcode!="")
 		{
 			this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveFreelanceBasic',
 			{
@@ -108,11 +168,12 @@ export class Freelancelist1Page {
 				latitude:this.latitude,
 				radius:this.radius
 			}).subscribe(data => {
-				this.navCtrl.setRoot(Freelancelist2Page,{basic_id:data.id});
+				this.navCtrl.setRoot('Freelancelist2Page',{basic_id:data.id});
 			},
 			err => {
 					console.log(err);	
 			});
 		}
 	}
+	
 }

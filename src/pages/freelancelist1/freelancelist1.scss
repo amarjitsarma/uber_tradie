@@ -1,12 +1,19 @@
 page-freelancelist1 {
+	ion-item{
+		border: 1px solid #30c9f5 !important;
+		border-radius: 25px !important;
+		margin-bottom:5px !important;
+	}
+	.no-border{
+		border: 0px solid #30c9f5 !important;
+		border-radius: 0px !important;
+		background:#ffffff44;
+	}
 	textarea{
 		min-height:100px;
 	}
 	ion-slide{
 		background: rgba(255, 255, 255, 0.87);
-	}
-	ion-input{
-		border: 1px #000 solid;
 	}
 	ion-textarea{
 		border: 1px #000 solid;
