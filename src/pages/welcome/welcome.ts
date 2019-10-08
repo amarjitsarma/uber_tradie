@@ -20,12 +20,12 @@ export class WelcomePage {
 	  this.checklogin();
   }
 
-  login() {
-    this.navCtrl.push('LoginPage');
+  login(type) {
+    this.navCtrl.push('LoginPage',{LoginType:type});
   }
 
   signup() {
-    this.navCtrl.push('SignupPage');
+    this.navCtrl.push('Signup1Page');
   }
   checklogin()
   {
@@ -40,7 +40,14 @@ export class WelcomePage {
 	.subscribe(data => {
 		if(data.Status==1)
 		{
-			this.navCtrl.setRoot('ContentPage');
+			if(data.User.Role=="Tradie" || data.User.Role=="Admin")
+			{
+				this.navCtrl.setRoot("TradiehomePage");
+			}
+			else
+			{
+				this.navCtrl.setRoot('ContentPage');
+			}
 		}
 	},
 	err => {

@@ -1,16 +1,56 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Registration</ion-title>
+    <ion-title text-center>Sign Up</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <form padding>
+  <form padding (submit)="SignUp();">
     <ion-list>
-
+		<ion-item no-lines *ngIf="login_type==2">
+			<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
+			<select-searchable
+				item-content
+				[(ngModel)]="category"
+				name="category"
+				[items]="Categories"
+				itemValueField="ID"
+				itemTextField="Name"
+				[canSearch]="true"
+				(onChange)="portChange($event)" placeholder="Select Category">
+			</select-searchable>
+		</ion-item>
+		<ion-item no-lines *ngIf="login_type==2">
+			<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
+			<select-searchable
+				item-content
+				[(ngModel)]="sub_category"
+				name="sub_category"
+				[items]="SubCategories"
+				itemValueField="ID"
+				itemTextField="Name"
+				[canSearch]="true" placeholder="Select Subcategory">
+			</select-searchable>
+		</ion-item>
+	  <ion-item no-lines>
+        <ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
+        <ion-input type="text" [(ngModel)]="account.username" name="username" placeholder="Username"></ion-input>
+      </ion-item>
+	  <ion-item no-lines>
+        <ion-label><ion-icon name="mail" color="primary"></ion-icon></ion-label>
+        <ion-input type="email" [(ngModel)]="account.email" name="email" placeholder="Email"></ion-input>
+      </ion-item>
+      <ion-item no-lines>
+        <ion-label><ion-icon name="key" color="primary"></ion-icon></ion-label>
+        <ion-input type="password" [(ngModel)]="account.password" name="password" placeholder="Password"></ion-input>
+      </ion-item>
+	  <ion-item no-lines>
+        <ion-label><ion-icon name="key" color="primary"></ion-icon></ion-label>
+        <ion-input type="password" [(ngModel)]="account.con_password" name="con_password" placeholder="Confirm Password"></ion-input>
+      </ion-item>
       <ion-item no-lines>
         <ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
         <ion-input type="text" [(ngModel)]="account.firstname" name="First Name" placeholder="First Name"></ion-input>
@@ -25,28 +65,26 @@
         <ion-label><ion-icon name="call" color="primary"></ion-icon></ion-label>
         <ion-input type="tel" [(ngModel)]="account.phone" name="Phone" placeholder="Phone"></ion-input>
       </ion-item>
-
-      <ion-item no-lines>
-        <ion-label><ion-icon name="mail" color="primary"></ion-icon></ion-label>
-        <ion-input type="email" [(ngModel)]="account.email" name="email" placeholder="Email"></ion-input>
-      </ion-item>
 	  <ion-item no-lines>
-        <ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username" placeholder="Username"></ion-input>
+        <ion-label><ion-icon name="pin" color="primary"></ion-icon></ion-label>
+        <ion-input type="text" [(ngModel)]="account.address" name="Address" placeholder="Address"></ion-input>
       </ion-item>
-      <ion-item no-lines>
-        <ion-label><ion-icon name="key" color="primary"></ion-icon></ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password" placeholder="Password"></ion-input>
-      </ion-item>
+      
+	  
 	  <ion-item no-lines class="no-border">
-			<ion-label><b>I accept your Terms &amp; Conditions<button ion-button outline small (click)="Terms();">View</button></b></ion-label>
+			<ion-label><b>By Continuing you confirm that you accept the term and condition.<!--button ion-button outline small (click)="Terms();">View</button--></b></ion-label>
 			<ion-checkbox color="primary" checked="false" [(ngModel)]="account.Terms" name="Terms"></ion-checkbox>
 		</ion-item>
     </ion-list>
 	
 
-	<button ion-button color="primary" block (click)="SignUp();">Sign Up</button>
-	<ion-title>Already have an account?</ion-title>
+	<button ion-button color="primary" block type="submit">Sign Up</button>
+	<ion-title text-center>Or</ion-title>
+	<button ion-button color="primary" block>
+			Continue with &nbsp;<ion-icon name="logo-facebook"></ion-icon>
+	</button>
+	<p>Already have an account?</p>
 	<button ion-button outline color="primary" block (click)="Login();">Login</button>
+	<p [innerHTML]="Error"></p>
   </form>
 </ion-content>

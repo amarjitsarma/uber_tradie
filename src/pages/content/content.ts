@@ -54,6 +54,13 @@ export class ContentPage {
 			DeviceID:this.DeviceID
 		})
 		.subscribe(data => {
+			if(data.User.Role=="Tradie")
+			{
+				if(data.User.Tradie==null || data.User.Tradie.status==0)
+				{
+					this.navCtrl.setRoot(Freelancelist1Page);
+				}
+			}
 			console.log(data);
 			this.User=data.User;
 			if(this.User.Tradie!=null)

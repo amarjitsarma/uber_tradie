@@ -55,7 +55,7 @@
 			</button>
 		</ion-item>
 	</ion-list>
-	<ion-list *ngIf="Bids_Enabled==1">
+	<ion-list *ngIf="Bids_Enabled==1 && Bids.length>0">
 		<ion-item>
 			<ion-title>Bids</ion-title>
 		</ion-item>
@@ -70,6 +70,42 @@
 			<button ion-button (click)="ApproveBid(Bid.id);" full *ngIf="Project.status==1">Approve This Bid</button>
 		</ion-item>
 	</ion-list>
-	<button ion-button *ngIf="(My_Task==1 || Mine==1) && Project.status==2" (click)="MarkFinished(Project.id);">Mark as Completed</button>
-	<button ion-button *ngIf="Mine==1 && Project.status==3" (click)="MarkIncomplete(Project.id);">Mark as Incomplete</button>
+	<button ion-button *ngIf="(My_Task==1 || Mine==1) && Project.status==2" (click)="MarkFinished(Project.id);" block>Mark as Completed</button>
+	<button ion-button *ngIf="Mine==1 && Project.status==3" (click)="MarkIncomplete(Project.id);" block>Mark as Incomplete</button>
+	<ion-list *ngIf="(Bids_Enabled==1 && Project.status==2) || Mine==1">
+		<ion-item no-lines>
+			<h2>Review</h2>
+		</ion-item>
+		<ion-item no-lines *ngIf="Review.project_id!=0 && Edit==0">
+			<h1>
+				<ion-icon color="danger" name="star" *ngIf="Review.rating>0"></ion-icon>
+				<ion-icon color="danger" name="star" *ngIf="Review.rating>1"></ion-icon>
+				<ion-icon color="danger" name="star" *ngIf="Review.rating>2"></ion-icon>
+				<ion-icon color="danger" name="star" *ngIf="Review.rating>3"></ion-icon>
+				<ion-icon color="danger" name="star" *ngIf="Review.rating>4"></ion-icon>
+			</h1>
+		</ion-item>
+		<ion-item no-lines *ngIf="Review.project_id!=0 && Edit==0">
+			<p [innerHTML]="Review.review"></p>
+		</ion-item>
+		<ion-item no-lines *ngIf="Review.project_id!=0 && Edit==0">
+			<button ion-button full (click)="EnableEdit();">Edit Review</button>
+		</ion-item>
+		<ion-item no-lines *ngIf="(Review.project_id==0 && Mine==0) || Edit==1">
+			<ionic3-star-rating #rating 
+				activeColor = "#ff0000"
+				defaultColor = "#aaaaaa"
+				readonly = "false"
+				rating="{{Review.rating}}"
+				(ratingChanged)="logRatingChange($event)">
+			</ionic3-star-rating>
+		</ion-item>
+		<ion-item no-lines *ngIf="(Review.project_id==0 && Mine==0) || Edit==1" style="border: 1px solid #30c9f5 !important; border-radius: 25px !important; margin-bottom:5px !important;">
+			<ion-label><ion-icon name="text" color="primary"></ion-icon></ion-label>
+			<ion-textarea [(ngModel)]="Review.review" placeholder="Review"></ion-textarea>
+		</ion-item>
+		<ion-item no-lines *ngIf="(Review.project_id==0 && Mine==0) || Edit==1">
+			<button ion-button block (click)="SaveReview();">Submit Review</button>
+		</ion-item>
+	</ion-list>
 </ion-content>

@@ -1,5 +1,5 @@
 import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav, MenuController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
@@ -35,10 +35,10 @@ export class Freelancelist1Page {
 	radius:string="";
 	DeviceID:any="";
 	basic_id:any=0;
-	constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public menuController:MenuController, public nav:Nav) {
 		this.LoadBasic();
 		this.LoadCategories();
-		
+		this.menuController.swipeEnable(false);
 	}
 
 	ionViewDidLoad() {
@@ -55,15 +55,18 @@ export class Freelancelist1Page {
 		.subscribe(data => {
 			if(data.Basic!=null)
 			{
-				for(var i=0; i<this.Categories.length;i++)
+				if(data.Basic.category!=0 && data.Basic.category!=0)
 				{
-					if(this.Categories[i].ID==data.Basic.category)
+					for(var i=0; i<this.Categories.length;i++)
 					{
-						this.category=this.Categories[i];
-						this.LoadSubCategories();
+						if(this.Categories[i].ID==data.Basic.category)
+						{
+							this.category=this.Categories[i];
+							this.LoadSubCategories();
+						}
 					}
+					this.SetSubcategories(data.Basic.sub_category);
 				}
-				this.SetSubcategories(data.Basic.sub_category);
 				this.fullname=data.Basic.fullname;
 				this.location=data.Basic.location;
 				this.house_no=data.Basic.house_no;

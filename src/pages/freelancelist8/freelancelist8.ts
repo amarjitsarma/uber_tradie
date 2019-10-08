@@ -1,5 +1,5 @@
 import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, ModalController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav, MenuController  } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
@@ -22,6 +22,7 @@ export class Freelancelist8Page {
 	Keywords:any;
 	delItems:any=[];
 	fl_basic_id:number=0;
+	DeviceID:string="";
 	ShowAlert(Title, Detail) {
         let alert = this.alertCtrl.create({
             title: Title,
@@ -30,10 +31,11 @@ export class Freelancelist8Page {
         });
         alert.present();
     }
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController, public menuController:MenuController) {
 	  this.LoadKeywords();
 	  this.LoadSavedKeywords();
 	  this.fl_basic_id=this.navParams.get("basic_id");
+	  this.menuController.swipeEnable(false);
   }
 
   ionViewDidLoad() {
@@ -101,8 +103,19 @@ export class Freelancelist8Page {
 	}
 	Done()
 	{
-		this.ShowAlert("Success","Thank you. Your details are saved.");
-		this.navCtrl.setRoot('ContentPage');
+		this.DeviceID=this.device.uuid;
+		if(this.DeviceID==null)
+		{
+			this.DeviceID="534b8b5aeb906015";
+		}
+		this.fl_basic_id=this.navParams.get("basic_id");
+		this.httpClient.post<any>('http://uber.ptezone.com.au/api/ActivateFreelancer',{device_id:this.DeviceID}).subscribe(data => {
+			this.ShowAlert("Success","Thank you. Your details are saved.");
+			this.navCtrl.setRoot('ContentPage');
+		},
+		err => {
+				console.log(err);	
+		});
 	}
 	DeleteSelected()
 	{

@@ -1,5 +1,5 @@
 import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav, MenuController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
@@ -19,9 +19,10 @@ export class Freelancelist3Page {
 	website:string="";
 	contact_name:string="";
 	DeviceID:string="";
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public menuController:MenuController) {
 	  this.fl_basic_id=this.navParams.get("basic_id");
 	  this.LoadContact();
+	  this.menuController.swipeEnable(false);
   }
 
   ionViewDidLoad() {

@@ -1,5 +1,5 @@
 import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, ModalController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav, MenuController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
@@ -14,9 +14,10 @@ import { Freelancelist7Page } from '../freelancelist7/freelancelist7';
 export class Freelancelist6Page {
 	services:string="";
 	fl_basic_id:number=0;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController, public menuController:MenuController) {
 	  this.fl_basic_id=this.navParams.get("basic_id");
 	  this.LoadService();
+	  this.menuController.swipeEnable(false);
   }
 
   ionViewDidLoad() {

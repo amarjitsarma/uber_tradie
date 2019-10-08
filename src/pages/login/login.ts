@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, MenuController } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 import { HttpClient } from '@angular/common/http';
 import { FirstRunPage } from '../pages';
 
 import { User } from '../../providers/providers';
 import { MainPage } from '../pages';
+import { Freelancelist1Page } from '../freelancelist1/freelancelist1';
 
 @IonicPage()
 @Component({
@@ -25,18 +26,21 @@ export class LoginPage {
   // Our translated text strings
   private loginErrorString: string;
 	DeviceID:string="";
+	LoginType:number=1;
   constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,
     public translateService: TranslateService,
 	public device:Device,
 	public httpClient:HttpClient,
-	public menuController:MenuController) {
+	public menuController:MenuController,
+	public navParams:NavParams) {
 		this.menuController.swipeEnable(false);
 	this.TryLogin();
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
     });
+	this.LoginType=this.navParams.get("LoginType");
 	
   }
   presentToast(Message) {
@@ -59,14 +63,15 @@ export class LoginPage {
 		this.httpClient.post<any>('http://uber.ptezone.com.au/api/login',{
 			DeviceID:this.DeviceID,
 			username:this.account.username,
-			password:this.account.password
+			password:this.account.password,
+			login_type:this.LoginType,
 		})
 		.subscribe(data => {
 			if(data.Error==0)
 			{
 				this.presentToast("Login successful");
-				//location.reload();
-				this.navCtrl.setRoot("LoginasPage");
+				location.reload();
+				//this.navCtrl.setRoot("LoginasPage");
 			}
 			else
 			{
@@ -93,9 +98,24 @@ export class LoginPage {
 			DeviceID:this.DeviceID
 		})
 		.subscribe(data => {
-			if(data.Status==1)
+			if(data.Status!=0)
 			{
-				this.navCtrl.setRoot("ContentPage");
+				if(data.User.Role=="Tradie" || data.User.Role=="Admin")
+				{
+					this.navCtrl.setRoot("TradiehomePage");
+					/*if(data.User.Tradie==null || data.User.Tradie.status==0)
+					{
+						this.navCtrl.setRoot(Freelancelist1Page);
+					}
+					else
+					{
+						this.navCtrl.setRoot("ContentPage");
+					}*/
+				}
+				else
+				{
+					this.navCtrl.setRoot("ContentPage");
+				}
 			}
 		},
 		err => {
@@ -108,6 +128,6 @@ export class LoginPage {
 	}
 	SignUp()
 	{
-		this.navCtrl.setRoot('SignupPage');
+		this.navCtrl.setRoot('Signup1Page');
 	}
 }

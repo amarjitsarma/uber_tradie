@@ -36,4 +36,15 @@ page-projectdetail {
 	.half{
 		width:49%;
 	}
+	
+	
+	textarea{
+		min-height:100px;
+	}
+	input[type="text"]{
+		padding:0px 10px;
+	}
+	textarea{
+		padding:5px 10px !important;
+	}
 }

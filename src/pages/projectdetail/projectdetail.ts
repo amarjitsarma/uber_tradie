@@ -91,9 +91,57 @@ export class ProjectdetailPage {
 	My_Task=0;
 	Bids:any=[];
 	DeviceID:string="";
+	Edit:any=0;
+	Review:any={project_id:0, user_id:0, tradie_id:0, rating:0, review:""};
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device) {
 	this.LoadProjects();
 	this.LoadBids();
+	this.LoadReview();
+  }
+	logRatingChange(rating){
+        this.Review.rating=rating;
+    }
+	LoadReview()
+	{
+		this.httpClient.get<any>('http://uber.ptezone.com.au/api/GetReviewByProject/'+this.navParams.get('ProjectID')).subscribe(data => {
+			if(data.Review!=null)
+			{
+				this.Review=data.Review;
+				this.Edit=0;
+			}
+			else
+			{
+				this.Edit=1;
+			}
+		},
+		err => {
+				console.log(err);	
+		});
+	}
+	SaveReview()
+	{
+		if(this.Review.review!="")
+		{
+			this.Review.project_id=this.Project.id;
+			this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveReview',this.Review).subscribe(data => {
+				this.presentToast("Review saved");
+				this.LoadReview();
+			},
+			err => {
+					console.log(err);	
+			});
+		}
+		else
+		{
+			this.presentToast("Review cannot be empty");
+		}
+	}
+	presentToast(Message) {
+    const toast = this.toastCtrl.create({
+      message: Message,
+      duration: 3000
+    });
+    toast.present();
   }
 	LoadProjects()
 	{
@@ -204,6 +252,10 @@ export class ProjectdetailPage {
 			]
 		});
 		alert.present();
+	}
+	EnableEdit()
+	{
+		this.Edit=1;
 	}
 	MarkIncomplete(ProjectID)
 	{

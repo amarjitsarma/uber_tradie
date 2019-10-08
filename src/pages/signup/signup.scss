@@ -20,4 +20,7 @@ page-signup {
 	textarea{
 		padding:5px 10px !important;
 	}
+	.list-md > .item-block:last-child ion-label, .list-md > .item-block:last-child .item-inner, .list-md > .item-wrapper:last-child ion-label, .list-md > .item-wrapper:last-child .item-inner{
+		white-space: normal;
+	}
 }

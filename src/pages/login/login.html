@@ -13,7 +13,7 @@
 
       <ion-item no-lines>
         <ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username" placeholder="Username"></ion-input>
+        <ion-input type="text" [(ngModel)]="account.username" name="username" placeholder="Username/Email ID"></ion-input>
       </ion-item>
       <ion-item no-lines>
         <ion-label><ion-icon name="key" color="primary"></ion-icon></ion-label>
@@ -22,9 +22,9 @@
 
       <div padding>
         <button ion-button color="primary" block (click)="Login();">Log in</button>
-        <button ion-button color="primary" block>
+        <!--button ion-button color="primary" block>
 			Continue with &nbsp;<ion-icon name="logo-facebook"></ion-icon>
-		</button>
+		</button-->
 	  </div>
     </ion-list>
   </form>

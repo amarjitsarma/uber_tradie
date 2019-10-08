@@ -34,7 +34,7 @@
       <p>{{item.Category.CategoryName}}->{{item.SubCategory.SubCategoryName}}</p>
     </ion-item>
 
-    <img src="http://uber.ptezone.com.au/uploads/{{item.Photos[0].Photo}}">
+    <img *ngIf="item.Photos.length>0" src="http://uber.ptezone.com.au/uploads/{{item.Photos[0].Photo}}">
 
     <ion-card-content>
       <p>{{item.location}}</p>
@@ -43,19 +43,20 @@
     <ion-row>
       <ion-col col-4>
         <button ion-button color="primary" clear small icon-start>
-            <ion-icon name="star"></ion-icon>
-			<ion-icon name="star"></ion-icon>
-			<ion-icon name="star"></ion-icon>
-			<ion-icon name="star"></ion-icon>
-			<ion-icon name="star-half"></ion-icon>
+            <ion-icon name="star" *ngIf="(item.ReviewsSum/item.ReviewsCount)>0"></ion-icon>
+			<ion-icon name="star" *ngIf="(item.ReviewsSum/item.ReviewsCount)>1"></ion-icon>
+			<ion-icon name="star" *ngIf="(item.ReviewsSum/item.ReviewsCount)>2"></ion-icon>
+			<ion-icon name="star" *ngIf="(item.ReviewsSum/item.ReviewsCount)>3"></ion-icon>
+			<ion-icon name="star" *ngIf="(item.ReviewsSum/item.ReviewsCount)>4"></ion-icon>
+			<ion-icon name="star-half" *ngIf="(item.ReviewsSum%item.ReviewsCount)>0"></ion-icon>
           </button>
       </ion-col>
       <ion-col col-4 text-right>
         <button ion-button color="primary" clear small icon-start>
-            (4 Reviews)
+            ({{item.ReviewsCount}} Reviews)
           </button>
       </ion-col>
-      <ion-col col-1 center text-right>
+      <!--ion-col col-1 center text-right>
 			<button ion-button color="primary" clear small icon-start>
 				<ion-icon name="call"></ion-icon>
 			</button>
@@ -64,10 +65,10 @@
 			<button ion-button color="primary" clear small icon-start>
 				<ion-icon name="mail"></ion-icon>
 			</button>
-		</ion-col>
-		<ion-col col-1 center text-right>
-		<button ion-button color="primary" clear small icon-start (click)="ReadMore(item.id);">
-			<ion-icon name="more"></ion-icon>
+		</ion-col-->
+		<ion-col col-4 center text-right>
+		<button ion-button color="primary" small icon-start (click)="ReadMore(item.id);">
+			<ion-icon name="more"> View</ion-icon>
 		</button>
       </ion-col>
     </ion-row>

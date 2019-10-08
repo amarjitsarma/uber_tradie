@@ -35,7 +35,7 @@ export class MyApp {
 		username: ''
 	};
   pages: any[] = [
-    { title: 'Home', component: 'ContentPage', icon:'home' },
+    { title: 'Home', component: 'TradiehomePage', icon:'home' },
     { title: 'Categories', component: 'CategorylistPage', icon:'copy' },
     { title: 'Tasks', component: JoblistPage, icon:'clipboard' },
     { title: 'Tradies', component: CardsPage, icon:'people' },
@@ -43,7 +43,8 @@ export class MyApp {
     { title: 'My Posts', component: 'MypostsPage', icon:'pricetags' },
 	{ title: 'My Tasks', component: 'MytasksPage', icon:'attach' },
 	{ title: 'My Bids', component: 'MybidsPage', icon:'chatboxes' },
-	{ title: 'My Quotes', component: 'QuotelistPage', icon:'quote' }
+	{ title: 'My Quotes', component: 'QuotelistPage', icon:'quote' },
+	{ title: 'Reviews', component: 'ReviewmainPage', icon:'quote' }
   ]
 
   constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen, public httpClient:HttpClient, public device:Device) {
@@ -66,7 +67,21 @@ export class MyApp {
 		})
 		.subscribe(data => {
 			console.log(data);
-			this.User=data.User;
+			if(data.Status!=0)
+			{
+				this.User=data.User;
+				if(data.User.Role!="Tradie" && data.User.Role!="Admin")
+				{
+					this.pages= [
+						{ title: 'Home', component: 'ContentPage', icon:'home' },
+						{ title: 'Categories', component: 'CategorylistPage', icon:'copy' },
+						{ title: 'Tradies', component: CardsPage, icon:'people' },
+						{ title: 'Privacy Policy', component: 'PrivacyPage', icon:'paper' },
+						{ title: 'My Posts', component: 'MypostsPage', icon:'pricetags' },
+						{ title: 'Reviews', component: 'ReviewmainPage', icon:'quote' }
+					];
+				}
+			}
 		},
 		err => {
 			
