@@ -1,4 +1,72 @@
 page-projectdetail {
+	/*CSS Changes for Background Image Card*/
+	.item-md {
+		padding:0px;
+	}
+	.grid {
+		padding:0px;
+	}
+	[col-12],.col {
+		padding: 0px;
+	}
+	.item-md.item-block .item-inner{
+		padding:0px;
+	}
+	.label-md{
+		margin:0px;
+	}
+	.dp{
+		border-radius:50px;
+		height:50px;
+		width:50px;
+		top:5px;
+		position:absolute;
+		left:43%;
+	}
+	.card-md {
+		margin: 0px;
+		width: 100%;
+	}
+	.card-background-page {
+		ion-card {
+			position: relative;
+			text-align: center;
+		}
+		
+		.card-title {
+			position: absolute;
+			top: 45%;
+			font-size: 2.0em;
+			width: 100%;
+			font-weight: bold;
+			color: #fff;
+		}
+		.card-title>span{
+			font-size: 1.0em;
+		}
+		.card-subtitle {
+			font-size: 1.0em;
+			position: absolute;
+			top: 68%;
+			width: 100%;
+			color: #fff;
+		}
+		.card-md {
+			margin: 0px;
+			width:100%;
+		}
+		.list-md {
+			margin: 0px 0 0px;
+		}
+	}
+	/*CSS Changes for background image card*/
+	h2{
+		text-align:left;
+		font-weight:bold !important;
+	}
+	h2{
+		font-size:1.6rem;
+	}
 	.job_no{
 		color: #047ec7;
 		font-style: italic;
@@ -26,7 +94,17 @@ page-projectdetail {
 		font-weight:bold;
 	}
 	.Location{}
-	.Title{}
+	.Title{
+		font-weight: bold;
+	}
+	.Price{
+		font-size:10pt;
+		font-weight:500;
+	}
+	.Price1{
+		font-size:8pt;
+		font-weight:500;
+	}
 	.Budget{}
 	.project_card{
 		border: #00ffff 2px solid;
@@ -47,4 +125,9 @@ page-projectdetail {
 	textarea{
 		padding:5px 10px !important;
 	}
+	.ionic3-star-rating button{
+		width:17px !important;
+		height:17px !important;
+	}
+	
 }

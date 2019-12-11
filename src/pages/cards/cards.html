@@ -6,71 +6,121 @@
 			<ion-icon name="menu"></ion-icon>
 		</button>
 	</ion-buttons>
-    <ion-title>Tradies</ion-title>
+    <ion-title>Search Tradies</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-	<ion-list>
-		<ion-item no-lines>
-			<ion-label><ion-icon name="locate"></ion-icon></ion-label>
-			<select-searchable 
-				item-content 
-				[(ngModel)]="suberb" 
-				[items]="Suberbs" 
-				itemValueField="Suberb"
-				itemTextField="Suberb"
-				[canSearch]="true"
-				(onChange)="portChange($event)" placeholder="Select">
-			</select-searchable>
-		</ion-item>
-	</ion-list>
-  <ion-card *ngFor="let item of cardItems">
-
-    <ion-item>
-      <h2>{{item.fullname}}</h2>
-      <p>{{item.Category.CategoryName}}->{{item.SubCategory.SubCategoryName}}</p>
-    </ion-item>
-
-    <img *ngIf="item.Photos.length>0" src="http://uber.ptezone.com.au/uploads/{{item.Photos[0].Photo}}">
-
-    <ion-card-content>
-      <p>{{item.location}}</p>
-    </ion-card-content>
-
-    <ion-row>
-      <ion-col col-4>
-        <button ion-button color="primary" clear small icon-start>
-            <ion-icon name="star" *ngIf="(item.ReviewsSum/item.ReviewsCount)>0"></ion-icon>
-			<ion-icon name="star" *ngIf="(item.ReviewsSum/item.ReviewsCount)>1"></ion-icon>
-			<ion-icon name="star" *ngIf="(item.ReviewsSum/item.ReviewsCount)>2"></ion-icon>
-			<ion-icon name="star" *ngIf="(item.ReviewsSum/item.ReviewsCount)>3"></ion-icon>
-			<ion-icon name="star" *ngIf="(item.ReviewsSum/item.ReviewsCount)>4"></ion-icon>
-			<ion-icon name="star-half" *ngIf="(item.ReviewsSum%item.ReviewsCount)>0"></ion-icon>
-          </button>
-      </ion-col>
-      <ion-col col-4 text-right>
-        <button ion-button color="primary" clear small icon-start>
-            ({{item.ReviewsCount}} Reviews)
-          </button>
-      </ion-col>
-      <!--ion-col col-1 center text-right>
-			<button ion-button color="primary" clear small icon-start>
-				<ion-icon name="call"></ion-icon>
-			</button>
-		</ion-col>
-		<ion-col col-1 center text-right>
-			<button ion-button color="primary" clear small icon-start>
-				<ion-icon name="mail"></ion-icon>
-			</button>
-		</ion-col-->
-		<ion-col col-4 center text-right>
-		<button ion-button color="primary" small icon-start (click)="ReadMore(item.id);">
-			<ion-icon name="more"> View</ion-icon>
-		</button>
-      </ion-col>
-    </ion-row>
-  </ion-card>
+	<ion-grid>
+		<ion-row ion-list>
+			<ion-col col-12 ion-item no-lines>
+				<ion-label stacked><ion-icon name="locate"></ion-icon>&nbsp;Location*</ion-label>
+				<ion-input type="text" [(ngModel)]="tradieProvider.location.location" (ionFocus)="launchLocationPage();" placeholder="Please enter a location"></ion-input>
+			</ion-col>
+		</ion-row>
+		<ion-row ion-list>
+			<ion-col col-12>
+				<ion-label>Within distance: {{distance}} KM</ion-label>
+				<ion-range min="5" max="500" step="5" pin="true" [(ngModel)]="distance">
+					<ion-icon small range-left name="navigate"></ion-icon>
+					<ion-icon range-right name="navigate"></ion-icon>
+				</ion-range>
+			</ion-col>
+		</ion-row>
+		<ion-row ion-list>
+			<!--ion-col col-12 ion-item no-lines>
+				<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
+				<select-searchable
+					item-content
+					[(ngModel)]="category"
+					[items]="Categories"
+					itemValueField="ID"
+					itemTextField="Name"
+					[canSearch]="true"
+					(onChange)="portChange($event)" placeholder="Select Category">
+				</select-searchable>
+			</ion-col-->
+			<ion-col col-12 ion-item no-lines>
+				<ion-label stacked><ion-icon name="copy" color="primary"></ion-icon>&nbsp;Skills</ion-label>
+				<ionic-selectable
+					item-content
+					[isMultiple]="true"
+					[(ngModel)]="sub_category"
+					[items]="SubCategories"
+					itemValueField="ID"
+					itemTextField="Name"
+					[canSearch]="true" placeholder="Select Skills">
+				</ionic-selectable>
+			</ion-col>
+			<ion-col col-12 ion-item no-lines *ngIf="sub_category.length>0">
+				<p><span *ngFor="let sub_cat of sub_category">#{{sub_cat.Name}}&nbsp;&nbsp;</span></p>
+			</ion-col>
+		</ion-row>
+		<ion-row ion-list>
+			<ion-col col-12 ion-item no-lines>
+				<button ion-button block (click)="LoadFreeLancers()">Filter Results</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-grid *ngFor="let item of cardItems" class="tradie_div">
+		<ion-row ion-list (click)="ReadMore(item.id);">
+			<ion-col col-12 ion-item no-lines>
+				<ion-avatar item-start *ngIf="item.avatar!=null && item.avatar!=''">
+					<img src="https://ptezone.com.au/uploads/avatars/{{item.avatar}}">
+				</ion-avatar>
+				<ion-avatar item-start *ngIf="item.avatar==null || item.avatar==''">
+					<img src="assets/img/profile_avatar.jpeg">
+				</ion-avatar>
+				<h2><b>{{item.fullname}}</b></h2>
+				<!--p><span *ngFor="let skill of item.Skills">#{{skill.SubCategoryName}}&nbsp;</span></p-->
+				<p><i>{{item.distance.toFixed(2)}} KM away</i></p>
+				<p>{{item.location}}</p>
+			</ion-col>
+			<ion-col col-12 ion-item no-lines *ngIf="item.ReviewsCount>0">
+				<ion-grid>
+					<ion-row>
+						<ion-col col-4>
+							<b>Cleanness</b>
+						</ion-col>
+						<ion-col col-4>
+							<b>Punctuality</b>
+						</ion-col>
+						<ion-col col-4>
+							<b>Friendliness</b>
+						</ion-col>
+						<ion-col col-4 style="color:#ffd700">
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.cleaness/item.ReviewsCount)>0"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.cleaness/item.ReviewsCount)>1"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.cleaness/item.ReviewsCount)>2"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.cleaness/item.ReviewsCount)>3"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.cleaness/item.ReviewsCount)>4"></ion-icon>
+							<ion-icon name="star-half" *ngIf="(item.ReviewsSum.cleaness%item.ReviewsCount)>0"></ion-icon>
+						</ion-col>
+						<ion-col col-4 style="color:#ffd700">
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.punctuality/item.ReviewsCount)>0"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.punctuality/item.ReviewsCount)>1"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.punctuality/item.ReviewsCount)>2"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.punctuality/item.ReviewsCount)>3"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.punctuality/item.ReviewsCount)>4"></ion-icon>
+							<ion-icon name="star-half" *ngIf="(item.ReviewsSum.punctuality%item.ReviewsCount)>0"></ion-icon>
+						</ion-col>
+						<ion-col col-4 style="color:#ffd700">
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.friendliness/item.ReviewsCount)>0"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.friendliness/item.ReviewsCount)>1"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.friendliness/item.ReviewsCount)>2"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.friendliness/item.ReviewsCount)>3"></ion-icon>
+							<ion-icon name="star" *ngIf="parseInt(item.ReviewsSum.friendliness/item.ReviewsCount)>4"></ion-icon>
+							<ion-icon name="star-half" *ngIf="(item.ReviewsSum.friendliness%item.ReviewsCount)>0"></ion-icon>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+				<button ion-button color="primary" clear small icon-start>
+					({{item.ReviewsCount}} Reviews)
+				</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-label padding *ngIf="no_tradie==1">Sorry! We couldn't find any tradie of your preference.</ion-label>
 </ion-content>

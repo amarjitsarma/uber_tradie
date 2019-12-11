@@ -5,6 +5,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { CommondataProvider } from '../../providers/commondata/commondata';
+import { MyApp } from '../../app/app.component';
 
 @IonicPage()
 @Component({
@@ -14,27 +17,23 @@ import { SelectSearchableComponent } from 'ionic-select-searchable';
 export class QuotelistPage {
 	DeviceID:string="";
 	Quotes:any=[];
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public sqlite: SQLite, public commonProvider:CommondataProvider) {
 	  this.LoadQuotes();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad QuotelistPage');
   }
+  
 	LoadQuotes()
 	{
-		this.DeviceID=this.device.uuid;
-		if(this.DeviceID==null)
-		{
-			this.DeviceID="534b8b5aeb906015";
-		}
 		let type=this.navParams.get("type");
 		let PostData=null;
 		if(type=="receiver")
 		{
 			PostData={
 				type:"receiver",
-				device_id:this.DeviceID
+				device_id:this.commonProvider.DeviceID
 			};
 			
 		}
@@ -42,10 +41,10 @@ export class QuotelistPage {
 		{
 			PostData={
 				type:"sender",
-				device_id:this.DeviceID
+				device_id:this.commonProvider.DeviceID
 			};
 		}
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetQuote',PostData).subscribe(data => {
+		this.httpClient.post<any>('https://ptezone.com.au/api/GetQuote',PostData).subscribe(data => {
 			this.Quotes=data.Quotes;
 		},
 		err => {

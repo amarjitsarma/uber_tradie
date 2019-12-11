@@ -19,16 +19,16 @@ export class SubcategorylistPage {
 	LoadSubCategories()
 	{
 		let ID=this.navParams.get("ID");
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetSubCategories',{ID:ID}).subscribe(data => {
+		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:ID}).subscribe(data => {
 			this.SubCategories=data.SubCategories;
 		},
 		err => {
 					
 		});
 	}
-	OpenDetails(ID)
+	OpenDetails(ID,Name)
 	{
-		this.navCtrl.push(CardsPage,{sub_category:ID});
+		this.navCtrl.push(CardsPage,{sub_category:ID,sub_category_name:Name,category:this.navParams.get("ID"),category_name:this.navParams.get("Name")});
 	}
   ionViewDidLoad() {
     console.log('ionViewDidLoad SubcategorylistPage');

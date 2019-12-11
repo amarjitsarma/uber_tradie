@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Register as Tradie</ion-title>
+    <ion-title>Tradie Basic Profile</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -35,7 +35,7 @@
 		</ion-item>
 		<ion-item no-lines>
 			<ion-label><ion-icon name="pin" color="primary"></ion-icon></ion-label>
-			<ion-input type="text" [(ngModel)]="location" placeholder="Location"></ion-input>
+			<ion-input type="text" [(ngModel)]="location" placeholder="Location" (ionFocus)="launchLocationPage();"></ion-input>
 		</ion-item>
 		<ion-item no-lines>
 			<ion-label><ion-icon name="home" color="primary"></ion-icon></ion-label>
@@ -60,9 +60,19 @@
 		<ion-item no-lines>
 			<ion-label><ion-icon name="code-working" color="primary"></ion-icon></ion-label>
 			<ion-input type="text" [(ngModel)]="postcode" placeholder="Post Code"></ion-input>
-		</ion-item>	
-		<ion-item no-lines class="no-border">
-				<button ion-button full (click)="SaveBasic();">Next</button>
 		</ion-item>
 	</ion-list>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-6>
+				<button ion-button full (click)="Close();">Close</button>
+			</ion-col>
+			<ion-col col-6 *ngIf="commonProvider.Role==User">
+				<button ion-button full (click)="SaveBasic();">Save & Next</button>
+			</ion-col>
+			<ion-col col-6 *ngIf="commonProvider.Role==Tradie">
+				<button ion-button full (click)="SaveBasic();">Save & Close</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
 </ion-content>

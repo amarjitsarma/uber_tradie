@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start right>
+		<button ion-button (click)="viewCtrl.dismiss();">
+			close
+		</button>
+	</ion-buttons>
+    <ion-title>Update Project</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<ion-grid>
+		<ion-row *ngFor="let Bid of Bids">
+			<ion-col col-2>
+				<img src="https://www.ptezone.com.au/uploads/avatars/{{Bid.Tradie.avatar}}" *ngIf="Bid.Tradie.avatar!=null && Bid.Tradie.avatar!=''">
+				<img src="assets/img/person.png" *ngIf="Bid.Tradie.avatar==null || Bid.Tradie.avatar==''">
+			</ion-col>
+			<ion-col col-10>
+				<strong>{{Bid.Tradie.fullname}}</strong><br/>
+				<ion-icon name="star" color="primary" *ngIf="Bid.ReviewSum/Bid.ReviewCount>0"></ion-icon>
+				<ion-icon name="star" color="primary" *ngIf="Bid.ReviewSum/Bid.ReviewCount>1"></ion-icon>
+				<ion-icon name="star" color="primary" *ngIf="Bid.ReviewSum/Bid.ReviewCount>2"></ion-icon>
+				<ion-icon name="star" color="primary" *ngIf="Bid.ReviewSum/Bid.ReviewCount>3"></ion-icon>
+				<ion-icon name="star" color="primary" *ngIf="Bid.ReviewSum/Bid.ReviewCount>4"></ion-icon>
+				<ion-icon name="star-half" color="primary" *ngIf="(Bid.ReviewSum%Bid.ReviewCount!=0) && Bid.ReviewSum/Bid.ReviewCount>0"></ion-icon>
+				<h2 class="Budget"><b>{{Bid.bid_amount}} AUD</b></h2>
+				<button ion-button (click)="ApproveBid(Bid.id);" block *ngIf="status==1" small>Approve This Bid</button>
+				<p *ngIf="Bid.status==2"><b>Approved</b></p>
+			</ion-col>
+			<ion-col col-12>
+				<p [innerHTML]="Bid.bid_desc"></p>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

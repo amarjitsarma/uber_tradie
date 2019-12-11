@@ -1,0 +1,74 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Review Dashboard</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-grid>
+		<ion-row *ngIf="commonProvier.Role=='Admin' || commonProvier.Role=='Tradie'">
+			<ion-col col-6>
+				<button ion-button color="primary" block outline><ion-icon name="chatboxes"></ion-icon>&nbsp;Give Review</button>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button color="primary" block (click)="ViewReviews();"><ion-icon name="star"></ion-icon>&nbsp;View Reviews</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-list *ngFor="let Project of Projects" class="project_card">
+		<ion-item no-lines (click)="GoDetail(Project.id);">
+			<ion-grid>
+				<ion-row ion-list>
+					<ion-col ion-item col-12>
+						<ion-avatar item-start *ngIf="Project.User.avatar==null || Project.User.avatar==''">
+							<img src="assets/img/profile_avatar.jpeg">
+						</ion-avatar>
+						<ion-avatar item-start *ngIf="Project.User.avatar!=null && Project.User.avatar!=''">
+							<img src="https://ptezone.com.au/uploads/avatars/{{Project.User.avatar}}">
+						</ion-avatar>
+						<h2>{{Project.User.first_name}} {{Project.User.last_name}}</h2>
+					</ion-col>
+				</ion-row>
+				<ion-row>
+					<ion-col col-8>
+						<h2 class="Title">{{Project.title}}</h2>
+					</ion-col>
+					<ion-col col-4>
+						<h2 class="Price1" *ngIf="Project.payment_mode=='full'">Total Budget</h2>
+						<h2 class="Price1" *ngIf="Project.payment_mode=='hourly'">Per Hour Budget</h2>
+						<h2 class="Price" *ngIf="Project.Bid!=null"><i>{{Project.Bid.bid_amount}} AUD</i></h2>
+						<h2 class="Price" *ngIf="Project.Bid==null"><i>{{Project.estimate_budget}} AUD</i></h2>
+					</ion-col>
+					<ion-col col-12>
+						<h2><strong>Published On: </strong>{{Project.created_at}}</h2>
+					</ion-col>
+					<ion-col col-12>
+						<h2 class="Status{{Project.status}}" *ngIf="Project.status==1">Open</h2>
+						<h2 class="Status{{Project.status}}" *ngIf="Project.status==2">Assigned</h2>
+						<h2 class="Status{{Project.status}}" *ngIf="Project.status==3">Completed & Closed</h2>
+						<h2 class="Status{{Project.status}}" *ngIf="Project.status==4">Canceled & Closed</h2>
+					</ion-col>
+					<ion-col col-12 *ngIf="Project.payment_status!=1 && Project.status==3">
+						<button ion-button block (click)="ProcessPayment();">Process Payment</button>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-item>
+	</ion-list>
+	<ion-list>
+		<ion-item no-lines *ngIf="Projects.length==0">
+			<p>You have not posted any project yet.</p>
+		</ion-item>
+		<ion-item no-lines>
+			<button ion-button (click)="PostJob()" block>Post a Project</button>
+		</ion-item>
+	</ion-list>
+</ion-content>

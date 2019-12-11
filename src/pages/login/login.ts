@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, NavParams, ToastController, MenuController } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, ToastController, MenuController, LoadingController } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 import { HttpClient } from '@angular/common/http';
 import { FirstRunPage } from '../pages';
@@ -8,7 +8,9 @@ import { FirstRunPage } from '../pages';
 import { User } from '../../providers/providers';
 import { MainPage } from '../pages';
 import { Freelancelist1Page } from '../freelancelist1/freelancelist1';
-
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { CommondataProvider } from '../../providers/commondata/commondata';
+import { MyApp } from '../../app/app.component';
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -22,7 +24,8 @@ export class LoginPage {
     username: '',
     password: ''
   };
-
+  Error:string="";
+	ShowPassword:boolean=false;
   // Our translated text strings
   private loginErrorString: string;
 	DeviceID:string="";
@@ -34,15 +37,19 @@ export class LoginPage {
 	public device:Device,
 	public httpClient:HttpClient,
 	public menuController:MenuController,
-	public navParams:NavParams) {
+	public navParams:NavParams, public sqlite: SQLite, public platform: Platform, public commonProvider:CommondataProvider, public myApp:MyApp, public loadingCtrl:LoadingController) {
 		this.menuController.swipeEnable(false);
-	this.TryLogin();
+		this.TryLogin();
+	  
+	  
+	//this.TryLogin();
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
     });
 	this.LoginType=this.navParams.get("LoginType");
 	
   }
+	
   presentToast(Message) {
     const toast = this.toastCtrl.create({
       message: Message,
@@ -50,84 +57,97 @@ export class LoginPage {
     });
     toast.present();
   }
+  
 
   // Attempt to login in through our User service
-  Login() {
-    this.DeviceID=this.device.uuid;
-	if(this.DeviceID==null)
+  
+  Login(){
+	  
+	  let scope=this;
+	  if(scope.commonProvider.DeviceID==null)
+	  {
+		  scope.presentToast("Something is wrong");
+		  return;
+	  }
+	if(scope.account.username!="" && scope.account.password!="")
 	{
-		this.DeviceID="534b8b5aeb906015";
-	}
-	if(this.account.username!="" && this.account.password!="")
-	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/login',{
-			DeviceID:this.DeviceID,
-			username:this.account.username,
-			password:this.account.password,
-			login_type:this.LoginType,
+		let loader:any = this.loadingCtrl.create({
+		spinner: "hide",
+		content: `<div class="custom-spinner-container" style="height:100%; width:100%;">
+						<div class="custom-spinner-box">
+							<img src="assets/img/spinner.gif" width="100%"/>
+						</div>
+					</div>`
+		});
+		loader.present();
+		scope.httpClient.post<any>('https://ptezone.com.au/api/login',{
+			DeviceID:scope.commonProvider.DeviceID,
+			username:scope.account.username,
+			password:scope.account.password,
+			login_type:scope.LoginType,
 		})
 		.subscribe(data => {
 			if(data.Error==0)
 			{
-				this.presentToast("Login successful");
-				location.reload();
-				//this.navCtrl.setRoot("LoginasPage");
+				scope.RetrieveUserData().then(()=>{setTimeout(() => {
+						loader.dismiss();
+						scope.TryLogin();
+						scope.presentToast("Login successful");
+						
+					}, 1000);})
+				.catch(err=>{scope.presentToast("Something is wrong"); loader.dismiss();});
 			}
 			else
 			{
-				this.presentToast("Incorrect Username or Password");
+				scope.presentToast(data.Message);
+				loader.dismiss();
 			}
+			
 		},
 		err => {
-			
+			scope.Error=JSON.stringify(err);
+			loader.dismiss();
 		})
 	}
 	else{
-		this.presentToast("Please fill up data");
+		scope.presentToast("Please fill up data");
 	}
+	
+  }
+  RetrieveUserData()
+  {
+	  let scope=this;
+	  return new Promise(function(resolve,reject) {
+			scope.commonProvider.GetLoginDetails(scope.commonProvider.DeviceID);
+			resolve();
+		});
   }
   TryLogin()
 	{
 		
-		this.DeviceID=this.device.uuid;
-		if(this.DeviceID==null)
+		if(this.commonProvider.Status!=0)
 		{
-			this.DeviceID="534b8b5aeb906015";
-		}
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/CheckLogin',{
-			DeviceID:this.DeviceID
-		})
-		.subscribe(data => {
-			if(data.Status!=0)
+			this.myApp.CheckLogin();
+			if(this.commonProvider.User.Role=="Tradie")
 			{
-				if(data.User.Role=="Tradie" || data.User.Role=="Admin")
-				{
-					this.navCtrl.setRoot("TradiehomePage");
-					/*if(data.User.Tradie==null || data.User.Tradie.status==0)
-					{
-						this.navCtrl.setRoot(Freelancelist1Page);
-					}
-					else
-					{
-						this.navCtrl.setRoot("ContentPage");
-					}*/
-				}
-				else
-				{
-					this.navCtrl.setRoot("ContentPage");
-				}
+				this.navCtrl.setRoot("TradiehomePage");
 			}
-		},
-		err => {
-			
-		})
+			else if(this.commonProvider.Role=="Admin")
+			{
+				this.navCtrl.setRoot("AdminhomePage");
+			}
+			else
+			{
+				this.navCtrl.setRoot("ContentPage");
+			}
+		}
 	}
 	ForgotPassword()
 	{
-		this.navCtrl.setRoot('ForgotpasswordPage');
+		this.navCtrl.push('ForgotpasswordPage');
 	}
 	SignUp()
 	{
-		this.navCtrl.setRoot('Signup1Page');
+		this.navCtrl.push('Signup1Page');
 	}
 }

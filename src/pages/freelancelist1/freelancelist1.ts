@@ -1,10 +1,14 @@
 import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav, MenuController, ModalController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
+import { CommondataProvider } from '../../providers/commondata/commondata';
+import { MyApp } from '../../app/app.component';
+import { LocationSelect } from '../location-select/location-select';
+
 @IonicPage()
 class Port1 {
     public ID: number;
@@ -30,64 +34,65 @@ export class Freelancelist1Page {
 	state:string="";
 	code:string="";
 	postcode:string="";
-	longitude:string="";
-	latitude:string="";
+	longitude:any=0;
+	latitude:any=0;
 	radius:string="";
 	DeviceID:any="";
 	basic_id:any=0;
-	constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public menuController:MenuController, public nav:Nav) {
-		this.LoadBasic();
+	constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public menuController:MenuController, public nav:Nav, public commonProvider:CommondataProvider, public modalController: ModalController, public viewCtrl: ViewController) {
+		
 		this.LoadCategories();
+		setTimeout(()=>{
+			this.LoadBasic();
+		},1000);
 		this.menuController.swipeEnable(false);
 	}
-
+	presentToast(Message) {
+		const toast = this.toastCtrl.create({
+			message: Message,
+			duration: 3000
+		});
+		toast.present();
+	}
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad Freelancelist1Page');
 	}
 	LoadBasic()
 	{
-		this.DeviceID=this.device.uuid;
-		if(this.DeviceID==null)
+		let Basic=this.commonProvider.tradie_basic;
+		if(Basic!=null)
 		{
-			this.DeviceID="534b8b5aeb906015";
-		}
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetFreelancebasic',{device_id:this.DeviceID})
-		.subscribe(data => {
-			if(data.Basic!=null)
+			if(Basic.category!=0 && Basic.category!=0)
 			{
-				if(data.Basic.category!=0 && data.Basic.category!=0)
+				for(var i=0; i<this.Categories.length;i++)
 				{
-					for(var i=0; i<this.Categories.length;i++)
+					if(this.Categories[i].ID==Basic.category)
 					{
-						if(this.Categories[i].ID==data.Basic.category)
-						{
-							this.category=this.Categories[i];
-							this.LoadSubCategories();
-						}
+						this.category=this.Categories[i];
+						this.LoadSubCategories();
 					}
-					this.SetSubcategories(data.Basic.sub_category);
 				}
-				this.fullname=data.Basic.fullname;
-				this.location=data.Basic.location;
-				this.house_no=data.Basic.house_no;
-				this.street_name=data.Basic.street_name;
-				this.suburb=data.Basic.suburb;
-				this.state=data.Basic.state;
-				this.code=data.Basic.code;
-				this.postcode=data.Basic.postcode;
-				this.longitude=data.Basic.longitude;
-				this.latitude=data.Basic.latitude;
-				this.radius=data.Basic.radius;
-				this.basic_id=data.Basic.id;
+				setTimeout(()=>{
+					this.SetSubcategories(Basic.sub_category);
+				},1000);
 			}
-		},
-		err => {
-				console.log(err);	
-		});
+			this.fullname=Basic.fullname;
+			this.location=Basic.location;
+			this.house_no=Basic.house_no;
+			this.street_name=Basic.street_name;
+			this.suburb=Basic.suburb;
+			this.state=Basic.state;
+			this.code=Basic.code;
+			this.postcode=Basic.postcode;
+			this.longitude=Basic.longitude;
+			this.latitude=Basic.latitude;
+			this.radius=Basic.radius;
+			this.basic_id=Basic.id;
+		}
 	}
 	SetSubcategories(SC)
 	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
+		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
 			this.SubCategories=[];
 			this.sub_category=new Port1();/*.ID=0;
 			this.sub_category.Name="";*/
@@ -108,7 +113,7 @@ export class Freelancelist1Page {
 	}
 	LoadCategories()
 	{
-		this.httpClient.get<any>('http://uber.ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
 			for(var i=0;i<data.Categories.length;i++)
 			{
 				this.port={ID:data.Categories[i].ID, Name:data.Categories[i].CategoryName};
@@ -122,7 +127,7 @@ export class Freelancelist1Page {
 	}
 	LoadSubCategories()
 	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
+		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
 			this.SubCategories=[];
 			this.sub_category=new Port1();/*.ID=0;
 			this.sub_category.Name="";*/
@@ -147,16 +152,11 @@ export class Freelancelist1Page {
     }
 	SaveBasic()
 	{
-		this.DeviceID=this.device.uuid;
-		if(this.DeviceID==null)
-		{
-			this.DeviceID="534b8b5aeb906015";
-		}
 		if(this.category.Name!="" && this.sub_category.Name!="" && this.fullname!="" && this.location!="" && this.house_no!="" && this.street_name!="" && this.suburb!="" && this.state!="" && this.postcode!="")
 		{
-			this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveFreelanceBasic',
+			this.httpClient.post<any>('https://ptezone.com.au/api/SaveFreelanceBasic',
 			{
-				device_id:this.DeviceID,
+				device_id:this.commonProvider.DeviceID,
 				category:this.category.ID,
 				sub_category:this.sub_category.ID,
 				fullname:this.fullname,
@@ -171,11 +171,58 @@ export class Freelancelist1Page {
 				latitude:this.latitude,
 				radius:this.radius
 			}).subscribe(data => {
-				this.navCtrl.setRoot('Freelancelist2Page',{basic_id:data.id});
+				this.commonProvider.LoadBasic();
+				this.presentToast("Profile updated successfully");
+				setTimeout(()=>{
+					if(this.commonProvider.Role=="User")
+					{
+						this.navCtrl.setRoot('Freelancelist2Page',{basic_id:data.id});
+					}
+					else
+					{
+						this.viewCtrl.dismiss();
+					}
+				},1000);
 			},
 			err => {
 					console.log(err);	
 			});
+		}
+	}
+	ModalActive:boolean=false;
+    launchLocationPage(){
+		if(this.ModalActive==false)
+		{
+			this.ModalActive=true;
+			let modal = this.modalController.create(LocationSelect);
+	
+			modal.onDidDismiss((location) => {
+				this.ModalActive=false;
+				if(location)
+				{
+				this.location=location.location;
+				this.street_name=location.street_name;
+				this.state=location.state;
+				this.code=location.code;
+				this.postcode=location.postcode;
+				this.longitude=location.longitude;
+				this.latitude=location.latitude;
+				}
+			});
+	
+			modal.present();
+		}		
+
+    }
+	Close()
+	{
+		if(this.commonProvider.Role=="Admin" || this.commonProvider.Role=="Tradie")
+		{
+			this.navCtrl.setRoot("TradiehomePage");
+		}
+		else
+		{
+			this.navCtrl.setRoot("ContentPage");
 		}
 	}
 	

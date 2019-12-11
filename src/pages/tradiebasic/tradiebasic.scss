@@ -1,0 +1,34 @@
+page-tradiebasic {
+	textarea{
+		min-height:100px;
+	}
+	ion-slide{
+		background: rgba(255, 255, 255, 0.87);
+	}
+	input[type="text"]{
+		padding:0px 10px;
+	}
+	textarea{
+		padding:5px 10px !important;
+	}
+	
+	.no-border{
+		border:0px;
+	}
+	input[type="text"],input[type="password"]{
+		padding:0px 10px;
+	}
+	textarea{
+		padding:5px 10px !important;
+	}
+	ion-item{
+		border: 1px solid #30c9f5 !important;
+		border-radius: 50px !important;
+		margin-bottom:5px !important;
+	}
+	.no-border{
+		border: 0px solid #30c9f5 !important;
+		border-radius: 0px !important;
+		background:#ffffff44;
+	}
+}

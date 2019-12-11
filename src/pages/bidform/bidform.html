@@ -1,36 +1,60 @@
-<!--
-  Generated template for the BidformPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar color="primary">
 	<ion-buttons start left>
 		<button ion-button menuToggle>
 			<ion-icon name="menu"></ion-icon>
 		</button>
 	</ion-buttons>
-    <ion-title>Post a Bid</ion-title>
+    <ion-title>Your Bid</ion-title>
   </ion-navbar>
-
 </ion-header>
-
-
 <ion-content padding>
 	<ion-list>
 		<ion-item no-lines>
-			<ion-label><ion-icon name="cash" color="primary"></ion-icon></ion-label>
-			<ion-input type="text" [(ngModel)]="bid_amount" placeholder="Amount" required></ion-input>
+			<ion-label stacked><ion-icon name="arrow-round-down"></ion-icon>&nbsp;Bid Amount Type</ion-label>
+			<ion-select type="text" [(ngModel)]="Bid.charge_type" (ionChange)="ChangeChargeType();">
+				<ion-option value="1" selected>Customer Project Amount</ion-option>
+				<ion-option value="2">Tradie Hourly Amount</ion-option>
+			</ion-select>
+		</ion-item>
+		
+		<ion-item no-lines *ngIf="Bid.charge_type==1">
+			<ion-label stacked><ion-icon name="cash"></ion-icon>&nbsp;Project Value*</ion-label>
+			<ion-input type="text" [(ngModel)]="Bid.total_amount" placeholder="Total Project Value in AUD" (keyup)="keyUpCheckerFTK($event)" onFocus="this.select();" required></ion-input>
+		</ion-item>
+	
+		<ion-item no-lines *ngIf="Bid.charge_type==2">
+			<ion-label stacked><ion-icon name="cash"></ion-icon>&nbsp; Hourly Rate*</ion-label>
+			<ion-input type="text" [(ngModel)]="Bid.hourly_rate" placeholder="Hourly rate in AUD" (keyup)="keyUpCheckerPHC($event)" onFocus="this.select();" required></ion-input>
+		</ion-item>
+		<ion-item no-lines *ngIf="Bid.charge_type==2">
+			<ion-label stacked><ion-icon name="time"></ion-icon>&nbsp;Working Hour*</ion-label>
+			<ion-input type="text" [(ngModel)]="Bid.approx_hour" placeholder="Approximate working hours" (keyup)="keyUpCheckerAH($event)" onFocus="this.select();" required ></ion-input>
+		</ion-item>
+		<ion-item no-lines style="display:none;">
+			<ion-label stacked><ion-icon name="cash"></ion-icon>&nbsp; Per KM Charges*</ion-label>
+			<ion-input type="text" [(ngModel)]="Bid.per_km_charge" placeholder="Per KM rate in AUD" onFocus="this.select();" (keyup)="keyUpCheckerPKC($event)" required></ion-input>
+		</ion-item>
+		<ion-item no-lines style="display:none;">
+			<ion-label stacked><ion-icon name="pin"></ion-icon>&nbsp;Free Travel Distance*</ion-label>
+			<ion-input type="text" [(ngModel)]="Bid.free_distance" placeholder="Free travel distance in KM" onFocus="this.select();" (keyup)="keyUpCheckerFTD($event)" required></ion-input>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label><ion-icon name="time" color="primary"></ion-icon></ion-label>
-			<ion-input type="text" [(ngModel)]="completion_time" placeholder="Completion Time" required></ion-input>
+			<ion-label stacked><ion-icon name="cash"></ion-icon>&nbsp;Call Out Fees*</ion-label>
+			<ion-input type="text" [(ngModel)]="Bid.call_out_charge" placeholder="Call Out Charge in AUD" onFocus="this.select();" required></ion-input>
+		</ion-item>
+		
+		<ion-item no-lines>
+			<ion-label stacked><ion-icon name="pricetags"></ion-icon>&nbsp;Amount</ion-label>
+			<ion-input type="text" [(ngModel)]="Bid.bid_amount" placeholder="Amount in AUD" (keyup)="keyUpChecker($event)" readonly></ion-input>
 		</ion-item>
 		<ion-item no-lines>
-			<ion-label><ion-icon name="text" color="primary"></ion-icon></ion-label>
-			<ion-textarea [(ngModel)]="bid_desc" required placeholder="How your bid is better?"></ion-textarea>
+			<ion-label stacked><ion-icon name="calendar"></ion-icon>&nbsp;Completion Date</ion-label>
+			<ion-input type="text" [(ngModel)]="Bid.completion_time_show" placeholder="Completion Time" required (ionFocus)="OpenCalender();"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label stacked><ion-icon name="document"></ion-icon>&nbsp;Bid Description*({{Bid.bid_desc.length}}/2000 remaining)</ion-label>
+			<ion-textarea [(ngModel)]="Bid.bid_desc" required placeholder="How your bid is better?"></ion-textarea>
 		</ion-item>
 	</ion-list>
 	<button ion-button full (click)="PlaceBid();">Place your bid</button>

@@ -20,9 +20,9 @@
 
 <ion-content>
 	<ion-list>
-		<ion-item *ngFor="let Category of SubCategories" no-lines (click)="OpenDetails(Category.ID);">
+		<ion-item *ngFor="let Category of SubCategories" no-lines (click)="OpenDetails(Category.ID,Category.SubCategoryName);">
 			<ion-avatar item-start>
-				<img src="http://uber.ptezone.com.au/uploads/{{Category.Icon}}">
+				<img src="https://ptezone.com.au/uploads/{{Category.Icon}}">
 			</ion-avatar>
 			<h2>{{Category.SubCategoryName}}</h2>
 		</ion-item>

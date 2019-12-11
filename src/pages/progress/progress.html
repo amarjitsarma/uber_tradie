@@ -1,0 +1,104 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Project Progress</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-grid class="box">
+		<ion-row>
+			<ion-col col-12 *ngIf="pre_project.length>0">
+				<h2><b>Pre-Task Photos:</b></h2>
+			</ion-col>
+			<ion-col col-3 *ngFor="let pre_photo of pre_photos" style="height:100px; width:100%">
+				<img src="{{pre_photo}}" #myImage (click)="presentImage(myImage);">
+			</ion-col>
+			<ion-col col-3 text-center style="height:100px; width:100%; padding-top:30px; background-color:#eee; border-radius:10px;" (click)="AddPhoto(1);" *ngIf="user_id!=commonProvider.User.id && customer_verification==0">
+				<ion-icon name="add"></ion-icon><br/>Add Photo
+			</ion-col>
+			<ion-col col-12 *ngIf="user_id!=commonProvider.User.id && customer_verification==0">
+				<button ion-button block (click)="UploadPreTask();">Upload Pre-Task Images</button>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12 *ngIf="pre_project.length==0">
+				*No Pre-Task photos are uploaded yet
+			</ion-col>
+			<ion-col col-4 *ngFor="let pre of pre_project">
+				<img src="https://ptezone.com.au/uploads/project_comment/{{pre.photo}}" #myImage (click)="presentImage(myImage);">
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	
+	<ion-grid class="box">
+		<ion-row>
+			<ion-col col-12 *ngIf="post_project.length>0">
+				<h2><b>Post-Task Photos:</b></h2>
+			</ion-col>
+			<ion-col col-3 *ngFor="let post_photo of post_photos" style="height:100px; width:100%">
+				<img src="{{post_photo}}" #myImage (click)="presentImage(myImage);">
+			</ion-col>
+			<ion-col col-3 text-center style="height:100px; width:100%; padding-top:30px; background-color:#eee; border-radius:10px;" (click)="AddPhoto(2);" *ngIf="user_id!=commonProvider.User.id && customer_verification==0">
+				<ion-icon name="add"></ion-icon><br/>Add Photo
+			</ion-col>
+			<ion-col col-12 *ngIf="user_id!=commonProvider.User.id && customer_verification==0">
+				<button ion-button block (click)="UploadPostTask();">Upload Post-Task Images</button>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12 *ngIf="post_project.length==0">
+				*No Post-Task photos are uploaded yet
+			</ion-col>
+			<ion-col col-4 *ngFor="let post of post_project">
+				<img src="https://ptezone.com.au/uploads/project_comment/{{post.photo}}" #myImage (click)="presentImage(myImage);">
+			</ion-col>
+		</ion-row>
+		<ion-row *ngIf="post_project.length>=5 && pre_project.length>=5">
+			<ion-col col-12 *ngIf="user_id!=commonProvider.User.id && tradie_verification==0">
+				<button ion-button (click)="VerifyComplete(4);" block>Verify Complete</button>
+			</ion-col>
+			<p *ngIf="tradie_verification==1">*Verify complete by the tradie</p>
+			<ion-col col-12 *ngIf="user_id==commonProvider.User.id && customer_verification==0 && tradie_verification==1">
+				<button ion-button (click)="VerifyComplete(5);" block>Verify Complete</button>
+			</ion-col>
+			<p *ngIf="customer_verification==1">*Verify complete by the customer</p>
+		</ion-row>
+	</ion-grid>
+	<ion-list>
+		<ion-item no-lines>
+			<h2><strong>Message</strong></h2>
+		</ion-item>
+		<ion-item no-lines class="box" *ngFor="let message of messages">
+			<ion-avatar item-end *ngIf="(message.avatar==null || message.avatar=='') && message.user_id==commonProvider.User.id">
+				<img src="assets/img/profile_avatar.jpeg">
+			</ion-avatar>
+			<ion-avatar item-end *ngIf="(message.avatar!=null && message.avatar!='') && message.user_id==commonProvider.User.id">
+				<img src="https://ptezone.com.au/uploads/avatars/{{message.avatar}}">
+			</ion-avatar>
+			
+			<ion-avatar item-start *ngIf="(message.avatar==null || message.avatar=='') && message.user_id!=commonProvider.User.id">
+				<img src="assets/img/profile_avatar.jpeg">
+			</ion-avatar>
+			<ion-avatar item-start *ngIf="(message.avatar!=null && message.avatar!='') && message.user_id!=commonProvider.User.id">
+				<img src="https://ptezone.com.au/uploads/avatars/{{message.avatar}}">
+			</ion-avatar>
+			
+			<h2>{{message.first_name+" "+message.last_name}}</h2>
+			<p>{{message.message}}</p>
+		</ion-item>
+		<ion-item no-lines class="box">
+			<ion-label stacked>Message</ion-label>
+			<ion-textarea [(ngModel)]="message" placeholder="Please type your message here"></ion-textarea>
+		</ion-item>
+		<button ion-button (click)="SendMessage();" block small>Send Message</button>
+	</ion-list>
+</ion-content>

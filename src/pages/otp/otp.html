@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>OTP Verification</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list>
+		<ion-item no-lines>
+			<ion-label stacked><ion-icon name="key" color="primary"></ion-icon>&nbsp;Verification Code*</ion-label>
+			<ion-input type="text" [(ngModel)]="otp" placeholder="Please enter the Verification Code"></ion-input>
+		</ion-item>
+    </ion-list>
+	<p>Please enter the verification code you received in your email.</p>
+	<button ion-button outline color="primary" block (click)="Verify();">Verify</button>
+	<button ion-button outline color="primary" block (click)="ResendCode();">Resend Verification Code</button>
+	<ion-title>Already verified?</ion-title>
+	<button ion-button outline color="primary" block (click)="Login();">Login</button>
+</ion-content>

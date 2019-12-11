@@ -7,7 +7,7 @@
 			<ion-icon name="menu"></ion-icon>
 		</button>
 	</ion-buttons>
-    <ion-title>Projects</ion-title>
+    <ion-title>Find Projects</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,43 +16,141 @@
 <ion-content padding>
 	<ion-list>
 		<ion-item no-lines>
-			<ion-label>Remote Location?</ion-label>
-			<ion-toggle checked="true" (onChange)="RemoteEnable();" [(ngModel)]="RemotLocation"></ion-toggle>
-		</ion-item>
-		<ion-item no-lines *ngIf="RemotLocation==false">
-			<ion-label><ion-icon name="locate"></ion-icon></ion-label>
-			<select-searchable
-				item-content
-				[(ngModel)]="suberb"
-				[items]="Suberbs"
-				itemValueField="Suberb"
-				itemTextField="Suberb"
-				[canSearch]="true"
-				(onChange)="portChange($event)" placeholder="Select">
-			</select-searchable>
+			<ion-label stacked><ion-icon name="pin"></ion-icon>&nbsp;Location Type</ion-label>
+			<ion-select [(ngModel)]="location_type" (ionChange)="RemoteEnable();">
+				<ion-option value="1">On Site</ion-option>
+				<ion-option value="2">Online</ion-option>
+				<ion-option value="3" selected>All</ion-option>
+			</ion-select>
 		</ion-item>
 	</ion-list>
-	<div *ngFor="let Project of Projects"> 
-	<ion-list class="project_card" *ngIf="DoShow(Project);">
+	<ion-grid>
+		<ion-row ion-list *ngIf="RemotLocation==false">
+			<ion-col col-12 ion-item no-lines>
+				<ion-label stacked><ion-icon name="locate"></ion-icon>&nbsp; Location*</ion-label>
+				<ion-input type="text" [(ngModel)]="jobProvider.location.location" (ionFocus)="launchLocationPage();" placeholder="Please enter a location"></ion-input>
+			</ion-col>
+		</ion-row>
+		<ion-row ion-list *ngIf="RemotLocation==false">
+			<ion-col col-12>
+				<ion-label>Within distance: {{distance}} KM</ion-label>
+				<ion-range min="5" max="500" step="5" pin="true" [(ngModel)]="distance">
+					<ion-icon small range-left name="navigate"></ion-icon>
+					<ion-icon range-right name="navigate"></ion-icon>
+				</ion-range>
+			</ion-col>
+		</ion-row>
+		<ion-row ion-list>
+			<!--ion-col col-12 ion-item no-lines>
+				<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
+				<select-searchable
+					item-content
+					[(ngModel)]="category"
+					[items]="Categories"
+					itemValueField="ID"
+					itemTextField="Name"
+					[canSearch]="true"
+					(onChange)="portChange($event)" placeholder="Select Category">
+				</select-searchable>
+			</ion-col-->
+			<ion-col col-12 ion-item no-lines>
+				<ion-label stacked><ion-icon name="copy" color="primary"></ion-icon>&nbsp;Skills</ion-label>
+				<ionic-selectable
+					item-content
+					[isMultiple]="true"
+					[(ngModel)]="sub_category"
+					[items]="SubCategories"
+					itemValueField="ID"
+					itemTextField="Name"
+					[canSearch]="true" placeholder="Select Skills">
+				</ionic-selectable>
+			</ion-col>
+			<ion-col col-12 ion-item no-lines *ngIf="sub_category.length>0">
+				<p><span *ngFor="let sub_cat of sub_category">#{{sub_cat.Name}}&nbsp;&nbsp;</span></p>
+			</ion-col>
+		</ion-row>
+		<ion-row ion-list>
+			<ion-col col-12 ion-item no-lines>
+				<button ion-button block (click)="LoadProjects()">FInd Projects</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<div *ngFor="let Project of Projects" style="border: #e6e6e6 1px solid; border-radius: 5px; -webkit-box-shadow: 5px 10px #d0414159; box-shadow: 5px 5px rgba(0,0,0,0.1);">
+		<ion-grid *ngIf="DoShow(Project);" (click)="GoDetail(Project.id);">
+			<ion-row ion-list *ngIf="Project.User!=null">
+				<ion-col col-12 ion-item no-lines>
+					<ion-avatar item-start *ngIf="Project.User.avatar==null || Project.User.avatar==''">
+						<img src="assets/img/profile_avatar.jpeg">
+					</ion-avatar>
+					<ion-avatar item-start *ngIf="Project.User.avatar!=null && Project.User.avatar!=''">
+						<img src="https://ptezone.com.au/uploads/avatars/{{Project.User.avatar}}">
+					</ion-avatar>
+					<h2>{{Project.User.first_name}} {{Project.User.last_name}}</h2>
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-8>
+					<strong>{{Project.title}}</strong>
+				</ion-col>
+				<ion-col col-4>
+					{{Project.estimate_budget}} AUD
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-12>
+					Posted On: {{commonProvider.GetFormattedDate(Project.created_at)}}
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-12 *ngIf="Project.Address != null">
+					Distance: {{Project.distance.toFixed(2)}} KM away<br/>Location: {{Project.Address.location}}
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-12>
+					<h2 class="Status{{Project.status}}" *ngIf="Project.status==1">Open</h2>
+					<h2 class="Status{{Project.status}}" *ngIf="Project.status==2">Already Assigned</h2>
+					<h2 class="Status{{Project.status}}" *ngIf="Project.status==3">Completed & Closed</h2>
+					<h2 class="Status{{Project.status}}" *ngIf="Project.status==4">Canceled & Closed</h2>
+				</ion-col>
+			</ion-row>
+			<!--ion-row *ngIf="Project.status==2 && Project.user_id==commonProvider.User.id">
+				<ion-col col-12>
+					<button ion-button block>Process Payment</button>
+				</ion-col>
+			</ion-row-->
+		</ion-grid>
+	<!--ion-list class="project_card" *ngIf="DoShow(Project);">
 		<ion-item no-lines *ngIf="DoShow(Project);">
-			<h2 class="job_no">Job#{{Project.id}}</h2>
+			<ion-avatar item-start *ngIf="Project.User.avatar!=null && Project.User.avatar!=''">
+				<img src="https://ptezone.com.au/uploads/avatars/{{Project.User.avatar}}">
+			</ion-avatar>
+			<ion-avatar item-start *ngIf="Project.User.avatar==null || Project.User.avatar==''">
+				<img src="assets/img/profile_avatar.jpeg">
+			</ion-avatar>
+			
 			<h2 class="posted_by">
 				Posted By <ion-icon name="person"></ion-icon>&nbsp;
-				<span class="posted_by_name">{{Project.User.first_name}}</span>
+				<span class="posted_by_name">{{Project.User.first_name}}</span> | 
+				<span *ngIf="Project.location_type!='online'">{{Project.distance.toFixed(2)}} KM away</span>
+				
 			</h2>
 			<h2 class="Category">{{Project.Category.CategoryName}}&nbsp;->&nbsp;{{Project.SubCategory.SubCategoryName}}</h2>
-			<h2 class="Status{{Project.status}}" *ngIf="Project.status==1">Not assigned</h2>
+			
+		</ion-item>
+		<ion-item *ngIf="DoShow(Project);">
+			<h2 class="Status{{Project.status}}" *ngIf="Project.status==1">Open</h2>
 			<h2 class="Status{{Project.status}}" *ngIf="Project.status==2">Already Assigned</h2>
-			<h2 class="Status{{Project.status}}" *ngIf="Project.status==3">Already Finished</h2>
-			<h2 class="Status{{Project.status}}" *ngIf="Project.status==4">Already Cancelled</h2>
+			<h2 class="Status{{Project.status}}" *ngIf="Project.status==3">Completed & Closed</h2>
+			<h2 class="Status{{Project.status}}" *ngIf="Project.status==4">Canceled & Closed</h2>
         </ion-item>
 		<ion-item no-lines *ngIf="DoShow(Project);">
 			<h2 class="Location" *ngIf="Project.location_type=='online'">
 				<ion-icon name="locate"></ion-icon>&nbsp;Online
 			</h2>
-			<h2 class="Location" *ngIf="Project.location_type=='onsite'">
+			<h2 class="Location" *ngIf="Project.location_type=='onsite' && Project.Address!=null">
 				<ion-icon name="locate"></ion-icon>&nbsp;
-				{{Project.Address.street_name}}, {{Project.Address.suberb}}, {{Project.Address.state}}
+				{{Project.Address.location}}
 			</h2>
 		</ion-item>
 		<ion-item no-lines *ngIf="DoShow(Project);">
@@ -61,13 +159,14 @@
 			<button ion-button class="half" (click)="GoDetail(Project.id);">
 				More&nbsp;<ion-icon name="return-right"></ion-icon>
 			</button>
-			<button ion-button color="secondary" class="half" *ngIf="Project.status==1" (click)="BidNow(Project.id);">
+			<button ion-button color="secondary" class="half" *ngIf="Project.status==1 && Project.User.id!=commonProvider.User.id" (click)="BidNow(Project.id);">
 				<ion-icon name="calculator"></ion-icon>&nbsp;Bid Now
 			</button>
 			
 		</ion-item>
-	</ion-list>
+	</ion-list-->
 	</div>
+	<p padding *ngIf="no_job!=0">Sorry! We couldn't find any suitable projects for you.</p>
 	<ion-fab right bottom>
     <button ion-fab color="light"><ion-icon name="arrow-dropleft"></ion-icon></button>
     <ion-fab-list side="left">

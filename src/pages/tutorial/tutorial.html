@@ -1,5 +1,5 @@
 <ion-header no-shadow>
-  <ion-navbar color="dark">
+  <ion-navbar color="dark" *ngIf="Load==false">
     <ion-buttons end *ngIf="showSkip">
       <button ion-button color="light" (click)="startApp()">{{ 'TUTORIAL_SKIP_BUTTON' | translate}}</button>
     </ion-buttons>
@@ -7,7 +7,14 @@
 </ion-header>
 
 <ion-content no-bounce>
-  <ion-slides pager="true" dir="{{dir}}" (ionSlideWillChange)="onSlideChangeStart($event)">
+	<div class="splash-bg" *ngIf="Load==true"></div>
+	<div class="splash-info" *ngIf="Load==true">
+		<div class="splash-logo"></div>
+		<div class="splash-intro">
+			Welcome to Uber Tradie App
+		</div>
+	</div>
+  <ion-slides pager="true" dir="{{dir}}" (ionSlideWillChange)="onSlideChangeStart($event)" *ngIf="Load==false">
     <ion-slide *ngFor="let slide of slides">
       <img [src]="slide.image" class="slide-image" />
       <h2 class="slide-title" [innerHTML]="slide.title"></h2>

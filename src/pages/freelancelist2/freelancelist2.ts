@@ -45,7 +45,7 @@ export class Freelancelist2Page {
   }
   SaveWorkingHour()
   {
-	  this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveWorkingHours',{
+	  this.httpClient.post<any>('https://ptezone.com.au/api/SaveWorkingHours',{
 		  fl_basic_id:this.fl_basic_id,
 		  monday:this.monFrom+"-"+this.monTo,
 		  tuesday:this.tueFrom+"-"+this.tueTo,
@@ -63,7 +63,7 @@ export class Freelancelist2Page {
   }
   LoadWorkingHours()
   {
-	  this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetWorkingHours',{basic_id:this.fl_basic_id})
+	  this.httpClient.post<any>('https://ptezone.com.au/api/GetWorkingHours',{basic_id:this.fl_basic_id})
 		.subscribe(data => {
 			console.log(data);
 			if(data.WorkingHour!=null)

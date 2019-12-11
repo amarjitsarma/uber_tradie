@@ -1,0 +1,108 @@
+page-adminpayment {
+	ion-col{
+		font-size:1.5rem;
+	}
+	.date_date{
+		font-size:3rem;
+	}
+	.min_header{
+		color:#00adef;
+	}
+	textarea{
+		min-height:150px;
+	}
+	.item-md{
+		padding-left: 7px;
+		box-shadow: #00adef 0px 1px 10px -6px;
+		margin-bottom: 10px;
+		padding-bottom: 9px;
+		border-radius: 8px;
+	}
+	.label-md[stacked] {
+		font-size: 1.5rem;
+	}
+	ion-input,ion-textarea{
+		border: 1px solid #00adef;
+		margin-top: 5px;
+		border-radius: 7px;
+	}
+	.no-border{
+		border: 0px solid #30c9f5 !important;
+		border-radius: 0px !important;
+		background:#ffffff44;
+	}
+	ion-select, ionic-selectable{
+		max-width:100%;
+		border: 1px solid #00adef;
+		margin-top: 5px;
+		border-radius: 7px;
+	}
+	
+	input[type="text"], .ionic-selectable-value, .select-text, button-inner{
+		padding:0px 10px;
+	}
+	textarea{
+		padding:5px 10px !important;
+	}
+	/*CSS Changes for Background Image Card*/
+	.item-md {
+		padding:0px;
+	}
+	.grid {
+		padding:0px;
+	}
+	[col-12],.col {
+		padding: 0px;
+	}
+	.item-md.item-block .item-inner{
+		padding:0px;
+	}
+	.label-md{
+		margin:0px;
+	}
+	.dp{
+		border-radius:50px;
+		height:50px;
+		width:50px;
+		top:5px;
+		position:absolute;
+		left:43%;
+	}
+	.card-md, ion-card {
+		margin: 0px !important;
+		width: 100% !important;
+	}
+	.card-background-page {
+		ion-card {
+			position: relative;
+			text-align: center;
+		}
+		
+		.card-title {
+			position: absolute;
+			top: 45%;
+			font-size: 2.0em;
+			width: 100%;
+			font-weight: bold;
+			color: #fff;
+		}
+		.card-title>span{
+			font-size: 1.0em;
+		}
+		.card-subtitle {
+			font-size: 1.0em;
+			position: absolute;
+			top: 68%;
+			width: 100%;
+			color: #fff;
+		}
+		.card-md {
+			margin: 0px;
+			width:100%;
+		}
+		.list-md {
+			margin: 0px 0 0px;
+		}
+	}
+	/*CSS Changes for background image card*/
+}

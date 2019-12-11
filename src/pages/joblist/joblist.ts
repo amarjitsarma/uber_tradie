@@ -5,9 +5,16 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
 import { FirstRunPage } from '../pages';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
+import { JobproProvider } from '../../providers/jobpro/jobpro';
+import { LocationSelect } from '../location-select/location-select';
+import { CommondataProvider } from '../../providers/commondata/commondata';
+import { TradieproviderProvider } from '../../providers/tradieprovider/tradieprovider';
+import { IonicSelectableComponent } from 'ionic-selectable';
+
 @IonicPage()
-class Suberb {
-    public Suberb: string;
+class PortJobs {
+    public ID: number;
+    public Name: string;
 }
 @Component({
   selector: 'page-joblist',
@@ -15,19 +22,17 @@ class Suberb {
 })
 
 export class JoblistPage {
+	Categories:PortJobs[]=[];
+	SubCategories:PortJobs[]=[];
+	port:PortJobs={ID:0,Name:""};
+	category:PortJobs={ID:0,Name:"All Categories"};
+	sub_category:PortJobs[]=[];//{ID:0,Name:"All Sub categories"};
+	
 	Projects:any=[];
-	Suberbs:Suberb[]=[];
-	suberb:Suberb={Suberb:'All'};
-	port:Suberb;
-	portChange(event: {
-        component: SelectSearchableComponent,
-        value: any 
-    }) {
-		this.LoadProjects();
-    }
+	
 	testRadioOpen:boolean;
 	testRadioResult:any;
-	RemotLocation:boolean=true;
+	RemotLocation:boolean=false;
 	testCheckboxOpen:boolean;
 	testCheckboxResult:any;
 	
@@ -42,72 +47,97 @@ export class JoblistPage {
 	budget_4:boolean=false;
 	max_budget:any=10000000000;
 	min_budget:any=0;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device) {
-	  this.LoadProjects();
-	  this.LoadSuberbs();
+	distance:any=500;
+	location_type:any=3;
+	no_job:any=0;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalController : ModalController, public device: Device, public jobProvider:JobproProvider, public commonProvider: CommondataProvider, public tradieProvider: TradieproviderProvider) {
+	  this.LoadSubCategories();
   }
-	RemoteEnable(){
-		if(this.RemotLocation==true)
+	portChange(event: {
+        component: SelectSearchableComponent,
+        value: any 
+    }) {
+		if(this.category.Name!="")
 		{
-			this.suberb={Suberb:"All"};
+			this.LoadSubCategories();
 		}
-	}
-	LoadProjects()
-	{
-		let posted_data={short_by_posted:this.short_by_posted,
-						short_by_budget:this.short_by_budget,
-						show_assigned:this.show_assigned,
-						budget_0:this.budget_0,
-						budget_1:this.budget_1,
-						budget_2:this.budget_2,
-						budget_3:this.budget_3,
-						budget_4:this.budget_4,
-						Suberb:this.suberb.Suberb,
-						RemotLocation:this.RemotLocation};
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetProjects',posted_data).subscribe(data => {
-			this.Projects=data.Projects;
-		},
-		err => {
-				console.log(err);	
-		});
-	}
-	DoShow(Suberb)
-	{
-		let Suberb1="";
-		if(Suberb.Address==null)
+    }
+	RemoteEnable(){
+		if(this.location_type==2)
 		{
-			if(this.RemotLocation==true)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			this.RemotLocation=true;
 		}
 		else
 		{
-			Suberb1=Suberb.Address.suberb;
-			if(this.RemotLocation==true)
+			this.RemotLocation=false;
+		}
+	}
+	presentToast(Message) {
+    const toast = this.toastCtrl.create({
+      message: Message,
+      duration: 3000
+    });
+    toast.present();
+  }
+  
+	LoadProjects()
+	{
+		if(this.jobProvider.location.location=="" && (this.location_type==1 || this.location_type==3))
+		{
+			this.presentToast("Please select a location first");
+			return;
+		}
+		let loader:any = this.loadingCtrl.create({
+		spinner: "hide",
+		content: `<div class="custom-spinner-container" style="bordoer-radius:100px;">
+								<div class="custom-spinner-box">
+									<img src="assets/img/spinner.gif" width="100%"/>
+								</div>
+							</div>`
+		});
+		loader.present();
+		let posted_data={short_by_posted:this.short_by_posted,
+			short_by_budget:this.short_by_budget,
+			show_assigned:this.show_assigned,
+			budget_0:this.budget_0,
+			budget_1:this.budget_1,
+			budget_2:this.budget_2,
+			budget_3:this.budget_3,
+			budget_4:this.budget_4,
+			location_type:this.location_type,
+			longitude: this.jobProvider.location.longitude, 
+			latitude: this.jobProvider.location.latitude,
+			distance:this.distance,
+			sub_category:this.sub_category};
+		this.httpClient.post<any>('https://ptezone.com.au/api/GetProjects',posted_data).subscribe(data => {
+			this.Projects=data.Projects;
+			if(this.Projects.length==0)
 			{
-				return true;
+				this.no_job=1;
 			}
 			else
 			{
-				if(this.suberb.Suberb=="All")
-				{
-					return true;
-				}
-				else if(this.suberb.Suberb==Suberb1)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
+				this.no_job=0;
 			}
+			loader.dismiss();
+		},
+		err => {
+				console.log(err);
+				loader.dismiss();
+		});
+	}
+	DoShow(Project)
+	{
+		return true;
+		/*console.log(Project);
+		if(this.commonProvider.User.id!=Project.user_id)
+		{
+			return true;
 		}
+		else
+		{
+			return false;
+		}*/
 	}
 	BrowsePrice()
 	{
@@ -271,21 +301,61 @@ export class JoblistPage {
 		alert.present();
 		
 	}
-	LoadSuberbs()
+	LoadCategories()
 	{
-		this.httpClient.get<any>('http://uber.ptezone.com.au/api/LoadSuberbs').subscribe(data => {
-			this.port={Suberb:"All"};
-			this.Suberbs.push(this.port);
-			for(var i=0;i<data.Suberbs.length;i++)
+		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
+			this.port={ID:0, Name:"All Categories"};
+			this.Categories.push(this.port);
+			for(var i=0;i<data.Categories.length;i++)
 			{
-				this.port={Suberb:data.Suberbs[i].suburb};
-				this.Suberbs.push(this.port);
+				this.port={ID:data.Categories[i].ID, Name:data.Categories[i].CategoryName};
+				this.Categories.push(this.port);	
 			}
+			console.log(this.Categories);
 		},
 		err => {
 				console.log(err);	
 		});
 	}
+	
+	LoadSubCategories()
+	{
+		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:0/*this.category.ID*/}).subscribe(data => {
+			this.SubCategories=[];
+			//this.sub_category={ID:0,Name:"All Sub categories"};
+			//this.port={ID:0, Name:"All Categories"};
+			//this.SubCategories.push(this.port);
+			for(var i=0;i<data.SubCategories.length;i++)
+			{
+				this.port={ID: data.SubCategories[i].ID,Name:data.SubCategories[i].SubCategoryName};
+				this.SubCategories.push(this.port);
+			}
+		},
+		err => {
+					
+		});
+	}
+	ModalActive:boolean=false;
+	launchLocationPage(){
+		if(this.ModalActive==false)
+		{
+			this.ModalActive=true;
+			let modal = this.modalController.create(LocationSelect);
+	
+			modal.onDidDismiss((location) => {
+				this.ModalActive=false;
+				if(location)
+				{
+					this.jobProvider.location.location=location.location;
+					this.jobProvider.location.longitude=location.longitude;
+					this.jobProvider.location.latitude=location.latitude;
+				}
+			});
+	
+			modal.present();
+		}		
+
+    }
 	BidNow(id)
 	{
 		this.navCtrl.push('BidformPage',{ProjectID:id});

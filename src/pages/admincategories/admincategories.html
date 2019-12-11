@@ -1,0 +1,26 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Category List</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+	<button ion-button (click)="CreateCategory(null);" block>Add New</button>
+	<ion-list>
+		<ion-item no-lines *ngFor="let Category of Categories" (click)="CreateCategory(Category);">
+			<img src="https://ptezone.com.au/uploads/{{Category.cover_photo}}" *ngIf="Category.cover_photo!=null">
+			<ion-avatar item-start *ngIf="Category.thumbnail!=null">
+				<img src="https://ptezone.com.au/uploads/{{Category.thumbnail}}">
+			</ion-avatar>
+			<ion-label>{{Category.CategoryName}}</ion-label>
+			<p>{{Category.description}}</p>
+		</ion-item>
+	</ion-list>
+</ion-content>

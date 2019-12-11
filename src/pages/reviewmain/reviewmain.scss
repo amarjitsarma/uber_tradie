@@ -1,0 +1,48 @@
+page-reviewmain {
+	.job_no{
+		color: #047ec7;
+		font-style: italic;
+		font-weight: bold;
+	}
+	.posted_by{
+		font-weight: 300;
+	}
+	.posted_by_name{
+		font-weight: bold;
+	}
+	.Category{
+	    font-style: italic;
+		font-size: 13px;
+		font-weight: bold;
+	}
+	.Status1{
+		color: #00b700;
+		font-size:13px;
+		font-weight:bold;
+	}
+	.Status2{
+		color: #0000b7;
+		font-size:13px;
+		font-weight:bold;
+	}
+	.Location{}
+	.Title{}
+	.Price{
+		font-size:10pt;
+		font-weight:500;
+	}
+	.Price1{
+		font-size:8pt;
+		font-weight:500;
+	}
+	.Budget{}
+	.project_card{
+		border: #e6e6e6 1px solid;
+		border-radius: 5px;
+		-webkit-box-shadow: 5px 10px #d0414159;
+		box-shadow: 5px 5px rgba(0,0,0,0.1);
+	}
+	.half{
+		width:45%;
+	}
+}

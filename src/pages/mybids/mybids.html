@@ -1,0 +1,95 @@
+<!--
+  Generated template for the MypostsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>My Projects</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-fab bottom left>
+		<button ion-fab mini><ion-icon name="arrow-dropright"></ion-icon></button>
+		<ion-fab-list side="right">
+			<button ion-button (click)="Filter();"><ion-icon name="checkbox-outline"></ion-icon> &nbsp;Filter</button>
+			<button ion-button (click)="Sort();"><ion-icon name="arrow-down"></ion-icon> &nbsp;Sort</button>
+		</ion-fab-list>
+	</ion-fab>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-6>
+				<button ion-button block outline>Project Taken</button>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button block (click)="PostedJob()">Project Posted</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-list *ngFor="let Task of Tasks" class="project_card">
+		<!--ion-item no-lines>
+			<h2 class="job_no">Job#{{Task.Project.id}}</h2>
+			<h2 class="posted_by">
+				Posted By <ion-icon name="person"></ion-icon>&nbsp;
+				<span class="posted_by_name">{{Task.Project.User.first_name}}</span>
+			</h2>
+			<h2 class="Category">{{Task.Project.Category.CategoryName}}&nbsp;->&nbsp;{{Task.Project.SubCategory.SubCategoryName}}</h2>
+        </ion-item-->
+		<!--ion-item no-lines>
+			<h2 class="Location" *ngIf="Task.Project.location_type=='online'">
+				<ion-icon name="locate"></ion-icon>&nbsp;Online
+			</h2>
+			<h2 class="Location" *ngIf="Task.Project.location_type=='onsite'">
+				<ion-icon name="locate"></ion-icon>&nbsp;
+				{{Task.Project.Address.street_name}}, {{Task.Project.Address.suberb}}, {{Task.Project.Address.state}}
+			</h2>
+		</ion-item-->
+		<!--ion-item no-lines>
+			<h2 class="Title">{{Task.Project.title}}</h2>
+			<h2 class="Budget">Estimated Budget:&nbsp;<b>$ {{Task.Project.estimate_budget}}({{Task.Project.payment_mode}})</b></h2>
+			<h2 class="Budget">Estimated Working Hour:&nbsp;<b>{{Task.Project.working_hour}}</b></h2>
+			<h2 class="Budget">Bid Amount:&nbsp;<b>$ {{Task.bid_amount}}</b></h2>
+			<p><b>Description:</b><br/>{{Task.bid_desc}}</p>
+			<button ion-button full (click)="GoDetail(Task.Project.id);">
+				More&nbsp;<ion-icon name="return-right"></ion-icon>
+			</button>
+		</ion-item-->
+		<ion-item no-lines (click)="GoDetail(Task,Task.Project.id);">
+			<ion-grid>
+				<ion-row>
+					<ion-col col-8>
+						<h2 class="Title">{{Task.Project.title}}</h2>
+					</ion-col>
+					<ion-col col-4>
+						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==1">Open</h2>
+						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==2">Assigned</h2>
+						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==3">Completed & Closed</h2>
+						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==4">Canceled & Closed</h2>
+					</ion-col>
+					<ion-col col-12>
+						<h2><strong>Published On: </strong>{{Task.Project.created_at}}</h2>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-item>
+	</ion-list>
+	<ion-list>
+		<ion-item no-lines *ngIf="Tasks.length==0">
+			<p>Sorry! You haven't bidded on any job yet</p>
+		</ion-item>
+		<ion-item no-lines>
+			<button ion-button (click)="FindJob()" block>Find a Project</button>
+		</ion-item>
+	</ion-list>
+	
+</ion-content>

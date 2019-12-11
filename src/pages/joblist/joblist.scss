@@ -49,4 +49,28 @@ page-joblist {
 	textarea{
 		padding:5px 10px !important;
 	}
+	.ionic-selectable {
+		max-width: 100%;
+		max-height: 30px;
+		width: 92%;
+		/* text-align: left; */
+	}
+	.item-md{
+		padding-left: 7px;
+		box-shadow: #00adef 0px 1px 10px -6px;
+		margin-bottom: 10px;
+		padding-bottom: 9px;
+		border-radius: 8px;
+	}
+	.label-md[stacked] {
+		font-size: 1.5rem;
+	}
+	ion-input,ion-textarea{
+		border: 1px solid #00adef;
+		margin-top: 5px;
+		border-radius: 7px;
+	}
+	input[type="text"],input[type="tel"],input[type="email"],input[type="password"]{
+		padding:0px 10px;
+	}
 }

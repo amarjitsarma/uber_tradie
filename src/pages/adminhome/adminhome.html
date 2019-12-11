@@ -1,0 +1,48 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Welcome</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-6 text-center (click)="Goto('Profile');">
+				<img src="assets/img/admin_profile.png" class="round-image"/>
+				<p><strong>Update Details</strong></p>
+			</ion-col>
+			<ion-col col-6 text-center (click)="Goto('Tradie');">
+				<img src="assets/img/admin_tradies.png" class="round-image"/>
+				<p><strong>Manage Tradie</strong></p>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-6 text-center (click)="Goto('Customer');">
+				<img src="assets/img/admin_customers.jpg" class="round-image"/>
+				<p><strong>Manage Customer</strong></p>
+			</ion-col>
+			<ion-col col-6 text-center (click)="Goto('Admin');">
+				<img src="assets/img/admin_admin.png" class="round-image"/>
+				<p><strong>Manage Admin</strong></p>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-6 text-center (click)="Goto('Payment');">
+				<img src="assets/img/admin_payment.png" class="round-image"/>
+				<p><strong>Transaction History</strong></p>
+			</ion-col>
+			<!--ion-col col-6 text-center (click)="Goto('Settings');">
+				<img src="assets/img/admin_settings.png" class="round-image"/>
+				<p><strong>Manage Settings</strong></p>
+			</ion-col-->
+		</ion-row>
+	</ion-grid>
+</ion-content>

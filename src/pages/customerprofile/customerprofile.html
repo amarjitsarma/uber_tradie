@@ -1,0 +1,36 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Customer Profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list *ngIf="Customer!=null">
+		<ion-item no-lines>
+			<ion-avatar item-start *ngIf="Customer.avatar!=null && Customer.avatar!=''">
+				<img src="https://ptezone.com.au/uploads/avatars/{{Customer.avatar}}">
+			</ion-avatar>
+			<ion-avatar item-start *ngIf="Customer.avatar==null || Customer.avatar==''">
+				<img src="assets/img/profile_avatar.jpeg">
+			</ion-avatar>
+			<h2>{{Customer.first_name}} {{Customer.last_name}}</h2>
+			<p>Username: {{Customer.username}}</p>
+		</ion-item>
+		<ion-item>
+			<p>Email: {{Customer.email}}</p>
+			<p>Due Amount: {{Customer.Due}}</p>
+			<p style="color:#f00;" *ngIf="Customer.active_status==0">Inactive</p>
+			<p style="color:#00f;" *ngIf="Customer.active_status>0">Active</p>
+		</ion-item>
+	</ion-list>
+	<button ion-button *ngIf="Customer!=null && Customer.active_status>0" color="danger" block (click)="Deactivate(0);">Deactivate</button>
+	<button ion-button *ngIf="Customer!=null && Customer.active_status==0" color="primary" block (click)="Deactivate(1);">Activate</button>
+</ion-content>

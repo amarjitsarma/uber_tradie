@@ -1,0 +1,39 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Create/Update Category</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list>
+		<ion-item no-lines>
+			<ion-label stacked>Category Name</ion-label>
+			<ion-input [(ngModel)]="CategoryName" placeholder="Please enter category name"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label stacked>Description</ion-label>
+			<ion-input [(ngModel)]="description" placeholder="Please enter description"></ion-input>
+		</ion-item>
+		<ion-item no-lines *ngIf="new_cover_photo!='' && cover_photo!=''">
+			<img *ngIf="new_cover_photo!=''" src="{{new_cover_photo}}">
+			<img *ngIf="new_cover_photo==''" src="https://ptezone.com.au/uploads/{{cover_photo}}">
+		</ion-item>
+		<button ion-button (click)="UploadCover();" block>Upload Cover Photo</button>
+		<ion-item no-lines *ngIf="new_thumbnail!='' && thumbnail!=''">
+			<img *ngIf="new_thumbnail!=''" src="{{new_thumbnail}}">
+			<img *ngIf="new_thumbnail==''" src="https://ptezone.com.au/uploads/{{thumbnail}}">
+		</ion-item>
+		<button ion-button (click)="UploadThumbnail();" block>Upload Thumbnail</button>
+	</ion-list>
+	<button ion-button *ngIf="status!=null && status==0" (click)="Activation(1)" block>Activate</button> 
+	<button ion-button *ngIf="status!=null && status==1" (click)="Activation(0)" block>Inactive</button> 
+	<button ion-button (click)="Save()" block>Save</button>
+</ion-content>

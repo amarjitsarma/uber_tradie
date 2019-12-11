@@ -1,0 +1,66 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Process Payment</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<ion-grid>
+		<ion-row ion-list no-lines *ngIf="commonProvider.Role=='Tradie'">
+			<ion-col col-12>
+				<ion-title>Withdraw Amount</ion-title>
+			</ion-col>
+			<ion-col col-12 ion-item>
+				<ion-label stacked>Total Balance</ion-label>
+				<ion-input type="text" [(ngModel)]="balance_amount" readonly></ion-input>
+			</ion-col>
+			<ion-col col-12 ion-item>
+				<ion-label stacked>Withdraw Amount</ion-label>
+				<ion-input type="text" [(ngModel)]="withdraw_amount" onfocus="this.select();"></ion-input>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button (click)="WithdrawAmount();" block>Withdraw</button>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button (click)="TransactionHistory();" block>Transaction History</button>
+			</ion-col>
+		</ion-row>
+		<ion-row ion-list *ngIf="Projects.length>0">
+			<ion-col col-12>
+				<ion-title>Pending on me</ion-title>
+			</ion-col>
+		</ion-row>
+		<ion-row ion-list *ngFor="let Project of Projects">
+			<ion-col col-9 ion-item no-lines>
+				<ion-avatar item-start *ngIf="Project.avatar==null || Project.avatar==''">
+					<img src="assets/img/profile_avatar.jpeg">
+				</ion-avatar>
+				<ion-avatar item-start *ngIf="Project.avatar!=null && Project.avatar!=''">
+					<img src="https://ptezone.com.au/uploads/avatars/{{Project.avatar}}">
+				</ion-avatar>
+				<h2>Assigned to {{Project.fullname}}</h2>
+			</ion-col>
+			<ion-col col-3>
+				<button ion-button block small (click)="Pay(Project.id, Project.bid_amount);">Pay</button>
+			</ion-col>
+			<ion-col col-8>
+				<strong>{{Project.title}}</strong>
+			</ion-col>
+			<ion-col col-4>
+				{{Project.bid_amount}} AUD
+			</ion-col>
+			<ion-col col-12>
+				Posted On: {{Project.created_at.substr(0,10)}}
+			</ion-col>
+			
+		</ion-row>
+	</ion-grid>
+</ion-content>

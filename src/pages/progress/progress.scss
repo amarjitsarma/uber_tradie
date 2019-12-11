@@ -1,0 +1,23 @@
+page-progress {
+	.box{
+		box-shadow: #00adef 2px 2px 8px -1px;
+		margin-bottom: 9px;
+		border-radius: 10px;
+	}
+	.label-md[stacked] {
+		font-size: 1.5rem;
+	}
+	ion-input,ion-textarea{
+		border: 1px solid #00adef;
+		margin-top: 5px;
+		border-radius: 7px;
+	}
+	.item-md{
+		padding-left: 7px;
+		padding-bottom: 9px;
+	}
+	textarea{
+		min-height:100px;
+		padding:5px 10px !important;
+	}
+}

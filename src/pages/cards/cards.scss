@@ -1,3 +1,36 @@
 page-cards {
-
+	.range-md.range-has-pin{
+		padding-top:0px;
+	}
+	.ionic-selectable {
+		max-width: 100%;
+		max-height: 30px;
+		width: 92%;
+		/* text-align: left; */
+	}
+	.tradie_div{
+		border: 1px #00adef solid;
+		margin-bottom: 10px;
+		box-shadow: 0px 5px 14px -5px;
+		width: 94%;
+		border-radius: 10px;
+	}
+	.item-md{
+		padding-left: 7px;
+		box-shadow: #00adef 0px 1px 10px -6px;
+		margin-bottom: 10px;
+		padding-bottom: 9px;
+		border-radius: 8px;
+	}
+	.label-md[stacked] {
+		font-size: 1.5rem;
+	}
+	ion-input,ion-textarea{
+		border: 1px solid #00adef;
+		margin-top: 5px;
+		border-radius: 7px;
+	}
+	input[type="text"],input[type="tel"],input[type="email"],input[type="password"]{
+		padding:0px 10px;
+	}
 }

@@ -17,16 +17,16 @@ export class CategorylistPage {
   }
 	LoadCategories()
 	{
-		this.httpClient.get<any>('http://uber.ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
 			this.Categories=data.Categories;
 		},
 		err => {
 				console.log(err);	
 		});
 	}
-	OpenSubcategories(ID)
+	OpenSubcategories(ID, Name)
 	{
-		this.navCtrl.push('SubcategorylistPage',{ID:ID});
+		this.navCtrl.push('SubcategorylistPage',{ID:ID, Name:Name});
 	}
   ionViewDidLoad() {
     console.log('ionViewDidLoad CategorylistPage');

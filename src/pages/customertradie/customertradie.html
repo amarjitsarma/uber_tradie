@@ -1,0 +1,54 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Join as Tradie</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
+			<ionic-selectable
+				item-content
+				[isMultiple]="true"
+				[(ngModel)]="sub_category"
+				[items]="SubCategories"
+				itemValueField="ID"
+				itemTextField="Name"
+				[canSearch]="true" placeholder="Select Subcategory">
+			</ionic-selectable>
+		</ion-item>
+		<ion-item no-lines class="no-border" *ngIf="sub_category.length>0">
+			<p><span *ngFor="let sub_cat of sub_category">#{{sub_cat.Name}}&nbsp;</span></p>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="fullname" placeholder="Business/Company Name"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="ABN" placeholder="ABN"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="call" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="phone" placeholder="Phone No" onpaste="return false;" (keyup)="keyUpChecker($event)"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="pin" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="location" placeholder="Location" (ionFocus)="launchLocationPage();"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="text" color="primary"></ion-icon></ion-label>
+			<ion-textarea [(ngModel)]="about" placeholder="About"></ion-textarea>
+		</ion-item>
+	</ion-list>
+	<button ion-button (click)="SaveBasic();" block>Join as Tradie</button>
+</ion-content>

@@ -6,6 +6,8 @@ import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
 import { Freelancelist7Page } from '../freelancelist7/freelancelist7';
+import { CommondataProvider } from '../../providers/commondata/commondata';
+import { MyApp } from '../../app/app.component';
 class Port1 {
     public ID: number;
     public Name: string;
@@ -31,7 +33,7 @@ export class Freelancelist8Page {
         });
         alert.present();
     }
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController, public menuController:MenuController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController, public menuController:MenuController, public myApp:MyApp, public commonProvider:CommondataProvider) {
 	  this.LoadKeywords();
 	  this.LoadSavedKeywords();
 	  this.fl_basic_id=this.navParams.get("basic_id");
@@ -43,7 +45,7 @@ export class Freelancelist8Page {
   }
 	LoadSavedKeywords()
 	{
-		this.httpClient.get<any>('http://uber.ptezone.com.au/api/GetSavedKeywords').subscribe(data => {
+		this.httpClient.get<any>('https://ptezone.com.au/api/GetSavedKeywords').subscribe(data => {
 			for(var i=0;i<data.Keywords.length;i++)
 			{
 				this.port={ID:data.Keywords[i].ID, Name:data.Keywords[i].keyword};
@@ -67,7 +69,7 @@ export class Freelancelist8Page {
 	LoadKeywords()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetKeywords',{fl_basic_id:this.fl_basic_id}).subscribe(data => {
+		this.httpClient.post<any>('https://ptezone.com.au/api/GetKeywords',{fl_basic_id:this.fl_basic_id}).subscribe(data => {
 			this.Keywords=data.Keywords;
 		},
 		err => {
@@ -77,7 +79,7 @@ export class Freelancelist8Page {
 	AddKeyword()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveKeyword',{fl_basic_id:this.fl_basic_id,keyword:this.keyword.Name}).subscribe(data => {
+		this.httpClient.post<any>('https://ptezone.com.au/api/SaveKeyword',{fl_basic_id:this.fl_basic_id,keyword:this.keyword.Name}).subscribe(data => {
 			this.LoadKeywords();
 		},
 		err => {
@@ -101,25 +103,43 @@ export class Freelancelist8Page {
 	{
 		this.navCtrl.setRoot(Freelancelist7Page,{basic_id:this.fl_basic_id});
 	}
+	Error:string="";
 	Done()
 	{
-		this.DeviceID=this.device.uuid;
-		if(this.DeviceID==null)
-		{
-			this.DeviceID="534b8b5aeb906015";
-		}
+		let loader:any = this.loadingCtrl.create({
+		spinner: "hide",
+		content: `<div class="custom-spinner-container">
+						<div class="custom-spinner-box">
+							<img src="assets/img/spinner.gif" width="100%"/>
+						</div>
+					</div>`
+		});
+		loader.present();
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/ActivateFreelancer',{device_id:this.DeviceID}).subscribe(data => {
-			this.ShowAlert("Success","Thank you. Your details are saved.");
-			this.navCtrl.setRoot('ContentPage');
+		this.httpClient.post<any>('https://ptezone.com.au/api/ActivateFreelancer',{device_id:this.commonProvider.DeviceID}).subscribe(data => {
+			this.commonProvider.LoadBasic();
+			this.commonProvider.LoadWorkingHours();
+			this.commonProvider.LoadContact();
+			this.commonProvider.LoadPhotos();
+			this.commonProvider.LoadAbout();
+			this.commonProvider.LoadService();
+			this.commonProvider.LoadTaglines();
+			this.commonProvider.LoadKeywords();
+			this.commonProvider.GetLoginDetails(this.commonProvider.DeviceID);
+			setTimeout(()=>{
+				loader.dismiss();
+				this.ShowAlert("Success","Thank you. Your details are saved.");
+				this.navCtrl.setRoot('TradiehomePage');
+			},2000);
 		},
 		err => {
-				console.log(err);	
+			loader.dismiss();
+			this.Error=JSON.stringify(err);	
 		});
 	}
 	DeleteSelected()
 	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/DeleteKeyword',{ids:this.delItems}).subscribe(data => {
+		this.httpClient.post<any>('https://ptezone.com.au/api/DeleteKeyword',{ids:this.delItems}).subscribe(data => {
 			this.LoadKeywords();
 		},
 		err => {

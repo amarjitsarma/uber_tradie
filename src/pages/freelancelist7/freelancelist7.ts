@@ -34,7 +34,7 @@ export class Freelancelist7Page {
   }
 	LoadSavedTaglines()
 	{
-		this.httpClient.get<any>('http://uber.ptezone.com.au/api/GetSavedTaglines').subscribe(data => {
+		this.httpClient.get<any>('https://ptezone.com.au/api/GetSavedTaglines').subscribe(data => {
 			for(var i=0;i<data.Taglines.length;i++)
 			{
 				this.port={ID:data.Taglines[i].ID, Name:data.Taglines[i].tagline};
@@ -57,7 +57,7 @@ export class Freelancelist7Page {
 	LoadTaglines()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetTaglines',{fl_basic_id:this.fl_basic_id}).subscribe(data => {
+		this.httpClient.post<any>('https://ptezone.com.au/api/GetTaglines',{fl_basic_id:this.fl_basic_id}).subscribe(data => {
 			this.Taglines=data.Taglines;
 		},
 		err => {
@@ -67,7 +67,7 @@ export class Freelancelist7Page {
 	AddTagline()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveTagline',{fl_basic_id:this.fl_basic_id,tagline:this.tagline.Name}).subscribe(data => {
+		this.httpClient.post<any>('https://ptezone.com.au/api/SaveTagline',{fl_basic_id:this.fl_basic_id,tagline:this.tagline.Name}).subscribe(data => {
 			this.LoadTaglines();
 		},
 		err => {
@@ -97,7 +97,7 @@ export class Freelancelist7Page {
 	}
 	DeleteSelected()
 	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/DeleteTagline',{ids:this.delItems}).subscribe(data => {
+		this.httpClient.post<any>('https://ptezone.com.au/api/DeleteTagline',{ids:this.delItems}).subscribe(data => {
 			this.LoadTaglines();
 		},
 		err => {

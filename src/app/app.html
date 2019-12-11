@@ -1,0 +1,26 @@
+<ion-menu [content]="content">
+    <ion-content class="card-background-page">
+		<ion-card *ngIf="User!=null && commonProvider.User!=null" class="card_my">
+			<img src="assets/img/profile_bg.jpg"/>
+			<img src="assets/img/profile_avatar.jpeg" align="center" class="dp" *ngIf="commonProvider.User.avatar==null || commonProvider.User.avatar==''">
+			<img src="https://ptezone.com.au/uploads/avatars/{{User.avatar}}" class="dp" *ngIf="commonProvider.User.avatar!=null && commonProvider.User.avatar!=''">
+			<div class="card-title">{{User.first_name}} {{User.last_name}}</div>
+			<div class="card-subtitle">{{User.email}}</div>
+			<div class="card-subtitle" *ngIf="commonProvider.Role=='Tradie' && commonProvider.tradie_basic.status==3" style="top:34%;"><ion-icon name="checkmark-circle"></ion-icon>&nbsp;Verified</div>
+			<div class="card-subtitle" *ngIf="commonProvider.Role=='Tradie' && commonProvider.tradie_basic.status!=3" style="top:34%;"><ion-icon name="alert"></ion-icon>&nbsp;Unverified</div>
+			<div class="card-subtitle"><button ion-button clear color="light" (click)="EditProfile();"><ion-icon name="create"></ion-icon> View Profile</button></div>
+		</ion-card>
+      <ion-list class="menu-list">
+        <button menuClose ion-item no-lines class="menu-buttons" *ngFor="let p of pages" (click)="openPage(p)">
+			<ion-icon color="primary" name="{{p.icon}}"></ion-icon> {{p.title}}
+        </button>
+		<button menuClose ion-item no-lines class="menu-buttons" (click)="showConfirm()">
+			<ion-icon name="log-out" color="primary"></ion-icon> Logout & Exit
+        </button>
+		<ion-item>
+			<p [innerHTML]="Error"></p>
+		</ion-item>
+      </ion-list>
+    </ion-content>
+</ion-menu>
+<ion-nav #content [root]="rootPage"></ion-nav>

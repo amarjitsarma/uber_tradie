@@ -1,0 +1,33 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Manage Admin</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<button ion-button (click)="NewAdmin();" block>Add New Admin</button>
+	<ion-list>
+		<ion-item no-lines *ngFor="let Admin of Admins" (click)="OpenAdmin(Admin);">
+			<ion-avatar item-start>
+				<img src="assets/img/profile_avatar.jpeg" *ngIf="Admin.avatar==null || Admin.avatar==''">
+				<img src="https://ptezone.com.au/uploads/avatars/{{Admin.avatar}}" *ngIf="Admin.avatar!=null && Admin.avatar!=''">
+			</ion-avatar>
+			<h2>{{Admin.first_name+" "+Admin.last_name}}</h2>
+			<p>{{Admin.email}}</p>
+			<p>{{Admin.username}}</p>
+			<p *ngIf="Admin.code==null">Deactive</p>
+			<p *ngIf="Admin.code!=null">Active</p>
+		</ion-item>
+		<ion-item *ngIf="Admins.length==0">
+			<h2>*There are no other admins except you right now.</h2>
+		</ion-item>
+	</ion-list>
+</ion-content>

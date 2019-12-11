@@ -1,0 +1,31 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Pick a Date</ion-title>
+    
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list>
+		<ion-item no-lines>
+			<ionic-calendar-date-picker (onSelect)="dateSelected($event)"></ionic-calendar-date-picker>
+		</ion-item>
+	</ion-list>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-6>
+				<button ion-button (click)="cancel()" color="danger" block>
+					Cancel
+				</button>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button (click)="done()" [disabled]="!isReadyToSave" block>
+					Done
+				</button>
+			</ion-col>
+		</ion-row>
+    </ion-grid>
+</ion-content>

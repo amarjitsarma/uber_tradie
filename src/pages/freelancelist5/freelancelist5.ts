@@ -5,6 +5,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
+import { CommondataProvider } from '../../providers/commondata/commondata';
 @IonicPage()
 @Component({
   selector: 'page-freelancelist5',
@@ -12,7 +13,7 @@ import { SelectSearchableComponent } from 'ionic-select-searchable';
 })
 export class Freelancelist5Page {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController, public menuController:MenuController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController, public menuController:MenuController, public commonProvider: CommondataProvider) {
 	  this.fl_basic_id=this.navParams.get("basic_id");
 	  this.LoadAbout();
 	  this.menuController.swipeEnable(false);
@@ -30,11 +31,12 @@ export class Freelancelist5Page {
 	SaveAbout()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveAbout',{
+		this.httpClient.post<any>('https://ptezone.com.au/api/SaveAbout',{
 			fl_basic_id:this.fl_basic_id,
 			short_desc:this.short_desc,
 			about:this.about
 		}).subscribe(data => {
+			this.commonProvider.LoadAbout();
 			this.navCtrl.setRoot('Freelancelist6Page',{basic_id:this.fl_basic_id});
 		},
 		err => {
@@ -43,17 +45,8 @@ export class Freelancelist5Page {
 	}
 	LoadAbout()
 	{
-		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetAbout',{basic_id:this.fl_basic_id}).subscribe(data => {
-			if(data.About!=null)
-			{
-				this.short_desc=data.About.short_desc;
-				this.about=data.About.about;
-			}
-		},
-		err => {
-			
-		});		
+		this.short_desc=this.commonProvider.about.short_desc;
+		this.about=this.commonProvider.about.about;
 	}
 
 }

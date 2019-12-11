@@ -1,0 +1,43 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>More</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+	<ion-list>
+		<button ion-item no-lines clear (click)="GoTo('EditprofilePage');">
+			<ion-icon name="person"></ion-icon>&nbsp;Profile
+		</button>
+		<button ion-item no-lines clear (click)="GoTo('EditprofilePage');">
+			<ion-icon name="settings"></ion-icon>&nbsp;Account Details
+		</button>
+		<!--button ion-item no-lines clear (click)="GoTo('PaymentPage');">
+			<ion-icon name="card"></ion-icon>&nbsp;Payments
+		</button-->
+		<button ion-item no-lines clear (click)="GoTo('ReviewmainPage');">
+			<ion-icon name="quote"></ion-icon>&nbsp;Reviews
+		</button>
+		<button ion-item no-lines clear (click)="GoTo('HelpPage');">
+			<ion-icon name="help-circle"></ion-icon>&nbsp;Help
+		</button>
+		<button ion-item no-lines clear (click)="Logout();">
+			<ion-icon name="key"></ion-icon>
+			&nbsp;Logout
+		</button>
+	</ion-list>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-12 text-center>
+				-----------------------------<button ion-button clear large (click)="GoTo('TradiehomePage');"><ion-icon name="home"></ion-icon></button>-----------------------------
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

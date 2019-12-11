@@ -1,0 +1,98 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Tradie Documents</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+	<ion-grid>
+		<ion-row *ngIf="commonProvider.tradie_basic.remarks!='' && commonProvider.tradie_basic.remarks!=null">
+			<ion-col col-12>
+				*{{commonProvider.tradie_basic.remarks}}
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12>
+				*Please upload only JPG or PDF files. Size Limit: 2 MB.
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-4>
+				Public Liability Insurance
+			</ion-col>
+			<ion-col col-3>
+				<button ion-button (click)="UploadPLI();" block small>Upload File</button>
+			</ion-col>
+			<ion-col col-4 *ngIf="documents.pli!=null" (click)="DownloadFile(documents.pli.file_name);">
+				{{documents.pli.file_name}}
+			</ion-col>
+			<ion-col col-4 *ngIf="documents.pli==null">
+				Not Uploaded
+			</ion-col>
+			<ion-col col-1 *ngIf="documents.pli!=null" (click)="DeleteFile(documents.pli.id);">
+				<img src="assets/img/del_icon.png">
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-4>
+				Work Cover Insurance
+			</ion-col>
+			<ion-col col-3>
+				<button ion-button (click)="UploadWCI();" block small>Upload File</button>
+			</ion-col>
+			<ion-col col-4 *ngIf="documents.wci!=null" (click)="DownloadFile(documents.wci.file_name);">
+				{{documents.wci.file_name}}
+			</ion-col>
+			<ion-col col-4 *ngIf="documents.wci==null">
+				Not Uploaded
+			</ion-col>
+			<ion-col col-1 *ngIf="documents.wci!=null" (click)="DeleteFile(documents.wci.id);">
+				<img src="assets/img/del_icon.png">
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12>
+				Add More
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-8>
+				<ion-input type="text" [(ngModel)]="document_name" placeholder="Document Name"></ion-input>
+			</ion-col>
+			<ion-col col-4>
+				<button ion-button (click)="UploadOther();" block small>Upload File</button>
+			</ion-col>
+			<ion-col col-12>
+				<p [innerHTML]="Error" style="color:#f00;"></p>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-6><strong>Document Name</strong></ion-col>
+			<ion-col col-6><strong>File Name</strong></ion-col>
+		</ion-row>
+		<ion-row *ngFor="let doc of documents.others">
+			<ion-col col-5>
+				{{doc.document_name}}
+			</ion-col>
+			<ion-col col-6 (click)="DownloadFile(doc.file_name);">
+				{{doc.file_name}}
+			</ion-col>
+			<ion-col col-1 (click)="DeleteFile(doc.id);">
+				<img src="assets/img/del_icon.png">
+			</ion-col>
+		</ion-row>
+		<ion-row *ngIf="commonProvider.tradie_basic.status==2" >
+			<ion-col col-12>
+				<button ion-button (click)="PayFees();" block small>Pay Registration Fees</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<p [innerHTML]="Error"></p>
+</ion-content>

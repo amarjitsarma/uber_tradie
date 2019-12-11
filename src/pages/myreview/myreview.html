@@ -1,0 +1,108 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>My Reviews</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+	<ion-grid>
+		<ion-row *ngIf="commonProvider.Role=='Admin' || commonProvider.Role=='Tradie'">
+			<ion-col col-6>
+				<button ion-button color="primary" block (click)="ViewReviews();"><ion-icon name="chatboxes"></ion-icon>&nbsp;Give Review</button>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button color="primary" block outline><ion-icon name="star"></ion-icon>&nbsp;View Reviews</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-list *ngFor="let Task of Tasks" class="project_card">
+		<ion-item no-lines (click)="GoDetail(Task.Project.id);">
+			<ion-grid>
+				<ion-row ion-list>
+					<ion-col ion-item col-12>
+						<ion-avatar item-start *ngIf="Task.Project.User.avatar==null || Task.Project.User.avatar==''">
+							<img src="assets/img/profile_avatar.jpeg">
+						</ion-avatar>
+						<ion-avatar item-start *ngIf="Task.Project.User.avatar!=null && Task.Project.User.avatar!=''">
+							<img src="https://ptezone.com.au/uploads/avatars/{{Task.Project.User.avatar}}">
+						</ion-avatar>
+						<h2><b>{{Task.Project.User.first_name}} {{Task.Project.User.last_name}}</b></h2>
+					</ion-col>
+				</ion-row>
+				<ion-row>
+					<ion-col col-8>
+						<h2 class="Title"><b>{{Task.Project.title}}</b></h2>
+					</ion-col>
+					<ion-col col-4>
+						<h2 class="Price1" *ngIf="Task.Project.payment_mode=='full'">Total Budget</h2>
+						<h2 class="Price1" *ngIf="Task.Project.payment_mode=='hourly'">Per Hour Budget</h2>
+						<h2 class="Price" *ngIf="Task.Project.Bid!=null"><i>{{Task.bid_amount}} AUD</i></h2>
+						<h2 class="Price" *ngIf="Task.Project.Bid==null"><i>{{Task.Project.estimate_budget}} AUD</i></h2>
+					</ion-col>
+					<ion-col col-12>
+						<h2><strong>Published On: </strong>{{Task.Project.created_at}}</h2>
+					</ion-col>
+					<ion-col col-12>
+						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==1">Open</h2>
+						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==2">Assigned</h2>
+						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==3">Completed & Closed</h2>
+						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==4">Canceled & Closed</h2>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-item>
+		<ion-item no-lines>
+			<h2><b>Review</b></h2>
+			<ion-grid>
+				<ion-row>
+					<ion-col col-4>
+						<b>Cleanness</b>
+					</ion-col>
+					<ion-col col-4>
+						<b>Punctuality</b>
+					</ion-col>
+					<ion-col col-4>
+						<b>Friendliness</b>
+					</ion-col>
+					<ion-col col-4 style="color:#ffd700">
+						<ion-icon name="star" *ngIf="Task.cleaness>0"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.cleaness>1"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.cleaness>2"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.cleaness>3"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.cleaness>4"></ion-icon>
+					</ion-col>
+					<ion-col col-4 style="color:#ffd700">
+						<ion-icon name="star" *ngIf="Task.punctuality>0"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.punctuality>1"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.punctuality>2"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.punctuality>3"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.punctuality>4"></ion-icon>
+					</ion-col>
+					<ion-col col-4 style="color:#ffd700">
+						<ion-icon name="star" *ngIf="Task.friendliness>0"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.friendliness>1"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.friendliness>2"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.friendliness>3"></ion-icon>
+						<ion-icon name="star" *ngIf="Task.friendliness>4"></ion-icon>
+					</ion-col>
+					<ion-col col-12>
+						<p><b>Review Description:</b><br/>{{Task.review}}</p>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+			
+		</ion-item>
+	</ion-list>
+	<ion-list>
+		<ion-item no-lines *ngIf="Tasks.length==0">
+			<p>Sorry, you've not received any review.</p>
+		</ion-item>
+	</ion-list>
+</ion-content>

@@ -1,7 +1,13 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title text-center>Sign Up</ion-title>
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title *ngIf="login_type==1"> Customer Sign Up</ion-title>
+	<ion-title *ngIf="login_type==2"> Tradie Sign Up</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -10,7 +16,35 @@
 <ion-content>
   <form padding (submit)="SignUp();">
     <ion-list>
-		<ion-item no-lines *ngIf="login_type==2">
+		<ion-item no-lines>
+			<ion-label stacked><ion-icon name="person" color="primary"></ion-icon>&nbsp;First Name*</ion-label>
+			<ion-input type="text" [(ngModel)]="account.firstname" name="First Name" placeholder="Please enter your first name"></ion-input>
+		</ion-item>
+		
+		<ion-item no-lines>
+			<ion-label stacked><ion-icon name="person" color="primary"></ion-icon>&nbsp;Last Name*</ion-label>
+			<ion-input type="text" [(ngModel)]="account.lastname" name="Last Name" placeholder="Please enter your last name"></ion-input>
+		</ion-item>
+		
+		<ion-item no-lines>
+			<ion-label stacked><ion-icon name="person" color="primary"></ion-icon>&nbsp;Username*</ion-label>
+			<ion-input type="text" [(ngModel)]="account.username" name="username" placeholder="Please enter your username*"></ion-input>
+		</ion-item>
+		
+		<ion-item no-lines>
+			<ion-label stacked><ion-icon name="mail" color="primary"></ion-icon>&nbsp;Email ID*</ion-label>
+			<ion-input type="email" [(ngModel)]="account.email" name="email" placeholder="Please enter your email id" (keyup)="keyUpCheckerEmail($event)"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label stacked><ion-icon name="lock" color="primary"></ion-icon>&nbsp;Password*</ion-label>
+			<ion-input type="password" [(ngModel)]="account.password" name="password" placeholder="Please enter a password"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label stacked><ion-icon name="lock" color="primary"></ion-icon>&nbsp;Confirm Password*</ion-label>
+			<ion-input type="password" [(ngModel)]="account.con_password" name="con_password" placeholder="Please retype your password"></ion-input>
+		</ion-item>
+	  
+		<!--ion-item no-lines *ngIf="login_type==2">
 			<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
 			<select-searchable
 				item-content
@@ -20,71 +54,67 @@
 				itemValueField="ID"
 				itemTextField="Name"
 				[canSearch]="true"
-				(onChange)="portChange($event)" placeholder="Select Category">
+				(onChange)="portChange($event)" placeholder="Select Category*">
 			</select-searchable>
-		</ion-item>
+		</ion-item-->
 		<ion-item no-lines *ngIf="login_type==2">
-			<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
-			<select-searchable
+			<ion-label stacked><ion-icon name="copy" color="primary"></ion-icon>&nbsp;Skills*</ion-label>
+			<ionic-selectable
 				item-content
+				[isMultiple]="true"
 				[(ngModel)]="sub_category"
 				name="sub_category"
 				[items]="SubCategories"
 				itemValueField="ID"
 				itemTextField="Name"
-				[canSearch]="true" placeholder="Select Subcategory">
-			</select-searchable>
+				[canSearch]="true" placeholder="Please select your skills">
+			</ionic-selectable>
 		</ion-item>
-	  <ion-item no-lines>
-        <ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username" placeholder="Username"></ion-input>
-      </ion-item>
-	  <ion-item no-lines>
-        <ion-label><ion-icon name="mail" color="primary"></ion-icon></ion-label>
-        <ion-input type="email" [(ngModel)]="account.email" name="email" placeholder="Email"></ion-input>
-      </ion-item>
-      <ion-item no-lines>
-        <ion-label><ion-icon name="key" color="primary"></ion-icon></ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password" placeholder="Password"></ion-input>
-      </ion-item>
-	  <ion-item no-lines>
-        <ion-label><ion-icon name="key" color="primary"></ion-icon></ion-label>
-        <ion-input type="password" [(ngModel)]="account.con_password" name="con_password" placeholder="Confirm Password"></ion-input>
-      </ion-item>
-      <ion-item no-lines>
-        <ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
-        <ion-input type="text" [(ngModel)]="account.firstname" name="First Name" placeholder="First Name"></ion-input>
-      </ion-item>
-	  
-	  <ion-item no-lines>
-        <ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
-        <ion-input type="text" [(ngModel)]="account.lastname" name="Last Name" placeholder="Last Name"></ion-input>
-      </ion-item>
-	  
-	  <ion-item no-lines>
-        <ion-label><ion-icon name="call" color="primary"></ion-icon></ion-label>
-        <ion-input type="tel" [(ngModel)]="account.phone" name="Phone" placeholder="Phone"></ion-input>
-      </ion-item>
-	  <ion-item no-lines>
-        <ion-label><ion-icon name="pin" color="primary"></ion-icon></ion-label>
-        <ion-input type="text" [(ngModel)]="account.address" name="Address" placeholder="Address"></ion-input>
-      </ion-item>
+		<ion-item no-lines class="no-border" *ngIf="login_type==2 && sub_category.length>0">
+			<p><span *ngFor="let sub_cat of sub_category">#{{sub_cat.Name}}&nbsp;&nbsp;</span></p>
+		</ion-item>
+		<ion-item no-lines *ngIf="login_type==2">
+			<ion-label stacked><ion-icon name="briefcase" color="primary"></ion-icon>&nbsp;Business/Company Name*</ion-label>
+			<ion-input type="text" [(ngModel)]="account.fullname" name="fullname" placeholder="Please enter your business/company name*" ></ion-input>
+		</ion-item>
+		
+		<ion-item no-lines *ngIf="login_type==2">
+			<ion-label stacked><ion-icon name="call" color="primary"></ion-icon>&nbsp;Phone*</ion-label>
+			<ion-input type="tel" [(ngModel)]="account.phone" name="Phone" placeholder="Please enter your phone no" onpaste="return false;" (keyup)="keyUpChecker($event)"></ion-input>
+		</ion-item>
+		<ion-item no-lines *ngIf="login_type==2">
+			<ion-label stacked><ion-icon name="pin" color="primary"></ion-icon>&nbsp;Address*</ion-label>
+			<ion-input type="text" [(ngModel)]="account.location" name="Address" placeholder="Please enter your address" (tap)="launchLocationPage();" ></ion-input>
+		</ion-item>
+		
+		<ion-item no-lines *ngIf="login_type==2">
+			<ion-label stacked><ion-icon name="cash" color="primary"></ion-icon>&nbsp;Free Travel KM*</ion-label>
+			<ion-input type="text" [(ngModel)]="account.radius" name="radius" placeholder="Please enter your free travel distance" (keyup)="keyUpCheckerFT($event)"></ion-input>
+		</ion-item>
+		<ion-item no-lines *ngIf="login_type==2">
+			<ion-label stacked><ion-icon name="cash" color="primary"></ion-icon>&nbsp;Call Out Fees Per KM*</ion-label>
+			<ion-input type="text" [(ngModel)]="account.call_out_charge" name="call_out_charge" placeholder="Please enter your travel charge per KM (AUD)" (keyup)="keyUpCheckerPKC($event)"></ion-input>
+		</ion-item>
+		<ion-item no-lines *ngIf="login_type==2">
+			<ion-label stacked><ion-icon name="cash" color="primary"></ion-icon>&nbsp;Per Hour Rate*</ion-label>
+			<ion-input type="text" [(ngModel)]="account.per_hour_charge" name="per_hour_charge" placeholder="Please enter your hourly charge(AUD)" (keyup)="keyUpCheckerPHC($event)"></ion-input>
+		</ion-item>
       
 	  
-	  <ion-item no-lines class="no-border">
+	  <ion-item no-lines class="no-border" (click)="TermsCondition();">
 			<ion-label><b>By Continuing you confirm that you accept the term and condition.<!--button ion-button outline small (click)="Terms();">View</button--></b></ion-label>
 			<ion-checkbox color="primary" checked="false" [(ngModel)]="account.Terms" name="Terms"></ion-checkbox>
 		</ion-item>
     </ion-list>
 	
-
+	
 	<button ion-button color="primary" block type="submit">Sign Up</button>
 	<ion-title text-center>Or</ion-title>
-	<button ion-button color="primary" block>
+	<!--button ion-button color="primary" block>
 			Continue with &nbsp;<ion-icon name="logo-facebook"></ion-icon>
-	</button>
+	</button-->
 	<p>Already have an account?</p>
 	<button ion-button outline color="primary" block (click)="Login();">Login</button>
-	<p [innerHTML]="Error"></p>
   </form>
+  
 </ion-content>

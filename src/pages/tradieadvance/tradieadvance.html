@@ -1,0 +1,210 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Tradie Advance Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-12>
+				<h2>Working Hours</h2>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Sunday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="sunFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="sunTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Monday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="monFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="monTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Tuesday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="tueFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="tueTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Wednesday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="wedFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="wedTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Thursday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="thuFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="thuTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Friday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="friFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="friTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-3>
+				<h6>Saturday</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="satFrom" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-center>
+				<h6>To</h6>
+			</ion-col>
+			<ion-col col-4 ion-item>
+				<ion-datetime displayFormat="h:mm A" [(ngModel)]="satTo" pickerFormat="h mm A" ></ion-datetime>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-6>
+				<h2>Photos</h2>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button icon-only block (click)="addItem()">
+					<ion-icon name="add"></ion-icon>&nbsp; Add
+				</button>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-6 *ngFor="let Photo of Photos" text-center>
+				<img src="https://ptezone.com.au/uploads/{{Photo.Photo}}">
+				<h5>{{Photo.title}}</h5>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12>
+				<h2>Taglines</h2>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12>
+				<select-searchable
+					item-content
+					[(ngModel)]="tagline"
+					[items]="SavedTaglines"
+					itemValueField="Name"
+					itemTextField="Name"
+					[canSearch]="true"
+					placeholder="Please select Tagline">
+				</select-searchable>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button full (click)="AddTagline();">Add</button>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button full (click)="NewTagline();"><ion-icon name="add-circle-outline"></ion-icon>&nbsp;Create new</button>
+			</ion-col>
+		</ion-row>
+		<ion-row ion-list>
+			<ion-col col-12 ion-item *ngFor="let Tagline of Taglines">
+				<ion-label>{{Tagline.tagline}}</ion-label>
+				<ion-checkbox color="dark" (click)="AddDelete(Tagline)" [(ngModel)]="Tagline.check"></ion-checkbox>
+			</ion-col>
+			<ion-col col-12>
+				<button ion-button (click)="DeleteSelectedT();">Delete Selected</button>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12>
+				<h2>Keywords</h2>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12>
+				<select-searchable
+					item-content
+					[(ngModel)]="keyword"
+					[items]="SavedKeywords"
+					itemValueField="Name"
+					itemTextField="Name"
+					[canSearch]="true"
+					placeholder="Keyword">
+				</select-searchable>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button full (click)="AddKeyword();">Add</button>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button full (click)="AddNew()"><ion-icon name="add-circle-outline"></ion-icon>&nbsp;Create new</button>
+			</ion-col>
+		</ion-row>
+		<ion-row ion-list>
+			<ion-col col-12 ion-item *ngFor="let Keyword of Keywords">
+				<ion-label>{{Keyword.keyword}}</ion-label>
+				<ion-checkbox color="dark" (click)="AddDelete(Keyword)" [(ngModel)]="Keyword.check"></ion-checkbox>
+			</ion-col>
+			<ion-col col-12>
+				<button ion-button (click)="DeleteSelectedK();">Delete Selected</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-6>
+				<button ion-button full (click)="Close();">Close</button>
+			</ion-col>
+			<ion-col col-6 *ngIf="commonProvider.Role=='User'">
+				<button ion-button full (click)="SaveWorkingHour();">Done</button>
+			</ion-col>
+			<ion-col col-6 *ngIf="commonProvider.Role=='Tradie'">
+				<button ion-button full (click)="SaveWorkingHour();">Save & Close</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<p [innerHTML]="Error"></p>
+</ion-content>

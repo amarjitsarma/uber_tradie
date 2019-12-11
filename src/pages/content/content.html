@@ -13,25 +13,21 @@
 
 <ion-content>
 	<img src="assets/img/freelancer.jpg">
-	<ion-slides slidesPerView="3" loop="true">
-		<ion-slide *ngFor="let Category of Categories" (click)="OpenSubcategories(Category.ID);">
-			<img class="round-image" src="http://uber.ptezone.com.au/uploads/{{Category.thumbnail}}">
-			<h3 class="small_h3">{{Category.CategoryName}}</h3>
-		</ion-slide>
-	</ion-slides>
 	<ion-list>
-		<ion-item no-lines *ngIf="User.Tradie==null">
+		<ion-item no-lines *ngIf="commonProvider.Role=='User'">
 			<button ion-button full (click)="FreeLancer();">
 				Join as Tradie
 			</button>
 		</ion-item>
-		<ion-item no-lines *ngIf="User.Tradie!=null">
-			<button ion-button full (click)="FreeLancer();">
-				Edit Tradie Profile
-			</button>
-		</ion-item>
 	</ion-list>
-	<ion-title text-center>Recent Projects</ion-title>
+	<ion-slides slidesPerView="3" loop="true">
+		<ion-slide *ngFor="let Category of Categories" (click)="OpenSubcategories(Category.ID);">
+			<img class="round-image" src="https://ptezone.com.au/uploads/{{Category.thumbnail}}">
+			<h3 class="small_h3">{{Category.CategoryName}}</h3>
+		</ion-slide>
+	</ion-slides>
+
+	<!--ion-title text-center>Recent Projects</ion-title>
 	<ion-list padding>
 		<ion-item no-lines class="project_card" *ngFor="let Project of Projects" (click)="GoDetail(Project.id);">
 			<p class="posted_by">
@@ -53,11 +49,11 @@
 	<ion-list>
 		<ion-item no-lines *ngFor="let SubCategory of SubCategories" (click)="OpenDetails(SubCategory.ID);">
 			<ion-avatar item-start>
-				<img src="http://uber.ptezone.com.au/uploads/{{SubCategory.Icon}}">
+				<img src="https://ptezone.com.au/uploads/{{SubCategory.Icon}}">
 			</ion-avatar>
 			<h2>{{SubCategory.SubCategoryName}}</h2>
 		</ion-item>
-	</ion-list>
+	</ion-list-->
 	<ion-list>
 		<ion-item no-lines>
 			<button ion-button full (click)="PostProject();">

@@ -41,7 +41,7 @@ export class Freelancelist4Page {
 	LoadPhotos()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetPhotos',{
+		this.httpClient.post<any>('https://ptezone.com.au/api/GetPhotos',{
 			basic_id:this.fl_basic_id
 		}).subscribe(data => {
 			this.Photos=data.Photos;

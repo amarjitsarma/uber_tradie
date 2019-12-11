@@ -66,7 +66,7 @@ export class QuotedetailPage {
   }
 	LoadQuote()
 	{
-		this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetQuote',{id:this.navParams.get("id")}).subscribe(data => {
+		this.httpClient.post<any>('https://ptezone.com.au/api/GetQuote',{id:this.navParams.get("id")}).subscribe(data => {
 			this.Quote=data.Quotes;
 		},
 		err => {

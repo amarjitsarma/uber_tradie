@@ -1,0 +1,54 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Welcome</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-6 text-center (click)="Goto('Jobs');">
+				<img src="assets/img/bids.png"/>
+				<p><strong>Bid Project</strong></p>
+			</ion-col>
+			<ion-col col-6 text-center (click)="Goto('MyJobs');">
+				<img src="assets/img/jobs.png"/>
+				<p><strong>My Projects</strong></p>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-6 text-center (click)="Goto('PostJob');">
+				<img src="assets/img/job_post.png"/>
+				<p><strong>Post Project</strong></p>
+			</ion-col>
+			<ion-col col-6 text-center (click)="Goto('Messages');">
+				<img src="assets/img/messages.png"/>
+				<p><strong>Messages</strong></p>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-6 text-center (click)="Goto('Tradies');">
+				<img src="assets/img/search.png"/>
+				<p><strong>Search Tradie</strong></p>
+			</ion-col>
+			<ion-col col-6 text-center (click)="Goto('Reviews');">
+				<img src="assets/img/reviews.png"/>
+				<p><strong>Reviews</strong></p>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-6 text-center (click)="Goto('Transaction');">
+				<img src="assets/img/admin_payment.png" width="100px;"/>
+				<p><strong>Transactions</strong></p>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

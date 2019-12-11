@@ -1,0 +1,141 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+	<ion-buttons start left>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+	</ion-buttons>
+    <ion-title>Transaction History</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	
+	<ion-grid>
+		<ion-row *ngIf="commonProvider.Role!='Admin'">
+			<ion-col col-12 class="card-background-page">
+				<ion-card>
+					<img src="assets/img/profile_bg.jpg"/>
+					<div class="card-subtitle" style="top:34%;font-size: 1.5rem;">Wallet Balance: </div>
+					<div class="card-title">{{balance.toFixed(2)}} AUD</div>
+					<div class="card-subtitle">In Total: {{receive}} AUD<br/>Out Total: {{withdraw}} AUD</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+		<ion-row padding ion-list *ngIf="commonProvider.Role=='Tradie'">
+			<ion-col col-8 ion-item no-lines *ngIf="balance!=0">
+				<ion-label stacked>Withdraw:</ion-label>
+				<ion-input type="text" [(ngModel)]="withdraw_amount" placeholder="How much do you want to withdraw?" (keyup)="keyUpChecker($event)"></ion-input></ion-col>
+			<ion-col col-4 *ngIf="balance!=0"><br/><br/><button ion-button (click)="Withdraw();" block>Withdraw</button></ion-col>
+		</ion-row>
+		<ion-row padding ion-list>
+			<ion-col col-12 ion-item>
+				<ion-label stacked><ion-icon name="copy" color="primary"></ion-icon>&nbsp;Transaction Type</ion-label>
+				<ion-select [(ngModel)]="transaction_type">
+					<ion-option value="0">All</ion-option>
+					<ion-option value="1">Paid</ion-option>
+					<ion-option value="2">Received</ion-option>
+				</ion-select>
+			</ion-col>
+			<ion-col col-12 ion-item *ngIf="commonProvider.Role=='Admin'">
+				<ion-label stacked><ion-icon name="copy" color="person" color="primary"></ion-icon>&nbsp;User Type</ion-label>
+				<ion-select [(ngModel)]="user_type">
+					<ion-option value="0">All</ion-option>
+					<ion-option value="2">Tradie</ion-option>
+					<ion-option value="1">Customer</ion-option>
+				</ion-select>
+			</ion-col>
+			<ion-col col-12 ion-item no-lines *ngIf="user_type==1 && commonProvider.Role=='Admin'">
+				<ion-label stacked><ion-icon name="person" color="primary"></ion-icon>&nbsp;Customer</ion-label>
+				<ionic-selectable
+					item-content
+					[(ngModel)]="Customer"
+					[items]="Customers"
+					itemValueField="user_id"
+					itemTextField="name"
+					[canSearch]="true" placeholder="Select Customer">
+				</ionic-selectable>
+			</ion-col>
+			<ion-col col-12 ion-item no-lines *ngIf="user_type==2 && commonProvider.Role=='Admin'">
+				<ion-label stacked><ion-icon name="contact" color="primary"></ion-icon>&nbsp;Tradie</ion-label>
+				<ionic-selectable
+					item-content
+					[(ngModel)]="Tradie"
+					[items]="Tradies"
+					itemValueField="user_id"
+					itemTextField="name"
+					[canSearch]="true" placeholder="Select Tradie">
+				</ionic-selectable>
+			</ion-col>
+			<ion-col col-6 ion-item no-lines>
+				<ion-label stacked><ion-icon name="calendar" color="primary"></ion-icon>&nbsp;From Date</ion-label>
+				<ion-input type="text" [(ngModel)]="from_date_show" placeholder="From Date" (ionFocus)="SelectFromDate();" readonly></ion-input>
+			</ion-col>
+			<ion-col col-6 ion-item no-lines>
+				<ion-label stacked><ion-icon name="calendar" color="primary"></ion-icon>&nbsp;To Date</ion-label>
+				<ion-input type="text" [(ngModel)]="to_date_show" placeholder="To Date" (ionFocus)="SelectToDate();" readonly></ion-input>
+			</ion-col>
+			<ion-col col-12>
+				<button ion-button (click)="Search();" block>Search Transactions</button>
+			</ion-col>
+		</ion-row>
+		<ion-row padding *ngIf="Transactions.length==0">
+			<ion-col col-12>
+				No record found
+			</ion-col>
+		</ion-row>
+		<ion-row padding *ngFor="let Transaction of Transactions">
+			<ion-col col-3 style="border-left: 5px solid #00adef;" *ngIf="Transaction.transaction_type==2">
+				<p [innerHTML]="commonProvider.GetTransactionDate(Transaction.transaction_date)" style="text-align:center;"></p>
+			</ion-col>
+			<ion-col col-3 style="border-left: 5px solid #f14a4a;" *ngIf="Transaction.transaction_type==1">
+				<p [innerHTML]="commonProvider.GetTransactionDate(Transaction.transaction_date)" style="text-align:center;"></p>
+			</ion-col>
+			<ion-col col-9>
+				<ion-grid>
+					<ion-row>
+						<ion-col col-12 *ngIf="Transaction.title=='' || Transaction.title==null">
+							<b>{{Transaction.detail}}</b>
+						</ion-col>
+						<ion-col col-12 *ngIf="Transaction.title!='' && Transaction.title!=null">
+							<b>{{Transaction.title}}</b>
+						</ion-col>
+						<ion-col col-8 class="min_header" *ngIf="Transaction.fullname=='' || Transaction.fullname==null">
+							Customer
+						</ion-col>
+						<ion-col col-8 class="min_header" *ngIf="Transaction.fullname!='' || Transaction.fullname!=null">
+							Tradie
+						</ion-col>
+						<ion-col col-4 class="min_header" *ngIf="Transaction.transaction_type==1 && Transaction.project_id!=0">
+							Charge
+						</ion-col>
+						<ion-col col-4 class="min_header" *ngIf="Transaction.transaction_type==1 && Transaction.project_id==0">
+							Withdraw
+						</ion-col>
+						<ion-col col-4 class="min_header" *ngIf="Transaction.transaction_type==2 && Transaction.project_id!=0">
+							Paid
+						</ion-col>
+						
+						<ion-col col-8 *ngIf="Transaction.fullname=='' || Transaction.fullname==null">
+							{{Transaction.first_name}}
+						</ion-col>
+						<ion-col col-8 *ngIf="Transaction.fullname!='' && Transaction.fullname!=null">
+							{{Transaction.fullname}}
+						</ion-col>
+						<ion-col col-4 *ngIf="Transaction.transaction_type==1">
+							-{{Transaction.amount}}
+						</ion-col>
+						<ion-col col-4 *ngIf="Transaction.transaction_type==2">
+							{{Transaction.amount}}
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-col>
+			
+			
+		</ion-row>
+	</ion-grid>
+</ion-content>

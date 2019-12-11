@@ -1,0 +1,17 @@
+<ion-content scroll="false">
+  <div class="splash-bg"></div>
+	<div class="splash-info">
+		<div class="splash-logo"></div>
+		<div class="splash-intro">
+			Welcome to Uber Tradie App
+		</div>
+	</div>
+	<div padding>
+		<button ion-button block color="primary" (click)="SignUp(1)">Customer Sign Up</button>
+		<button ion-button block (click)="SignUp(2)" color="secondary">Tradie Sign Up</button>
+	</div>
+	<div padding text-center>
+		<p>Already have an account?</p>
+		<button ion-button outline color="primary" block (click)="Login();">Login</button>
+	</div>
+</ion-content>

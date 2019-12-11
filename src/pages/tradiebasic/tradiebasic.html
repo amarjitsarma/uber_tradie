@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Tradie Basic Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-list>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
+			<select-searchable
+				item-content
+				[(ngModel)]="category"
+				[items]="Categories"
+				itemValueField="ID"
+				itemTextField="Name"
+				[canSearch]="true"
+				(onChange)="portChange($event)" placeholder="Select Category">
+			</select-searchable>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="copy" color="primary"></ion-icon></ion-label>
+			<select-searchable
+				item-content
+				[(ngModel)]="sub_category"
+				[items]="SubCategories"
+				itemValueField="ID"
+				itemTextField="Name"
+				[canSearch]="true" placeholder="Select Subcategory">
+			</select-searchable>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="fullname" placeholder="Name"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="person" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="ABN" placeholder="ABN"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="pin" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="location" placeholder="Location" (ionFocus)="launchLocationPage();"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="home" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="house_no" placeholder="House No"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="git-compare" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="street_name" placeholder="Street Name"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="navigate" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="suburb" placeholder="Suberb"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="locate" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="state" placeholder="State"></ion-input>
+		</ion-item>
+		<ion-item no-lines *ngIf="false">
+			<ion-label>Code</ion-label>
+			<ion-input type="text" [(ngModel)]="code"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="code-working" color="primary"></ion-icon></ion-label>
+			<ion-input type="text" [(ngModel)]="postcode" placeholder="Post Code"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+		<ion-label><ion-icon name="call" color="primary"></ion-icon>&nbsp;+61</ion-label>
+			<ion-input type="text"[(ngModel)]="phone" placeholder="Phone No"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="call" color="primary"></ion-icon>&nbsp;+61</ion-label>
+			<ion-input type="text"[(ngModel)]="mobile" placeholder="Mobile No"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="mail" color="primary"></ion-icon></ion-label>
+			<ion-input type="text"[(ngModel)]="email" placeholder="Email ID"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="globe" color="primary"></ion-icon></ion-label>
+			<ion-input type="text"[(ngModel)]="website" placeholder="Website"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="contact" color="primary"></ion-icon></ion-label>
+			<ion-input type="text"[(ngModel)]="contact_name" placeholder="Contact Name"></ion-input>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="text" color="primary"></ion-icon></ion-label>
+			<ion-textarea [(ngModel)]="short_desc" placeholder="Short Description"></ion-textarea>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="text" color="primary"></ion-icon></ion-label>
+			<ion-textarea [(ngModel)]="about" placeholder="About"></ion-textarea>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><ion-icon name="text" color="primary"></ion-icon></ion-label>
+			<ion-textarea [(ngModel)]="services" placeholder="Services Offered"></ion-textarea>
+		</ion-item>
+	</ion-list>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-6>
+				<button ion-button full (click)="Close();">Close</button>
+			</ion-col>
+			<ion-col col-6 *ngIf="commonProvider.Role=='User'">
+				<button ion-button full (click)="SaveBasic();">Save & Next</button>
+			</ion-col>
+			<ion-col col-6 *ngIf="commonProvider.Role=='Tradie'">
+				<button ion-button full (click)="SaveBasic();">Save & Close</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<p [innerHTML]="Error"></p>
+</ion-content>

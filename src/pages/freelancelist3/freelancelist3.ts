@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
+import { CommondataProvider } from '../../providers/commondata/commondata';
 
 @IonicPage()
 @Component({
@@ -19,7 +20,7 @@ export class Freelancelist3Page {
 	website:string="";
 	contact_name:string="";
 	DeviceID:string="";
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public menuController:MenuController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public menuController:MenuController, public commonProvider: CommondataProvider) {
 	  this.fl_basic_id=this.navParams.get("basic_id");
 	  this.LoadContact();
 	  this.menuController.swipeEnable(false);
@@ -34,7 +35,7 @@ export class Freelancelist3Page {
   }
   SaveContact()
   {
-	  this.httpClient.post<any>('http://uber.ptezone.com.au/api/SaveContact',{
+	  this.httpClient.post<any>('https://ptezone.com.au/api/SaveContact',{
 		  fl_basic_id:this.fl_basic_id,
 		  phone:this.phone,
 		  mobile:this.mobile,
@@ -42,6 +43,7 @@ export class Freelancelist3Page {
 		  website:this.website,
 		  contact_name:this.contact_name
 	  }).subscribe(data => {
+			this.commonProvider.LoadContact();
 			this.navCtrl.setRoot('Freelancelist4Page',{basic_id:this.fl_basic_id});
 		},
 		err => {
@@ -50,20 +52,11 @@ export class Freelancelist3Page {
   }
   LoadContact()
   {
-	  this.httpClient.post<any>('http://uber.ptezone.com.au/api/GetContact',{basic_id:this.fl_basic_id})
-	  .subscribe(data => {
-			if(data.Contact!=null)
-			{
-				this.phone=data.Contact.phone;
-				this.mobile=data.Contact.mobile;
-				this.email=data.Contact.email;
-				this.website=data.Contact.website;
-				this.contact_name=data.Contact.contact_name;
-			}
-		},
-		err => {
-				
-		});
+		this.phone=this.commonProvider.contact.phone;
+		this.mobile=this.commonProvider.contact.mobile;
+		this.email=this.commonProvider.contact.email;
+		this.website=this.commonProvider.contact.website;
+		this.contact_name=this.commonProvider.contact.contact_name;
   }
 
 }
