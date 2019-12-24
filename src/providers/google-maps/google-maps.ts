@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Platform } from 'ionic-angular';
+
 import { ConnectivityServiceProvider } from '../connectivity-service/connectivity-service';
 import { Geolocation } from '@ionic-native/geolocation';
-import { Observable } from 'rxjs/Observable';
-import { Network } from '@ionic-native/network';
+
+
 declare var google: any;
 
 @Injectable()

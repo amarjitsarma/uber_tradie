@@ -93,6 +93,7 @@
 						<h2 class="Price1" *ngIf="Project.payment_mode=='hourly'">Per Hour Budget</h2>
 						<h2 class="Price" *ngIf="Project.Bid!=null"><i>{{Project.Bid.bid_amount}} AUD</i></h2>
 						<h2 class="Price" *ngIf="Project.Bid==null"><i>{{Project.estimate_budget}} AUD</i></h2>
+						<p><b>Total Bids:</b> {{Project.TotalBids}}</p>
 					</ion-col>
 					<ion-col col-12 (click)="GoDetail(Project.id);">
 						<h2><strong>Published On: </strong>{{commonProvier.GetFormattedDate(Project.created_at)}}</h2>
@@ -100,7 +101,8 @@
 					<ion-col col-12 (click)="GoDetail(Project.id);">
 						<h2 class="Status{{Project.status}}" *ngIf="Project.status==1">Open</h2>
 						<h2 class="Status{{Project.status}}" *ngIf="Project.status==2">Assigned</h2>
-						<h2 class="Status{{Project.status}}" *ngIf="Project.status==3">Completed & Closed</h2>
+						<h2 class="Status{{Project.status}}" *ngIf="Project.status==3 && Project.payment_status==1">Completed & Closed</h2>
+						<h2 class="Status{{Project.status}}" *ngIf="Project.status==3 && Project.payment_status==0">Payment Pending</h2>
 						<h2 class="Status{{Project.status}}" *ngIf="Project.status==4">Canceled & Closed</h2>
 					</ion-col>
 					<!--ion-col col-12 *ngIf="Project.payment_status!=1 && Project.status==3">

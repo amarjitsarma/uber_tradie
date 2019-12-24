@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TaglinecreatePage {
 	tagline:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public viewCtrl: ViewController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public platform: Platform) {
   }
 
@@ -23,7 +24,7 @@ export class TaglinecreatePage {
 	{
 		if(this.tagline!="")
 		{
-			this.httpClient.post<any>('https://ptezone.com.au/api/SaveNewTagline',{
+			this.httpClient.post<any>(this.source+'/api/SaveNewTagline',{
 				tagline:this.tagline
 			}).subscribe(data => {
 				this.viewCtrl.dismiss("done");

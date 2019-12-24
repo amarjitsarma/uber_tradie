@@ -1,11 +1,10 @@
-import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, ModalController, Content, ViewController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { Platform, IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, ModalController, ViewController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl } from '@angular/forms';
+
 import { Device } from '@ionic-native/device';
-import { FirstRunPage } from '../pages';
-import { SelectSearchableComponent } from 'ionic-select-searchable';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+
+import { SQLite } from '@ionic-native/sqlite';
 import { CommondataProvider } from '../../providers/commondata/commondata';
 
 @IonicPage()
@@ -24,7 +23,7 @@ export class AdmincreatePage {
 	con_password:string="";
 	id:any=0;
 	code:any="";
-
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 	constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device, public sqlite: SQLite, public platform: Platform, public commonProvider:CommondataProvider, public viewCtrl: ViewController) {
 		if(this.navParams.get("Admin"))
 		{
@@ -112,7 +111,7 @@ export class AdmincreatePage {
 					</div>`
 		});
 		loader.present();
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveAdmin',
+		this.httpClient.post<any>(this.source+'/api/SaveAdmin',
 		{
 			first_name:this.first_name,
 			last_name:this.last_name,
@@ -179,7 +178,7 @@ export class AdmincreatePage {
 					</div>`
 		});
 		loader.present();
-		this.httpClient.post<any>('https://ptezone.com.au/api/UpdateAdmin',
+		this.httpClient.post<any>(this.source+'/api/UpdateAdmin',
 		{
 			id:this.id,
 			first_name:this.first_name,
@@ -254,7 +253,7 @@ export class AdmincreatePage {
 									</div>`
 						});
 						loader.present();
-						scope.httpClient.post<any>('https://ptezone.com.au/api/AcivationAdmin',
+						scope.httpClient.post<any>(this.source+'/api/AcivationAdmin',
 						{
 							id:scope.id,
 							status:status
@@ -302,7 +301,7 @@ export class AdmincreatePage {
 									</div>`
 						});
 						loader.present();
-						scope.httpClient.post<any>('https://ptezone.com.au/api/DeleteAdmin',
+						scope.httpClient.post<any>(this.source+'/api/DeleteAdmin',
 						{
 							id:scope.id
 						}).subscribe(data => {

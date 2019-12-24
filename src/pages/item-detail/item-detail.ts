@@ -1,13 +1,16 @@
-import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Platform, Nav } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl } from '@angular/forms';
+
 import { Device } from '@ionic-native/device';
-import { Observable } from 'rxjs/Observable';
+
 import { SelectSearchableComponent } from 'ionic-select-searchable';
 import { CommondataProvider } from '../../providers/commondata/commondata';
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
+
+import { DocumentViewer, DocumentViewerOptions } from '@ionic-native/document-viewer';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @IonicPage()
 @Component({
@@ -108,8 +111,9 @@ export class ItemDetailPage {
 				ReviewsSum:{cleaness: 0, punctuality: 0, friendliness: 0},
 				Files: []
 				}
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public commonProvider: CommondataProvider, public transfer: FileTransfer, public file: File) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public commonProvider: CommondataProvider, public transfer: FileTransfer, public file: File, public documentViewer: DocumentViewer, public photoViewer: PhotoViewer) {
 		
 		this.LoadFreeLancer();
 	}
@@ -130,7 +134,7 @@ export class ItemDetailPage {
 		{
 			id=1;
 		}
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetFreelancer',{id:id}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetFreelancer',{id:id}).subscribe(data => {
 			this.item=data.Freelancer;
 			console.log(this.item);
 			loader.dismiss();
@@ -212,29 +216,60 @@ export class ItemDetailPage {
 	}
 	DownloadFile(file_name)
 	{
-		const fileTransfer: FileTransferObject = this.transfer.create();
-		const url = encodeURI('https://ptezone.com.au/uploads/'+file_name)
-		//const url = 'http://www.example.com/file.pdf';
-		fileTransfer.download(url, this.file.externalDataDirectory + file_name).then((entry) => {
-			alert('download complete: ' + entry.toURL());
-		}, (error) => {
-			alert(JSON.stringify(error));
+		let loader:any = this.loadingCtrl.create({
+			spinner: "hide",
+			content: `<div class="custom-spinner-container">
+						<div class="custom-spinner-box">
+							<img src="assets/img/spinner.gif" width="100%"/>
+						</div>
+					</div>`
 		});
-		//window.open();
+		let exts=file_name.split(".");
+		if(exts[exts.length-1]=="pdf" || exts[exts.length-1]=="PDF")
+		{
+			loader.present();
+			const fileTransfer: FileTransferObject = this.transfer.create();
+			const url = encodeURI('https://ptezone.com.au/uploads/'+file_name);
+			fileTransfer.download(url, this.file.externalDataDirectory + file_name).then((entry) => {
+				loader.dismiss();
+				alert('Download complete: ' + file_name);
+				const options: DocumentViewerOptions = {
+					title: file_name
+				}
+				this.documentViewer.viewDocument(entry.toURL(), 'application/pdf', options);
+			}, (error) => {
+				alert(JSON.stringify(error));
+				loader.dismiss();
+			});
+		}
+		else
+		{
+			this.photoViewer.show(encodeURI('https://ptezone.com.au/uploads/'+file_name));
+		}
 	}
 	SubmitReview()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveTradieReview',{status:this.Tradie.status,remarks:this.Tradie.remarks,tradie_id:this.item.id}).subscribe(data => {
+		let loader:any = this.loadingCtrl.create({
+			spinner: "hide",
+			content: `<div class="custom-spinner-container">
+						<div class="custom-spinner-box">
+							<img src="assets/img/spinner.gif" width="100%"/>
+						</div>
+					</div>`
+		});
+		loader.present();
+		this.httpClient.post<any>(this.source+'/api/SaveTradieReview',{status:this.Tradie.status,remarks:this.Tradie.remarks,tradie_id:this.item.id}).subscribe(data => {
+			loader.dismiss();
 			this.LoadFreeLancer();
 			alert("Review submitted");
 		},
 		err => {
-					
+			loader.dismiss();	
 		});
 	}
 	UpdateCommission()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/UpdateCommission',{id:this.item.id,commission:this.item.commission})
+		this.httpClient.post<any>(this.source+'/api/UpdateCommission',{id:this.item.id,commission:this.item.commission})
 		.subscribe(data => {
 			this.LoadFreeLancer();
 			alert(data.message);

@@ -15,6 +15,7 @@ export class UpdatepasswordPage {
 	c_passwrd:string="";
 	n_password:string="";
 	con_password:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient:HttpClient, public device:Device, public toastCtrl: ToastController, public sqlite: SQLite, public platform: Platform, public commonProvider:CommondataProvider) {
 	  
   }
@@ -36,7 +37,7 @@ export class UpdatepasswordPage {
 	  else
 	  {
 		   
-			this.httpClient.post<any>('https://ptezone.com.au/api/UpdatePassword',{
+			this.httpClient.post<any>(this.source+'/api/UpdatePassword',{
 				DeviceID:this.commonProvider.DeviceID,
 				c_passwrd:this.c_passwrd,
 				n_password:this.n_password,

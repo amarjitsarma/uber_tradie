@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
 import { Network } from '@ionic-native/network';
 @Injectable()
 export class ConnectivityServiceProvider {

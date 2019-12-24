@@ -1,12 +1,12 @@
-import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, ViewController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav, MenuController, ModalController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, ViewController, NavParams, AlertController, LoadingController, ToastController, Platform, MenuController, ModalController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl } from '@angular/forms';
+
 import { Device } from '@ionic-native/device';
-import { Observable } from 'rxjs/Observable';
+
 import { SelectSearchableComponent } from 'ionic-select-searchable';
 import { CommondataProvider } from '../../providers/commondata/commondata';
-import { MyApp } from '../../app/app.component';
+
 import { LocationSelect } from '../location-select/location-select';
 
 @IonicPage()
@@ -54,6 +54,7 @@ export class TradiebasicPage {
 	
 	//Services
 	services:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 	
 	constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public menuController:MenuController, public commonProvider:CommondataProvider, public modalController: ModalController, public viewCtrl: ViewController) {
 		
@@ -118,7 +119,7 @@ export class TradiebasicPage {
 	}
 	SetSubcategories(SC)
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
 			this.SubCategories=[];
 			this.sub_category=new Port12();/*.ID=0;
 			this.sub_category.Name="";*/
@@ -139,7 +140,7 @@ export class TradiebasicPage {
 	}
 	LoadCategories()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetCategories').subscribe(data => {
 			for(var i=0;i<data.Categories.length;i++)
 			{
 				this.port={ID:data.Categories[i].ID, Name:data.Categories[i].CategoryName};
@@ -153,7 +154,7 @@ export class TradiebasicPage {
 	}
 	LoadSubCategories()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
 			this.SubCategories=[];
 			this.sub_category=new Port12();/*.ID=0;
 			this.sub_category.Name="";*/
@@ -323,7 +324,7 @@ export class TradiebasicPage {
 						</div>`
 			});
 			loader.present();
-			this.httpClient.post<any>('https://ptezone.com.au/api/SaveFreelanceBasicAll',
+			this.httpClient.post<any>(this.source+'/api/SaveFreelanceBasicAll',
 			{
 				device_id:this.commonProvider.DeviceID,
 				category:this.category.ID,

@@ -14,8 +14,9 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { CommondataProvider } from '../providers/commondata/commondata';
 import { TradieproviderProvider } from '../providers/tradieprovider/tradieprovider';
 import { Network } from '@ionic-native/network';
-import { TradieadvancePage } from '../pages/tradieadvance/tradieadvance';
-import { TradiebasicPage } from '../pages/tradiebasic/tradiebasic';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+/*import { TradieadvancePage } from '../pages/tradieadvance/tradieadvance';
+import { TradiebasicPage } from '../pages/tradiebasic/tradiebasic';*/
 import { JobpostPage } from '../pages/jobpost/jobpost';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -44,6 +45,7 @@ export class MyApp {
 		updated_at: '',
 		username: ''
 	};
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   pages: any[] = [
     { title: 'Home', component: 'TradiehomePage', icon:'home' },
     { title: 'Categories', component: 'CategorylistPage', icon:'copy' },
@@ -68,10 +70,11 @@ export class MyApp {
     toast.present();
   }
    counter:any=0;
-  constructor(private translate: TranslateService, public platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen, public httpClient:HttpClient, public device:Device, public sqlite: SQLite, public commonProvider:CommondataProvider, public tradieproviderProvider:TradieproviderProvider, public network: Network, public loadingCtrl: LoadingController, public toastCtrl:ToastController, public diagnostic: Diagnostic, public geolocation:Geolocation, public jobproProvider:JobproProvider, public alertCtrl: AlertController) {
+  constructor(private translate: TranslateService, public platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen, public httpClient:HttpClient, public device:Device, public sqlite: SQLite, public commonProvider:CommondataProvider, public tradieproviderProvider:TradieproviderProvider, public network: Network, public loadingCtrl: LoadingController, public toastCtrl:ToastController, public diagnostic: Diagnostic, public geolocation:Geolocation, public jobproProvider:JobproProvider, public alertCtrl: AlertController, private locationAccuracy: LocationAccuracy) {
 	  this.tradieproviderProvider.LoadMyLocation();
 	   this.jobproProvider.LoadMyLocation();
 		this.platform.ready().then(() => {
+			this.commonProvider.GetDeviceID();
 			/*this.diagnostic.isLocationEnabled(data=>{
 				alert(JSON.stringify(data));
 			},
@@ -141,6 +144,23 @@ export class MyApp {
 		// watch network for a connection
 		let connectSubscription = this.network.onConnect().subscribe(() => {
 			loader.dismiss();
+		});
+		setTimeout(()=>{
+			this.CheckLocationStatus();
+		},2000);
+	}
+	CheckLocationStatus()
+	{
+		this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+
+			if(canRequest) {
+				// the accuracy option will be ignored by iOS
+				this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
+				() => console.log("Thank you. Location turned on successfully"),
+				error => alert('Location is not turned on, you may face difficulty.')
+				);
+			}
+			
 		});
 	}
 	initializeNetworkEvents(): void {
@@ -307,7 +327,7 @@ export class MyApp {
 					</div>`
 		});
 		loader.present();
-		this.httpClient.post<any>('https://ptezone.com.au/api/logout',{
+		this.httpClient.post<any>(this.source+'/api/logout',{
 			DeviceID:this.commonProvider.DeviceID
 		})
 		.subscribe(data => {
@@ -339,9 +359,12 @@ export class MyApp {
 			};
 			this.tradieproviderProvider.ResetLocation();
 			this.jobproProvider.ResetLocation();
-			this.platform.exitApp();
-			this.nav.setRoot("WelcomePage",{loader:false});
-			loader.dismiss();
+			setTimeout(()=>{
+				loader.dismiss();
+				this.platform.exitApp();
+				this.nav.setRoot("WelcomePage",{loader:false});
+			},3000);
+			
 		},
 		err => {
 			loader.dismiss();

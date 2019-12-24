@@ -18,17 +18,29 @@ import { MyApp } from '../../app/app.component';
 export class MytasksPage {
 	Tasks:any=[];
 	DeviceID:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device, public sqlite: SQLite, public platform: Platform, public commonProvider:CommondataProvider){
 	 this.LoadProjects();
   }
 
 	LoadProjects()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetMyBids',{device_id:this.commonProvider.DeviceID}).subscribe(data => {
+		let loader:any = this.loadingCtrl.create({
+		spinner: "hide",
+		content: `<div class="custom-spinner-container" style="height:100%; width:100%;">
+						<div class="custom-spinner-box">
+							<img src="assets/img/spinner.gif" width="100%"/>
+						</div>
+					</div>`
+		});
+		loader.present();
+		this.httpClient.post<any>(this.source+'/api/GetMyBids',{device_id:this.commonProvider.DeviceID}).subscribe(data => {
 			this.Tasks=data.Tasks;
+			loader.dismiss();
 		},
 		err => {
-				console.log(err);	
+			loader.dismiss();
+			console.log(err);	
 		});
 	}
 	GoDetail(id)

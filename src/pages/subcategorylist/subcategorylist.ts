@@ -13,13 +13,14 @@ import { CardsPage } from '../cards/cards';
 })
 export class SubcategorylistPage {
 	SubCategories:any=[];
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device) {
 	this.LoadSubCategories();
   }
 	LoadSubCategories()
 	{
 		let ID=this.navParams.get("ID");
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:ID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:ID}).subscribe(data => {
 			this.SubCategories=data.SubCategories;
 		},
 		err => {

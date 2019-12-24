@@ -35,7 +35,9 @@ export class ManagetradiePage {
 	Pagers:any[]=[];
 	pager:any;
 	status:any=2;
+	search_result:any=0;
 	search:{name:string,min_balance:any,max_balance:any}={name:"",min_balance:'',max_balance:''};
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient:HttpClient, public device:Device, public toastCtrl: ToastController, public sqlite: SQLite, public platform: Platform, public commonProvider: CommondataProvider, public menuController:MenuController, public loadingCtrl: LoadingController, public modalCtrl: ModalController) {
 	  this.LoadSubCategories();
 	  //this.LoadTradies();
@@ -43,7 +45,7 @@ export class ManagetradiePage {
 	LoadSubCategories()
 	{
 		this.SubCategories=[];
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:0}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:0}).subscribe(data => {
 			
 			this.sub_category=[];
 			for(var i=0;i<data.SubCategories.length;i++)
@@ -61,6 +63,7 @@ export class ManagetradiePage {
   }
 	LoadTradies()
 	{
+		
 		this.Tradies=[];
 		let post_data={
 			name:this.search.name,
@@ -69,7 +72,8 @@ export class ManagetradiePage {
 			max_balance:this.search.max_balance,
 			status:this.status
 		};
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetFreelancersAdmin',post_data).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetFreelancersAdmin',post_data).subscribe(data => {
+			this.search_result=1;
 			this.Tradies=data;
 			if(this.Tradies.length>10)
 			{
@@ -96,5 +100,21 @@ export class ManagetradiePage {
 	Search()
 	{
 		
+	}
+	keyUpCheckerMinBalance(ev) {
+		let elementChecker: any;
+		elementChecker = ev.target.value;
+		if (isNaN(elementChecker)) {
+			this.search.min_balance= elementChecker.slice(0, -1);
+		}
+		this.search.min_balance=this.search.min_balance.replace(" ","");
+	}
+	keyUpCheckerMaxBalance(ev) {
+		let elementChecker: any;
+		elementChecker = ev.target.value;
+		if (isNaN(elementChecker)) {
+			this.search.max_balance= elementChecker.slice(0, -1);
+		}
+		this.search.max_balance=this.search.max_balance.replace(" ","");
 	}
 }

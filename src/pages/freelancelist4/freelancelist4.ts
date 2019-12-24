@@ -19,6 +19,7 @@ import { SelectSearchableComponent } from 'ionic-select-searchable';
 })
 export class Freelancelist4Page {
 	fl_basic_id:number=0;
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController, public menuController:MenuController) {
 	this.LoadPhotos();
 	this.fl_basic_id=this.navParams.get("basic_id");
@@ -41,7 +42,7 @@ export class Freelancelist4Page {
 	LoadPhotos()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetPhotos',{
+		this.httpClient.post<any>(this.source+'/api/GetPhotos',{
 			basic_id:this.fl_basic_id
 		}).subscribe(data => {
 			this.Photos=data.Photos;

@@ -39,6 +39,7 @@ export class ContentPage {
 	max_budget:any=10000000000;
 	min_budget:any=0;
 	Projects:any=[];
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public sqlite: SQLite,public commonProvider:CommondataProvider) {
 	this.LoadCategories();
 	this.LoadSubCategories();
@@ -123,7 +124,7 @@ export class ContentPage {
 						Suberb:"All",
 						RemotLocation:this.RemotLocation,
 						sub_category:this.User.Tradie.sub_category};
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetProjects',posted_data).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetProjects',posted_data).subscribe(data => {
 			this.Projects=data.Projects;
 		},
 		err => {
@@ -139,7 +140,7 @@ export class ContentPage {
 	}
 	LoadCategories()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetCategories').subscribe(data => {
 			this.Categories=data.Categories;
 		},
 		err => {
@@ -148,7 +149,7 @@ export class ContentPage {
 	}
 	LoadFreeLancers()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetCategories').subscribe(data => {
 			this.Categories=data.Categories;
 		},
 		err => {
@@ -157,7 +158,7 @@ export class ContentPage {
 	}
 	LoadSubCategories()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{}).subscribe(data => {
 			this.SubCategories=data.SubCategories;
 		},
 		err => {

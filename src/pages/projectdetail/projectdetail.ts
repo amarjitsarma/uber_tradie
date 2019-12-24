@@ -102,11 +102,12 @@ export class ProjectdetailPage {
 	Bids:any[]=[];
 	DeviceID:string="";
 	Edit:any=0;
-	Review:any={project_id:0, user_id:0, tradie_id:0, cleaness:0, punctuality:0, friendliness:0, review:""};
+	Review:any={project_id:0, user_id:0, tradie_id:0, cleaness:5, punctuality:5, friendliness:5, review:""};
 	comment:string="";
 	comment_photos:string[]=[];
 	comments:any=[];
 	distance:any="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device, public sqlite: SQLite, public platform: Platform, public commonProvider:CommondataProvider, public imageViewerController:ImageViewerController, public jobProvider:JobproProvider, public viewCtrl: ViewController) {
 	/*this.LoadProjects();
 	this.LoadBids();
@@ -163,7 +164,9 @@ export class ProjectdetailPage {
 	}
 	LoadReview()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetReviewByProject/'+this.navParams.get('ProjectID')).subscribe(data => {
+		
+		this.httpClient.get<any>(this.source+'/api/GetReviewByProject/'+this.navParams.get('ProjectID')).subscribe(data => {
+			//alert("test");
 			if(data.Review!=null)
 			{
 				this.Review=data.Review;
@@ -173,6 +176,7 @@ export class ProjectdetailPage {
 			{
 				this.Edit=1;
 			}
+			
 		},
 		err => {
 				console.log(err);	
@@ -183,7 +187,7 @@ export class ProjectdetailPage {
 		if(this.Review.review!="")
 		{
 			this.Review.project_id=this.Project.id;
-			this.httpClient.post<any>('https://ptezone.com.au/api/SaveReview',this.Review).subscribe(data => {
+			this.httpClient.post<any>(this.source+'/api/SaveReview',this.Review).subscribe(data => {
 				this.presentToast("Review saved");
 				this.LoadReview();
 			},
@@ -225,7 +229,7 @@ export class ProjectdetailPage {
 							</div>`
 		});
 		loader.present();
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetProjects',{ProjectID:ProjectID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetProjects',{ProjectID:ProjectID}).subscribe(data => {
 			loader.dismiss();
 			this.Project=data.Projects;
 			this.comments=this.Project.Comments;
@@ -270,7 +274,7 @@ export class ProjectdetailPage {
 	LoadBids()
 	{
 		let ProjectID = this.navParams.get('ProjectID');
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetProjectBids',{ProjectID:ProjectID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetProjectBids',{ProjectID:ProjectID}).subscribe(data => {
 			this.Bids=data.Bids;
 			if(this.Bids.length>0)
 			{
@@ -315,7 +319,7 @@ export class ProjectdetailPage {
 			{
 				text: 'Approve',
 				handler: () => {
-					scope.httpClient.post<any>('https://ptezone.com.au/api/ApproveBid',{bid_id:BidID}).subscribe(data => {
+					scope.httpClient.post<any>(this.source+'/api/ApproveBid',{bid_id:BidID}).subscribe(data => {
 						scope.LoadProjects();
 						scope.LoadBids();
 					},
@@ -347,7 +351,7 @@ export class ProjectdetailPage {
 			{
 				text: 'Ok',
 				handler: () => {
-					this.httpClient.post<any>('https://ptezone.com.au/api/ChangeProjectStatus',{project_id:ProjectID,status:3,device_id:this.commonProvider.DeviceID}).subscribe(data => {
+					this.httpClient.post<any>(this.source+'/api/ChangeProjectStatus',{project_id:ProjectID,status:3,device_id:this.commonProvider.DeviceID}).subscribe(data => {
 						this.LoadProjects();
 						this.LoadBids();
 					},
@@ -381,7 +385,7 @@ export class ProjectdetailPage {
 			{
 				text: 'Ok',
 				handler: () => {
-					this.httpClient.post<any>('https://ptezone.com.au/api/ChangeProjectStatus',{project_id:ProjectID,status:2,device_id:this.commonProvider.DeviceID}).subscribe(data => {
+					this.httpClient.post<any>(this.source+'/api/ChangeProjectStatus',{project_id:ProjectID,status:2,device_id:this.commonProvider.DeviceID}).subscribe(data => {
 						this.LoadProjects();
 						this.LoadBids();
 					},
@@ -415,7 +419,7 @@ export class ProjectdetailPage {
 		{
 			posted_data.tradie_id=0;
 		}
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveProjectComment',posted_data).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/SaveProjectComment',posted_data).subscribe(data => {
 			this.LoadProjects();
 			this.presentToast("Comment posted");
 			this.comment="";
@@ -454,7 +458,7 @@ export class ProjectdetailPage {
 		{
 			posted_data.tradie_id=0;
 		}
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveProjectComment',posted_data).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/SaveProjectComment',posted_data).subscribe(data => {
 			this.LoadProjects();
 			this.presentToast("Replied");
 			this.reply_comment="";
@@ -484,25 +488,44 @@ export class ProjectdetailPage {
 		this.LoadBids();
 		this.LoadReview();
 		let scope=this;
+		let loader:any = this.loadingCtrl.create({
+		spinner: "hide",
+		content: `<div class="custom-spinner-container" style="bordoer-radius:100px;">
+								<div class="custom-spinner-box">
+									<img src="assets/img/spinner.gif" width="100%"/>
+								</div>
+							</div>`
+		});
+		
 		setTimeout(() => {
 			this.handler =  StripeCheckout.configure({
 				key: 'pk_test_Hz0utMw4W2scWTYi1Q6M4Czs00DXcuAZ2W',
 				image: 'https://stripe.com/img/documentation/checkout/marketplace.png', // Picture you want to show in pop up
 				locale: 'auto',
 				token: token => {
+					loader.present();
 					scope.httpClient.post<any>('https://ptezone.com.au/api/SaveTransaction',{
 						project_id:scope.Project.id,
 						amount:scope.Bids[0].bid_amount ,
 						token: token.id
 					}).subscribe(data => {
+						loader.dismiss();
+						this.Project.payment_status=1;
 						alert(data.message);
 						if(data.error==0)
 						{
+							this.Project.payment_status=1;
 							scope.LoadProjects();
+						}
+						else
+						{
+							this.Project.payment_status=0;
 						}
 					},
 					err => {
-							console.log(err);	
+						this.Project.payment_status=0;
+						loader.dismiss();
+						console.log(err);	
 					});
 				}
 			})
@@ -517,6 +540,6 @@ export class ProjectdetailPage {
 	}
 	ProjectProgress(id,user_id)
 	{
-		this.navCtrl.push("ProgressPage",{project_id:id,project_user:user_id});
+		this.navCtrl.push("ProgressPage",{project_id:id,project_user:user_id, status: this.Project.status});
 	}
 }

@@ -61,12 +61,13 @@ export class QuotedetailPage {
 						updated_at:""
 					}
 				};
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav){
 	  this.LoadQuote();
   }
 	LoadQuote()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetQuote',{id:this.navParams.get("id")}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetQuote',{id:this.navParams.get("id")}).subscribe(data => {
 			this.Quote=data.Quotes;
 		},
 		err => {

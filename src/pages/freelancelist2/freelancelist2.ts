@@ -26,6 +26,7 @@ export class Freelancelist2Page {
 	friTo:string="";
 	satFrom:string="";
 	satTo:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public menuController:MenuController) {
 	  this.fl_basic_id=this.navParams.get("basic_id");
 	  this.LoadWorkingHours();
@@ -45,7 +46,7 @@ export class Freelancelist2Page {
   }
   SaveWorkingHour()
   {
-	  this.httpClient.post<any>('https://ptezone.com.au/api/SaveWorkingHours',{
+	  this.httpClient.post<any>(this.source+'/api/SaveWorkingHours',{
 		  fl_basic_id:this.fl_basic_id,
 		  monday:this.monFrom+"-"+this.monTo,
 		  tuesday:this.tueFrom+"-"+this.tueTo,
@@ -63,7 +64,7 @@ export class Freelancelist2Page {
   }
   LoadWorkingHours()
   {
-	  this.httpClient.post<any>('https://ptezone.com.au/api/GetWorkingHours',{basic_id:this.fl_basic_id})
+	  this.httpClient.post<any>(this.source+'/api/GetWorkingHours',{basic_id:this.fl_basic_id})
 		.subscribe(data => {
 			console.log(data);
 			if(data.WorkingHour!=null)

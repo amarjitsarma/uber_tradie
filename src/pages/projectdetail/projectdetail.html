@@ -45,12 +45,13 @@
 				<h2 class="Price1" *ngIf="Project.payment_mode=='hourly'">Per Hour Budget</h2>
 				<h2 class="Price" *ngIf="Project.Bid!=null"><i>{{Project.Bid.bid_amount}} AUD</i></h2>
 				<h2 class="Price" *ngIf="Project.Bid==null"><i>{{Project.estimate_budget}} AUD</i></h2>
-				<h2>{{Bids.length}} people already bidded</h2>
+				<h2>No. of Bids: {{Bids.length}}</h2>
 			</ion-col>
 		</ion-row>
 		<ion-row padding>
 			<ion-col col-12>
 				<h2><strong>Published On: </strong>{{commonProvider.GetFormattedDate(Project.created_at)}}</h2>
+				<h2><strong>Project Deadline: </strong>{{commonProvider.GetFormattedDate(Project.est_date)}}</h2>
 			</ion-col>
 			
 			<ion-col col-12>
@@ -148,22 +149,22 @@
 		</ion-row>
 	</ion-grid>
 	</ion-item>
-	<ion-item *ngIf="Bidded==0" padding>
+	<ion-item no-lines *ngIf="Project.status==1 && commonProvider.User.id!=Project.user_id && Bidded!=1" padding>
 		<button ion-button color="secondary" *ngIf="Project.status==1 && commonProvider.User.id!=Project.user_id" (click)="BidNow(Project.id);" full>
 			<ion-icon name="calculator"></ion-icon>&nbsp;Bid Now
 		</button>
 	</ion-item>
-	<ion-item *ngIf="Bidded==1" padding>
+	<ion-item no-lines *ngIf="Project.status==1 && commonProvider.User.id!=Project.user_id && Bidded==1" padding>
 		<button ion-button color="secondary" *ngIf="Project.status==1 && commonProvider.User.id!=Project.user_id" (click)="BidNow(Project.id);" full>
 			<ion-icon name="calculator"></ion-icon>&nbsp;Update Bid
 		</button>
 	</ion-item>
-	<ion-item *ngIf="Bids.length>0" padding>
+	<ion-item no-lines *ngIf="Project.payment_status!=1 && Project.status==3" padding>
 		<!--button ion-button *ngIf="(Project.user_id==commonProvider.User.id || (Bids[0].user_id==commonProvider.User.id && Bids[0].status==2))&& Project.status==2" (click)="MarkFinished(Project.id);" block>Mark as Completed</button-->
 		
-		<button ion-button block *ngIf="Project.payment_status!=1 && Project.status==3" (click)="ProcessPayment();">Process Payment</button>
+		<button ion-button block (click)="ProcessPayment();">Process Payment</button>
 	</ion-item>
-	<ion-item padding *ngIf="((MyBid!=null || Project.user_id==commonProvider.User.id)) && (Project.status==2 || Project.status==3)">
+	<ion-item no-lines padding *ngIf="(((MyBid!=null && MyBid.status==2) || Project.user_id==commonProvider.User.id)) && (Project.status==2 || Project.status==3)">
 		<button ion-button color="secondary" (click)="ProjectProgress(Project.id,Project.user_id);" full>
 			<ion-icon name="calculator"></ion-icon>&nbsp;Project Progress
 		</button>
@@ -276,9 +277,9 @@
 		</ion-row>
 	</ion-grid>
 	
-	<ion-list padding *ngIf="(Project.status==3) && commonProvider.User.id==Project.User.id">
-		<ion-item no-lines padding>
-			<ion-grid>
+	<!--ion-list padding class="Test2" >
+		<ion-item no-lines padding>Test1-->
+			<ion-grid padding *ngIf="(Project.status==3) && commonProvider.User.id==Project.User.id">
 				<ion-row>
 					<ion-col col-12>
 						<h2>Review</h2>
@@ -322,7 +323,7 @@
 						<button ion-button full (click)="EnableEdit();">Edit Review</button>
 					</ion-col>
 				</ion-row>
-				<ion-row ion-list *ngIf="(Review.project_id==0 && commonProvider.User.id==Project.User.id) || Edit==1">
+				<ion-row ion-list class="Test1" *ngIf="(Review.project_id==0 && commonProvider.User.id==Project.User.id) || Edit==1">
 					<ion-col col-4>
 						<b>Cleanness</b>
 					</ion-col>
@@ -360,7 +361,7 @@
 						</ionic3-star-rating>
 					</ion-col>
 					<ion-col col-12 ion-item no-lines>
-						<ion-label><ion-icon name="text" color="primary"></ion-icon></ion-label>
+						<ion-label stacked><ion-icon name="text" color="primary"></ion-icon>&nbsp;Review</ion-label>
 						<ion-textarea [(ngModel)]="Review.review" placeholder="Review"></ion-textarea>
 					</ion-col>
 					<ion-col col-12>
@@ -368,8 +369,8 @@
 					</ion-col>
 				</ion-row>
 			</ion-grid>
-		</ion-item>
+		<!--/ion-item>
 		
-	</ion-list>
+	</ion-list-->
 	<p [innerHTML]="Error"></p>
 </ion-content>

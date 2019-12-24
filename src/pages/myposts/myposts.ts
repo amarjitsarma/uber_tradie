@@ -27,6 +27,7 @@ export class MypostsPage {
 	sortby_date_desc:boolean=false;
 	sortby_price_asc:boolean=false;
 	sortby_price_desc:boolean=false;
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device, public sqlite: SQLite, public platform: Platform, public commonProvier:CommondataProvider) {
 		this.LoadProjects();
 	  }
@@ -82,7 +83,7 @@ export class MypostsPage {
 					</div>`
 		});
 		loader.present();
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetMyPosts',{device_id:this.commonProvier.DeviceID, sort_by:sort_by, status:status}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetMyPosts',{device_id:this.commonProvier.DeviceID, sort_by:sort_by, status:status}).subscribe(data => {
 			this.Projects=data.Projects;
 			loader.dismiss();
 		},
@@ -259,7 +260,7 @@ export class MypostsPage {
 	}
 	ProcessPayment(id,amount)
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveTransaction',{
+		this.httpClient.post<any>(this.source+'/api/SaveTransaction',{
 			project_id:id,
 			amount:amount 	
 		}).subscribe(data => {

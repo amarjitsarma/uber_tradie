@@ -30,6 +30,7 @@ export class LoginPage {
   private loginErrorString: string;
 	DeviceID:string="";
 	LoginType:number=1;
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,
@@ -80,7 +81,7 @@ export class LoginPage {
 					</div>`
 		});
 		loader.present();
-		scope.httpClient.post<any>('https://ptezone.com.au/api/login',{
+		scope.httpClient.post<any>(this.source+'/api/login',{
 			DeviceID:scope.commonProvider.DeviceID,
 			username:scope.account.username,
 			password:scope.account.password,

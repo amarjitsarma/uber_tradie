@@ -19,17 +19,26 @@
 			<ion-col col-12 class="card-background-page">
 				<ion-card>
 					<img src="assets/img/profile_bg.jpg"/>
-					<div class="card-subtitle" style="top:34%;font-size: 1.5rem;">Wallet Balance: </div>
+					<div class="card-subtitle" style="top:34%;font-size: 1.5rem;">Balance: </div>
 					<div class="card-title">{{balance.toFixed(2)}} AUD</div>
 					<div class="card-subtitle">In Total: {{receive}} AUD<br/>Out Total: {{withdraw}} AUD</div>
 				</ion-card>
 			</ion-col>
 		</ion-row>
+		<ion-row *ngIf="commonProvider.Role=='Admin'">
+			<ion-col col-12 class="card-background-page">
+				<ion-card>
+					<img src="assets/img/profile_bg.jpg"/>
+					<div class="card-subtitle" style="top:34%;font-size: 1.5rem;">Balance: </div>
+					<div class="card-title">{{AdminBalance.toFixed(2)}} AUD</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
 		<ion-row padding ion-list *ngIf="commonProvider.Role=='Tradie'">
-			<ion-col col-8 ion-item no-lines *ngIf="balance!=0">
-				<ion-label stacked>Withdraw:</ion-label>
-				<ion-input type="text" [(ngModel)]="withdraw_amount" placeholder="How much do you want to withdraw?" (keyup)="keyUpChecker($event)"></ion-input></ion-col>
-			<ion-col col-4 *ngIf="balance!=0"><br/><br/><button ion-button (click)="Withdraw();" block>Withdraw</button></ion-col>
+			<ion-col col-8 *ngIf="balance!=0">
+				<ion-input type="text" [(ngModel)]="withdraw_amount" placeholder="Withdraw Amount" (keyup)="keyUpChecker($event)"></ion-input>
+			</ion-col>
+			<ion-col col-4 *ngIf="balance!=0"><button ion-button (click)="Withdraw();" block>Withdraw</button></ion-col>
 		</ion-row>
 		<ion-row padding ion-list>
 			<ion-col col-12 ion-item>
@@ -82,9 +91,9 @@
 				<button ion-button (click)="Search();" block>Search Transactions</button>
 			</ion-col>
 		</ion-row>
-		<ion-row padding *ngIf="Transactions.length==0">
+		<ion-row padding *ngIf="Transactions.length==0 && search_result==1">
 			<ion-col col-12>
-				No record found
+				*Sorry. No record found
 			</ion-col>
 		</ion-row>
 		<ion-row padding *ngFor="let Transaction of Transactions">

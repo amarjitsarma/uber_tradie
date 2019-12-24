@@ -1,12 +1,11 @@
-import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, ViewController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav, MenuController, ModalController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, ViewController, NavParams, AlertController, LoadingController, ToastController, Platform, Nav, MenuController, ModalController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl } from '@angular/forms';
+
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs/Observable';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
 import { CommondataProvider } from '../../providers/commondata/commondata';
-import { MyApp } from '../../app/app.component';
 import { LocationSelect } from '../location-select/location-select';
 
 @IonicPage()
@@ -39,6 +38,7 @@ export class Freelancelist1Page {
 	radius:string="";
 	DeviceID:any="";
 	basic_id:any=0;
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 	constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public menuController:MenuController, public nav:Nav, public commonProvider:CommondataProvider, public modalController: ModalController, public viewCtrl: ViewController) {
 		
 		this.LoadCategories();
@@ -92,7 +92,7 @@ export class Freelancelist1Page {
 	}
 	SetSubcategories(SC)
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
 			this.SubCategories=[];
 			this.sub_category=new Port1();/*.ID=0;
 			this.sub_category.Name="";*/
@@ -113,7 +113,7 @@ export class Freelancelist1Page {
 	}
 	LoadCategories()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetCategories').subscribe(data => {
 			for(var i=0;i<data.Categories.length;i++)
 			{
 				this.port={ID:data.Categories[i].ID, Name:data.Categories[i].CategoryName};
@@ -127,7 +127,7 @@ export class Freelancelist1Page {
 	}
 	LoadSubCategories()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
 			this.SubCategories=[];
 			this.sub_category=new Port1();/*.ID=0;
 			this.sub_category.Name="";*/
@@ -154,7 +154,7 @@ export class Freelancelist1Page {
 	{
 		if(this.category.Name!="" && this.sub_category.Name!="" && this.fullname!="" && this.location!="" && this.house_no!="" && this.street_name!="" && this.suburb!="" && this.state!="" && this.postcode!="")
 		{
-			this.httpClient.post<any>('https://ptezone.com.au/api/SaveFreelanceBasic',
+			this.httpClient.post<any>(this.source+'/api/SaveFreelanceBasic',
 			{
 				device_id:this.commonProvider.DeviceID,
 				category:this.category.ID,

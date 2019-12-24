@@ -1,15 +1,14 @@
-import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, ModalController, Content } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, ModalController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl } from '@angular/forms';
+
 import { Device } from '@ionic-native/device';
-import { FirstRunPage } from '../pages';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
 import { JobproProvider } from '../../providers/jobpro/jobpro';
 import { LocationSelect } from '../location-select/location-select';
 import { CommondataProvider } from '../../providers/commondata/commondata';
 import { TradieproviderProvider } from '../../providers/tradieprovider/tradieprovider';
-import { IonicSelectableComponent } from 'ionic-selectable';
+
 
 @IonicPage()
 class PortJobs {
@@ -50,9 +49,17 @@ export class JoblistPage {
 	distance:any=500;
 	location_type:any=3;
 	no_job:any=0;
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalController : ModalController, public device: Device, public jobProvider:JobproProvider, public commonProvider: CommondataProvider, public tradieProvider: TradieproviderProvider) {
-	  this.LoadSubCategories();
+		this.LoadSubCategories();
+		this.tradieProvider.LoadMyLocation();
+		this.jobProvider.LoadMyLocation();
   }
+  ionViewDidEnter()
+	{
+		this.tradieProvider.LoadMyLocation();
+		this.jobProvider.LoadMyLocation();
+	}
 	portChange(event: {
         component: SelectSearchableComponent,
         value: any 
@@ -109,7 +116,7 @@ export class JoblistPage {
 			latitude: this.jobProvider.location.latitude,
 			distance:this.distance,
 			sub_category:this.sub_category};
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetProjects',posted_data).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetProjects',posted_data).subscribe(data => {
 			this.Projects=data.Projects;
 			if(this.Projects.length==0)
 			{
@@ -303,7 +310,7 @@ export class JoblistPage {
 	}
 	LoadCategories()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetCategories').subscribe(data => {
 			this.port={ID:0, Name:"All Categories"};
 			this.Categories.push(this.port);
 			for(var i=0;i<data.Categories.length;i++)
@@ -320,7 +327,7 @@ export class JoblistPage {
 	
 	LoadSubCategories()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:0/*this.category.ID*/}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:0/*this.category.ID*/}).subscribe(data => {
 			this.SubCategories=[];
 			//this.sub_category={ID:0,Name:"All Sub categories"};
 			//this.port={ID:0, Name:"All Categories"};

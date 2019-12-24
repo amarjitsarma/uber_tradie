@@ -1,10 +1,9 @@
-import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, ModalController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav, MenuController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, ModalController, NavParams, AlertController, LoadingController, ToastController, Platform, Nav, MenuController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl } from '@angular/forms';
+
 import { Device } from '@ionic-native/device';
-import { Observable } from 'rxjs/Observable';
-import { SelectSearchableComponent } from 'ionic-select-searchable';
+
 import { Freelancelist8Page } from '../freelancelist8/freelancelist8';
 class Port1 {
     public ID: number;
@@ -22,6 +21,7 @@ export class Freelancelist7Page {
 	Taglines:any;
 	delItems:any=[];
 	fl_basic_id:number=0;
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController, public menuController:MenuController) {
 	  this.LoadTaglines();
 	  this.LoadSavedTaglines();
@@ -34,7 +34,7 @@ export class Freelancelist7Page {
   }
 	LoadSavedTaglines()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetSavedTaglines').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetSavedTaglines').subscribe(data => {
 			for(var i=0;i<data.Taglines.length;i++)
 			{
 				this.port={ID:data.Taglines[i].ID, Name:data.Taglines[i].tagline};
@@ -57,7 +57,7 @@ export class Freelancelist7Page {
 	LoadTaglines()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetTaglines',{fl_basic_id:this.fl_basic_id}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetTaglines',{fl_basic_id:this.fl_basic_id}).subscribe(data => {
 			this.Taglines=data.Taglines;
 		},
 		err => {
@@ -67,7 +67,7 @@ export class Freelancelist7Page {
 	AddTagline()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveTagline',{fl_basic_id:this.fl_basic_id,tagline:this.tagline.Name}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/SaveTagline',{fl_basic_id:this.fl_basic_id,tagline:this.tagline.Name}).subscribe(data => {
 			this.LoadTaglines();
 		},
 		err => {
@@ -97,7 +97,7 @@ export class Freelancelist7Page {
 	}
 	DeleteSelected()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/DeleteTagline',{ids:this.delItems}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/DeleteTagline',{ids:this.delItems}).subscribe(data => {
 			this.LoadTaglines();
 		},
 		err => {

@@ -1,14 +1,14 @@
-import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, ModalController, Content, Platform } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl } from '@angular/forms';
+
 import { Device } from '@ionic-native/device';
-import { FirstRunPage } from '../pages';
+
 import { SelectSearchableComponent } from 'ionic-select-searchable';
 import { LocationSelect } from '../location-select/location-select';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { SQLite } from '@ionic-native/sqlite';
 import { CommondataProvider } from '../../providers/commondata/commondata';
-import { MyApp } from '../../app/app.component';
+
 import { ImageViewerController } from 'ionic-img-viewer';
 
 @IonicPage({ name: "main", segment: "app" })
@@ -54,6 +54,7 @@ export class JobpostPage {
 	maxDate: any = new Date(new Date().setFullYear(new Date().getFullYear() + 5)).toISOString();
 	est_date:any="";
 	est_date_show:any="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 	portChange(event: {
         component: SelectSearchableComponent,
         value: any 
@@ -77,7 +78,7 @@ export class JobpostPage {
 	}
 	LoadCategories()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetCategories').subscribe(data => {
 			for(var i=0;i<data.Categories.length;i++)
 			{
 				this.port={ID:data.Categories[i].ID, Name:data.Categories[i].CategoryName};
@@ -113,7 +114,7 @@ export class JobpostPage {
     }
 	LoadSubCategories()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:this.category.ID}).subscribe(data => {
 			this.SubCategories=[];
 			this.sub_category.ID=0;
 			this.sub_category.Name="Select Subcategory";
@@ -159,7 +160,7 @@ export class JobpostPage {
 	}
 	slideChanged()
 	{
-		var index=this.slides.getActiveIndex();
+		//var index=this.slides.getActiveIndex();
 		this.content.scrollToTop();
 	}
 	addItem() {
@@ -312,7 +313,7 @@ export class JobpostPage {
 	LoadJob(loader)
 	{
 		let scope=this;
-		scope.httpClient.get<any>('https://ptezone.com.au/api/GetProjectbasic/'+scope.navParams.get("project_id")).subscribe(data => {
+		scope.httpClient.get<any>(this.source+'/api/GetProjectbasic/'+scope.navParams.get("project_id")).subscribe(data => {
 			for(var i=0;i<scope.Categories.length;i++)
 			{
 				if(data.category==scope.Categories[i].ID)
@@ -459,7 +460,7 @@ export class JobpostPage {
 		{
 			postData.id=this.navParams.get("project_id");
 		}
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveProject',postData).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/SaveProject',postData).subscribe(data => {
 			loader.dismiss();
 			this.Error="";
 			

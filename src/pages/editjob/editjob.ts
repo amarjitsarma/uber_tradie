@@ -17,6 +17,7 @@ import { ImageViewerController } from 'ionic-img-viewer';
 })
 export class EditjobPage {
 	Bids:any[]=[];
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device, public sqlite: SQLite, public platform: Platform, public commonProvider:CommondataProvider, public imageViewerController:ImageViewerController, public viewCtrl: ViewController) {
 	this.LoadBids();
 	this.LoadJob();
@@ -29,7 +30,7 @@ export class EditjobPage {
   LoadJob()
 	{
 		let scope=this;
-		scope.httpClient.get<any>('https://ptezone.com.au/api/GetProjectbasic/'+scope.navParams.get("project_id")).subscribe(data => {
+		scope.httpClient.get<any>(this.source+'/api/GetProjectbasic/'+scope.navParams.get("project_id")).subscribe(data => {
 			this.status=data.status;
 		},err=>{
 			
@@ -47,7 +48,7 @@ export class EditjobPage {
 		});
 		loader.present();
 		let ProjectID = this.navParams.get('project_id');
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetProjectBids',{ProjectID:ProjectID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetProjectBids',{ProjectID:ProjectID}).subscribe(data => {
 			this.Bids=data.Bids;
 			loader.dismiss();
 			
@@ -85,7 +86,7 @@ export class EditjobPage {
 										</div>`
 					});
 					loader.present();
-					scope.httpClient.post<any>('https://ptezone.com.au/api/ApproveBid',{bid_id:BidID}).subscribe(data => {
+					scope.httpClient.post<any>(this.source+'/api/ApproveBid',{bid_id:BidID}).subscribe(data => {
 						scope.LoadBids();
 						loader.dismiss();
 						this.viewCtrl.dismiss();

@@ -16,6 +16,7 @@ import { MyApp } from '../../app/app.component';
 export class MyreviewPage {
 	Tasks:any=[];
 	DeviceID:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device, public sqlite: SQLite, public platform: Platform, public commonProvider:CommondataProvider){
 	  this.LoadProjects();
   }
@@ -23,7 +24,7 @@ export class MyreviewPage {
   
 	LoadProjects()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetMyReviewedTasks',{device_id:this.commonProvider.DeviceID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetMyReviewedTasks',{device_id:this.commonProvider.DeviceID}).subscribe(data => {
 			this.Tasks=data.Tasks;
 		},
 		err => {

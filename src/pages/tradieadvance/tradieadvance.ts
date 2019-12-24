@@ -1,9 +1,9 @@
-import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, ViewController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav, MenuController, ModalController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, ViewController, NavParams, AlertController, LoadingController, ToastController, Platform, MenuController, ModalController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl } from '@angular/forms';
+
 import { Device } from '@ionic-native/device';
-import { Observable } from 'rxjs/Observable';
+
 import { CommondataProvider } from '../../providers/commondata/commondata';
 class Port13 {
     public ID: number;
@@ -57,6 +57,7 @@ export class TradieadvancePage {
     }
 	
 	Error:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 	constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public menuController:MenuController, public commonProvider: CommondataProvider, public viewCtrl: ViewController, public modalCtrl: ModalController)
 	{
 		this.LoadWorkingHours();
@@ -78,7 +79,7 @@ export class TradieadvancePage {
 						</div>`
 			});
 			loader.present();
-	  this.httpClient.post<any>('https://ptezone.com.au/api/SaveWorkingHours',{
+	  this.httpClient.post<any>(this.source+'/api/SaveWorkingHours',{
 		  fl_basic_id:this.commonProvider.tradie_basic.id,
 		  monday:this.monFrom+"-"+this.monTo,
 		  tuesday:this.tueFrom+"-"+this.tueTo,
@@ -148,7 +149,7 @@ export class TradieadvancePage {
 	
 	LoadSavedTaglines()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetSavedTaglines').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetSavedTaglines').subscribe(data => {
 			for(var i=0;i<data.Taglines.length;i++)
 			{
 				this.port={ID:data.Taglines[i].ID, Name:data.Taglines[i].tagline};
@@ -175,7 +176,7 @@ export class TradieadvancePage {
 	AddTagline()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveTagline',{fl_basic_id:this.commonProvider.tradie_basic.id,tagline:this.tagline.Name}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/SaveTagline',{fl_basic_id:this.commonProvider.tradie_basic.id,tagline:this.tagline.Name}).subscribe(data => {
 			this.commonProvider.LoadTaglines();
 			setTimeout(()=>{
 				this.LoadTaglines();
@@ -200,7 +201,7 @@ export class TradieadvancePage {
 	}
 	DeleteSelectedT()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/DeleteTagline',{ids:this.delItemst}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/DeleteTagline',{ids:this.delItemst}).subscribe(data => {
 			this.commonProvider.LoadTaglines();
 			setTimeout(()=>{
 				this.LoadTaglines();
@@ -213,7 +214,7 @@ export class TradieadvancePage {
 	
 	LoadSavedKeywords()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetSavedKeywords').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetSavedKeywords').subscribe(data => {
 			for(var i=0;i<data.Keywords.length;i++)
 			{
 				this.port={ID:data.Keywords[i].ID, Name:data.Keywords[i].keyword};
@@ -241,7 +242,7 @@ export class TradieadvancePage {
 	AddKeyword()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveKeyword',{fl_basic_id:this.commonProvider.tradie_basic.id,keyword:this.keyword.Name}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/SaveKeyword',{fl_basic_id:this.commonProvider.tradie_basic.id,keyword:this.keyword.Name}).subscribe(data => {
 			this.commonProvider.LoadKeywords();
 			setTimeout(()=>{
 				this.LoadKeywords();
@@ -266,7 +267,7 @@ export class TradieadvancePage {
 	}
 	DeleteSelectedK()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/DeleteKeyword',{ids:this.delItemsk}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/DeleteKeyword',{ids:this.delItemsk}).subscribe(data => {
 			this.commonProvider.LoadKeywords();
 			setTimeout(()=>{
 				this.LoadKeywords();

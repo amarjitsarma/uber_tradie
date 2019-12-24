@@ -1,10 +1,10 @@
-import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonicPage, NavController, ModalController, NavParams, AlertController, LoadingController, ToastController, Slides, Platform, Nav, MenuController  } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, ModalController, NavParams, AlertController, LoadingController, ToastController, Platform, Nav, MenuController  } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl } from '@angular/forms';
+
 import { Device } from '@ionic-native/device';
-import { Observable } from 'rxjs/Observable';
-import { SelectSearchableComponent } from 'ionic-select-searchable';
+
+
 import { Freelancelist7Page } from '../freelancelist7/freelancelist7';
 import { CommondataProvider } from '../../providers/commondata/commondata';
 import { MyApp } from '../../app/app.component';
@@ -25,6 +25,7 @@ export class Freelancelist8Page {
 	delItems:any=[];
 	fl_basic_id:number=0;
 	DeviceID:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 	ShowAlert(Title, Detail) {
         let alert = this.alertCtrl.create({
             title: Title,
@@ -45,7 +46,7 @@ export class Freelancelist8Page {
   }
 	LoadSavedKeywords()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetSavedKeywords').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetSavedKeywords').subscribe(data => {
 			for(var i=0;i<data.Keywords.length;i++)
 			{
 				this.port={ID:data.Keywords[i].ID, Name:data.Keywords[i].keyword};
@@ -69,7 +70,7 @@ export class Freelancelist8Page {
 	LoadKeywords()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetKeywords',{fl_basic_id:this.fl_basic_id}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetKeywords',{fl_basic_id:this.fl_basic_id}).subscribe(data => {
 			this.Keywords=data.Keywords;
 		},
 		err => {
@@ -79,7 +80,7 @@ export class Freelancelist8Page {
 	AddKeyword()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveKeyword',{fl_basic_id:this.fl_basic_id,keyword:this.keyword.Name}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/SaveKeyword',{fl_basic_id:this.fl_basic_id,keyword:this.keyword.Name}).subscribe(data => {
 			this.LoadKeywords();
 		},
 		err => {
@@ -116,7 +117,7 @@ export class Freelancelist8Page {
 		});
 		loader.present();
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('https://ptezone.com.au/api/ActivateFreelancer',{device_id:this.commonProvider.DeviceID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/ActivateFreelancer',{device_id:this.commonProvider.DeviceID}).subscribe(data => {
 			this.commonProvider.LoadBasic();
 			this.commonProvider.LoadWorkingHours();
 			this.commonProvider.LoadContact();
@@ -139,7 +140,7 @@ export class Freelancelist8Page {
 	}
 	DeleteSelected()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/DeleteKeyword',{ids:this.delItems}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/DeleteKeyword',{ids:this.delItems}).subscribe(data => {
 			this.LoadKeywords();
 		},
 		err => {

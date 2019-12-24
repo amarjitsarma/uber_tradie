@@ -16,6 +16,13 @@ import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
 import { DocumentPicker } from '@ionic-native/document-picker';
+import { DocumentViewer } from '@ionic-native/document-viewer';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { PhotoLibrary } from '@ionic-native/photo-library';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { Base64 } from '@ionic-native/base64';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+
 //Calender
 import { DatePickerModule } from 'ionic-calendar-date-picker';
 
@@ -131,7 +138,13 @@ export function provideSettings(storage: Storage) {
 	FileChooser,
 	FilePath,
 	File,
+	DocumentViewer,
 	DocumentPicker,
+	PhotoViewer,
+	PhotoLibrary,
+	ImagePicker,
+	Base64,
+	LocationAccuracy,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },

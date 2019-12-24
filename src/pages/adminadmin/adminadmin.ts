@@ -1,11 +1,10 @@
-import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Slides, ModalController, Content, ViewController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { Platform, IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, ModalController, ViewController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl } from '@angular/forms';
+
 import { Device } from '@ionic-native/device';
-import { FirstRunPage } from '../pages';
-import { SelectSearchableComponent } from 'ionic-select-searchable';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+
+import { SQLite } from '@ionic-native/sqlite';
 import { CommondataProvider } from '../../providers/commondata/commondata';
 
 @IonicPage()
@@ -15,6 +14,7 @@ import { CommondataProvider } from '../../providers/commondata/commondata';
 })
 export class AdminadminPage {
 	Admins:any[]=[];
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device, public sqlite: SQLite, public platform: Platform, public commonProvider:CommondataProvider, public viewCtrl: ViewController) {
   }
@@ -33,7 +33,7 @@ export class AdminadminPage {
 					</div>`
 		});
 		loader.present();
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetAdmin',
+		this.httpClient.post<any>(this.source+'/api/GetAdmin',
 		{
 			id:this.commonProvider.User.id
 		}).subscribe(data => {

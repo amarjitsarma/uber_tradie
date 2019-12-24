@@ -58,6 +58,7 @@ export class CustomertradiePage {
 	
 	//Services
 	services:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient:HttpClient, public device:Device, public toastCtrl: ToastController, public sqlite: SQLite, public platform: Platform, public commonProvider: CommondataProvider, public menuController:MenuController, public loadingCtrl: LoadingController, public modalCtrl: ModalController) {
 	  this.LoadSubCategories();
@@ -133,7 +134,7 @@ export class CustomertradiePage {
 	}
 	LoadCategories()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetCategories').subscribe(data => {
 			for(var i=0;i<data.Categories.length;i++)
 			{
 				this.port={ID:data.Categories[i].ID, CategoryID:0, Name:data.Categories[i].CategoryName};
@@ -147,7 +148,7 @@ export class CustomertradiePage {
 	}
 	LoadSubCategories()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:0/*this.category.ID*/}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:0/*this.category.ID*/}).subscribe(data => {
 			this.SubCategories=[];
 			
 			for(var i=0;i<data.SubCategories.length;i++)
@@ -205,7 +206,7 @@ export class CustomertradiePage {
 						</div>`
 			});
 			loader.present();
-			this.httpClient.post<any>('https://ptezone.com.au/api/JoinAsTradie',
+			this.httpClient.post<any>(this.source+'/api/JoinAsTradie',
 			{
 				device_id:this.commonProvider.DeviceID,
 				sub_category:this.sub_category,

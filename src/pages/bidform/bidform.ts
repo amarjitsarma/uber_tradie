@@ -43,7 +43,14 @@ export class BidformPage {
 		free_distance:'',
 		call_out_charge:''
 	};
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device, public sqlite: SQLite, public platform: Platform, public commonProvider:CommondataProvider) {
+		
+		this.LoadBid();
+	
+  }
+	LoadCallOutFees()
+	{
 		let loader:any = this.loadingCtrl.create({
 		spinner: "hide",
 		content: `<div class="custom-spinner-container">
@@ -53,36 +60,42 @@ export class BidformPage {
 					</div>`
 		});
 		loader.present();
-		this.LoadBid();
-	setTimeout(()=>{
-		loader.dismiss();
-		if(this.Bid.per_km_charge!="" && this.Bid.distance!=""  && this.Bid.distance!=null)
-		{
-			if(parseFloat(this.Bid.distance)>parseFloat(this.Bid.free_distance))
+		setTimeout(()=>{
+			loader.dismiss();
+			if(this.Bid.per_km_charge!="" && this.Bid.distance!=""  && this.Bid.distance!=null)
 			{
-				this.Bid.call_out_charge=(parseFloat(this.Bid.per_km_charge)*(parseFloat(this.Bid.distance)-parseFloat(this.Bid.free_distance))).toFixed(2);
+				if(parseFloat(this.Bid.distance)>parseFloat(this.Bid.free_distance))
+				{
+					this.Bid.call_out_charge=(parseFloat(this.Bid.per_km_charge)*(parseFloat(this.Bid.distance)-parseFloat(this.Bid.free_distance))).toFixed(2);
+				}
+				else
+				{
+					this.Bid.call_out_charge=0;
+				}
 			}
 			else
 			{
 				this.Bid.call_out_charge=0;
 			}
-		}
-		else
-		{
-			this.Bid.call_out_charge=0;
-		}
-	},2000);
-	
-  }
+		},2000);
+	}
 	LoadBid()
 	{
-		
-		this.httpClient.post<any>('https://ptezone.com.au/api/LoadPreviousBid',
+		let loader:any = this.loadingCtrl.create({
+		spinner: "hide",
+		content: `<div class="custom-spinner-container">
+						<div class="custom-spinner-box">
+							<img src="assets/img/spinner.gif" width="100%"/>
+						</div>
+					</div>`
+		});
+		loader.present();
+		this.httpClient.post<any>(this.source+'/api/LoadPreviousBid',
 		{
 			project_id:this.navParams.get("ProjectID"),
 			user_id:this.commonProvider.User.id
 		}).subscribe(data => {
-			
+			loader.dismiss();
 			if(data.Bid!=null)
 			{
 				this.Bid.bid_amount=data.Bid.bid_amount;
@@ -92,11 +105,12 @@ export class BidformPage {
 				this.Bid.bid_amount=data.Bid.bid_amount;
 				this.Bid.total_amount=data.Bid.total_amount;
 				this.Bid.hourly_rate=data.Bid.hourly_rate;
-				if(this.Bid.hourly_rate!="")
+				this.Bid.approx_hour=String(data.Bid.approx_hour);
+				if(data.Bid.approx_hour!="" && data.Bid.approx_hour!=null)
 				{
 					this.Bid.charge_type=2;
 				}
-				this.Bid.approx_hour=String(data.Bid.approx_hour);
+				
 				this.Bid.per_km_charge=data.Bid.per_km_charge;
 				this.Bid.distance=data.Bid.distance;
 				this.Bid.free_distance=data.Bid.free_distance;
@@ -108,10 +122,12 @@ export class BidformPage {
 				this.Bid.per_km_charge=this.commonProvider.tradie_basic.call_out_charge;
 				this.Bid.distance=this.navParams.get("distance");
 				this.Bid.free_distance=this.commonProvider.tradie_basic.radius;
+				this.LoadCallOutFees();
 			}
 			this.CalculateBid();
 		},
 		err => {
+			loader.dismiss();
 			console.log(err);	
 		});
 	}
@@ -133,7 +149,8 @@ export class BidformPage {
 				per_km_charge: this.Bid.per_km_charge,
 				distance: this.Bid.distance,
 				free_distance: this.Bid.free_distance,
-				call_out_charge: this.Bid.call_out_charge
+				call_out_charge: this.Bid.call_out_charge,
+				charge_type: this.Bid.charge_type
 				
 			}
 			let loader:any = this.loadingCtrl.create({
@@ -146,10 +163,10 @@ export class BidformPage {
 			});
 			loader.present();
 			
-			this.httpClient.post<any>('https://ptezone.com.au/api/SaveBid',postData).subscribe(data => {
+			this.httpClient.post<any>(this.source+'/api/SaveBid',postData).subscribe(data => {
 				loader.dismiss();
 				this.ShowAlert("Success","Your bid is submitted");
-				this.navCtrl.setRoot('MytasksPage');
+				this.navCtrl.pop();//this.navCtrl.setRoot('MytasksPage');
 			},
 			err => {
 				loader.dismiss();
@@ -236,6 +253,15 @@ export class BidformPage {
 			this.Bid.free_distance= elementChecker.slice(0, -1);
 		}
 		this.Bid.free_distance=String(this.Bid.free_distance).replace(" ","");
+		this.CalculateBid();
+	}
+	keyUpCheckerCOF(ev) {
+		let elementChecker: any;
+		elementChecker = ev.target.value;
+		if (isNaN(elementChecker)) {
+			this.Bid.call_out_charge= elementChecker.slice(0, -1);
+		}
+		this.Bid.call_out_charge=String(this.Bid.call_out_charge).replace(" ","");
 		this.CalculateBid();
 	}
 	keyUpCheckerPHC(ev) {

@@ -107,7 +107,7 @@ page-welcome .splash-bg{
 	.loading-wrapper{
 		width: 100% !important;
 		height: 100% !important;
-		background: #fff !important;
+		background: transparent !important;
 		max-width: 100% !important;
 		max-height: 100% !important;
 	}
@@ -126,5 +126,10 @@ page-welcome .splash-bg{
 		left: 0px;
 	}
 	.custom-spinner-box{
-		padding: 64% 0px;
+		padding: 70% 30%;
+	}
+	.custom-spinner-box img{
+		border-radius: 100px !important;
+		height: 150px;
+		width:150px;
 	}

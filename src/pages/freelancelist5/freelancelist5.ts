@@ -21,6 +21,7 @@ export class Freelancelist5Page {
 	short_desc:string="";
 	about:string="";
 	fl_basic_id:number=0;
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   ionViewDidLoad() {
     console.log('ionViewDidLoad Freelancelist5Page');
   }
@@ -31,7 +32,7 @@ export class Freelancelist5Page {
 	SaveAbout()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveAbout',{
+		this.httpClient.post<any>(this.source+'/api/SaveAbout',{
 			fl_basic_id:this.fl_basic_id,
 			short_desc:this.short_desc,
 			about:this.about

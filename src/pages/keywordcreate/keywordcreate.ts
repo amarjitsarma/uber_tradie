@@ -16,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class KeywordcreatePage {
 	keyword:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public viewCtrl: ViewController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public platform: Platform) {
   }
 
@@ -26,7 +27,7 @@ export class KeywordcreatePage {
 	{
 		if(this.keyword!="")
 		{
-			this.httpClient.post<any>('https://ptezone.com.au/api/SaveNewKeyword',{
+			this.httpClient.post<any>(this.source+'/api/SaveNewKeyword',{
 				keyword:this.keyword
 			}).subscribe(data => {
 				this.viewCtrl.dismiss("done");

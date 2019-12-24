@@ -12,12 +12,13 @@ import { SelectSearchableComponent } from 'ionic-select-searchable';
 })
 export class CategorylistPage {
 	Categories:any=[];
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device) {
 	  this.LoadCategories();
   }
 	LoadCategories()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetCategories').subscribe(data => {
 			this.Categories=data.Categories;
 		},
 		err => {

@@ -9,6 +9,11 @@ import { HttpClient } from '@angular/common/http';
 import { Device } from '@ionic-native/device';
 import { CommondataProvider } from '../../providers/commondata/commondata';
 import { MyApp } from '../../app/app.component';
+
+import { DocumentViewer, DocumentViewerOptions } from '@ionic-native/document-viewer';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+
+
 declare var StripeCheckout;
 @IonicPage()
 @Component({
@@ -18,7 +23,8 @@ declare var StripeCheckout;
 export class FlfilesPage {
 	document_name:string="";
 	Error:string="";
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient:HttpClient, public device:Device, public toastCtrl: ToastController, public platform: Platform, public commonProvider: CommondataProvider, public menuController:MenuController, public loadingCtrl: LoadingController, public modalCtrl: ModalController, private transfer: FileTransfer, private fileChooser: FileChooser, private filePath: FilePath, private file: File, public alertCtrl: AlertController, public docPicker: DocumentPicker){
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient:HttpClient, public device:Device, public toastCtrl: ToastController, public platform: Platform, public commonProvider: CommondataProvider, public menuController:MenuController, public loadingCtrl: LoadingController, public modalCtrl: ModalController, private transfer: FileTransfer, private fileChooser: FileChooser, private filePath: FilePath, private file: File, public alertCtrl: AlertController, public docPicker: DocumentPicker, public documentViewer: DocumentViewer, public photoViewer: PhotoViewer){
 	  this.LoadDocuments();
 	  
   }
@@ -174,15 +180,33 @@ export class FlfilesPage {
 				image: 'https://stripe.com/img/documentation/checkout/marketplace.png', // Picture you want to show in pop up
 				locale: 'auto',
 				token: token => {
-					scope.httpClient.post<any>('https://ptezone.com.au/api/VerifyTradie',{id:this.commonProvider.tradie_basic.id,remarks:token.id})
+					this.commonProvider.tradie_basic.status=3;
+					let loader:any = scope.loadingCtrl.create({
+						spinner: "hide",
+						content: `<div class="custom-spinner-container">
+									<div class="custom-spinner-box">
+										<img src="assets/img/spinner.gif" width="100%"/>
+									</div>
+								</div>`
+					});
+					loader.present();
+					scope.httpClient.post<any>(this.source+'/api/VerifyTradie',{id:this.commonProvider.tradie_basic.id,remarks:token.id})
 					.subscribe(data => {
+						loader.dismiss();
 						alert(data.message);
 						if(data.status==1)
 						{
+							this.commonProvider.tradie_basic.status=3;
 							scope.LoadDocuments();
+						}
+						else
+						{
+							this.commonProvider.tradie_basic.status=2;
 						}
 					},
 					err => {
+						loader.dismiss();
+						this.commonProvider.tradie_basic.status=2;
 						scope.Error=JSON.stringify(err);
 					})
 				}
@@ -191,30 +215,64 @@ export class FlfilesPage {
   }
 	DownloadFile(file_name)
 	{
-		const fileTransfer: FileTransferObject = this.transfer.create();
-		const url = encodeURI('https://ptezone.com.au/uploads/'+file_name);
-		fileTransfer.download(url, this.file.externalDataDirectory + file_name).then((entry) => {
-			alert('Download complete: ' + file_name);
-		}, (error) => {
-			alert(JSON.stringify(error));
+		let loader:any = this.loadingCtrl.create({
+			spinner: "hide",
+			content: `<div class="custom-spinner-container">
+						<div class="custom-spinner-box">
+							<img src="assets/img/spinner.gif" width="100%"/>
+						</div>
+					</div>`
 		});
+		let exts=file_name.split(".");
+		if(exts[exts.length-1]=="pdf" || exts[exts.length-1]=="PDF")
+		{
+			loader.present();
+			const fileTransfer: FileTransferObject = this.transfer.create();
+			const url = encodeURI('https://ptezone.com.au/uploads/'+file_name);
+			fileTransfer.download(url, this.file.externalDataDirectory + file_name).then((entry) => {
+				loader.dismiss();
+				alert('Download complete: ' + file_name);
+				const options: DocumentViewerOptions = {
+					title: file_name
+				}
+				this.documentViewer.viewDocument(entry.toURL(), 'application/pdf', options);
+			}, (error) => {
+				alert(JSON.stringify(error));
+				loader.dismiss();
+			});
+		}
+		else
+		{
+			this.photoViewer.show(encodeURI('https://ptezone.com.au/uploads/'+file_name));
+		}
 		//window.open(encodeURI('https://ptezone.com.au/uploads/'+file_name));
 	}
 	documents:{pli:any,wci:any,others:any[]}={pli:'',wci:'',others:[]};
 	LoadDocuments()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetDocuments',{user_id:this.commonProvider.User.id})
+		let loader:any = this.loadingCtrl.create({
+		spinner: "hide",
+		content: `<div class="custom-spinner-container">
+						<div class="custom-spinner-box">
+							<img src="assets/img/spinner.gif" width="100%"/>
+						</div>
+					</div>`
+		});
+		loader.present();
+		this.httpClient.post<any>(this.source+'/api/GetDocuments',{user_id:this.commonProvider.User.id})
 		.subscribe(data => {
+			loader.dismiss();
 			this.documents=data;
 			this.commonProvider.LoadBasic();
 		},
 		err => {
 			this.Error=JSON.stringify(err);
+			loader.dismiss();
 		});
 	}
 	DeleteFile(id)
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/DeleteDocuments',{id:id})
+		this.httpClient.post<any>(this.source+'/api/DeleteDocuments',{id:id})
 		.subscribe(data => {
 			alert(data.message);
 			this.LoadDocuments();

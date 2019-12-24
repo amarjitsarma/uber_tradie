@@ -17,6 +17,7 @@ import { MyApp } from '../../app/app.component';
 export class QuotelistPage {
 	DeviceID:string="";
 	Quotes:any=[];
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public sqlite: SQLite, public commonProvider:CommondataProvider) {
 	  this.LoadQuotes();
   }
@@ -44,7 +45,7 @@ export class QuotelistPage {
 				device_id:this.commonProvider.DeviceID
 			};
 		}
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetQuote',PostData).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetQuote',PostData).subscribe(data => {
 			this.Quotes=data.Quotes;
 		},
 		err => {

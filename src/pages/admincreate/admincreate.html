@@ -36,11 +36,11 @@
 		</ion-item>
 		<ion-item no-lines *ngIf="id==0">
 			<ion-label stacked><ion-icon name="lock" color="primary"></ion-icon>&nbsp;Password</ion-label>
-			<ion-input type="text" [(ngModel)]="password" placeholder="Please enter password"></ion-input>
+			<ion-input type="password" [(ngModel)]="password" placeholder="Please enter password"></ion-input>
 		</ion-item>
 		<ion-item no-lines *ngIf="id==0">
 			<ion-label stacked><ion-icon name="lock" color="primary"></ion-icon>&nbsp;Confirm Password</ion-label>
-			<ion-input type="text" [(ngModel)]="con_password" placeholder="Please enter confirm password"></ion-input>
+			<ion-input type="password" [(ngModel)]="con_password" placeholder="Please enter confirm password"></ion-input>
 		</ion-item>
 	</ion-list>
 	<button ion-button (click)="AddAdmin()" *ngIf="id==0" block>Save</button>

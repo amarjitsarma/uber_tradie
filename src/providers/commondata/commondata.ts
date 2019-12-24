@@ -11,6 +11,7 @@ export class CommondataProvider {
 	Role:string="";
 	Status:any=0;
 	First:any=0;
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 	
 	constructor(public httpClient: HttpClient, public sqlite: SQLite, public platform: Platform, public device: Device) {
 		this.GetDeviceID();
@@ -38,9 +39,9 @@ export class CommondataProvider {
 					scope.GetDeviceID()
 					);
 				})
-				.catch(e => console.log(e));
+				.catch(e => alert(e));
 			})
-			.catch(e => console.log(e));
+			.catch(e => alert(e));
 		});
 	}
 	GetDeviceID()
@@ -69,15 +70,15 @@ export class CommondataProvider {
 				db.executeSql("select * from device_id", []).then(data=>{
 					scope.DeviceID=data.rows.item(0).id;
 					scope.GetLoginDetails(scope.DeviceID);
-				}).catch(e=>console.log(e));
-			}).catch(e=>console.log(e));
+				}).catch(e=>alert(e));
+			}).catch(e=>alert(e));
 		})
-		.catch(e=>console.log(e));
+		.catch(e=>alert(e));
 	}
 	GetLoginDetails(DeviceID)
 	{
 		let scope=this;
-		this.httpClient.post<any>('https://ptezone.com.au/api/CheckLogin',{
+		this.httpClient.post<any>(this.source+'/api/CheckLogin',{
 			DeviceID:DeviceID
 		})
 		.subscribe(data => {
@@ -98,7 +99,7 @@ export class CommondataProvider {
 	{
 		let scope=this;
 		this.platform.ready().then(() => {
-			var final_id=this.device.uuid+"_"+this.MakeString(100);
+			//var final_id=this.device.uuid+"_"+this.MakeString(100);
 			scope.sqlite.create({
 				name: 'data.db',
 				location: 'default'
@@ -153,7 +154,7 @@ export class CommondataProvider {
 	};
 	LoadBasic()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetFreelancebasic',{device_id:this.DeviceID})
+		this.httpClient.post<any>(this.source+'/api/GetFreelancebasic',{device_id:this.DeviceID})
 		.subscribe(data => {
 			if(data.Basic!=null)
 			{
@@ -175,7 +176,7 @@ export class CommondataProvider {
 	};
 	LoadWorkingHours()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetWorkingHours',{basic_id:this.tradie_basic.id})
+		this.httpClient.post<any>(this.source+'/api/GetWorkingHours',{basic_id:this.tradie_basic.id})
 			.subscribe(data => {
 				console.log(data);
 				if(data.WorkingHour!=null)
@@ -196,7 +197,7 @@ export class CommondataProvider {
 	};
 	LoadContact()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetContact',{basic_id:this.tradie_basic.id})
+		this.httpClient.post<any>(this.source+'/api/GetContact',{basic_id:this.tradie_basic.id})
 		.subscribe(data => {
 				if(data.Contact!=null)
 				{
@@ -210,7 +211,7 @@ export class CommondataProvider {
 	photos:any[]=[];
 	LoadPhotos()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetPhotos',{basic_id:this.tradie_basic.id})
+		this.httpClient.post<any>(this.source+'/api/GetPhotos',{basic_id:this.tradie_basic.id})
 		.subscribe(data => {
 			this.photos=data.Photos;
 		},
@@ -224,7 +225,7 @@ export class CommondataProvider {
 	};
 	LoadAbout()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetAbout',{basic_id:this.tradie_basic.id})
+		this.httpClient.post<any>(this.source+'/api/GetAbout',{basic_id:this.tradie_basic.id})
 		.subscribe(data => {
 			if(data.About!=null)
 			{
@@ -238,7 +239,7 @@ export class CommondataProvider {
 	skills:any[]=[];
 	LoadSkills()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSkills',{user_id:this.User.id})
+		this.httpClient.post<any>(this.source+'/api/GetSkills',{user_id:this.User.id})
 		.subscribe(data => {
 			this.skills=data;
 		},
@@ -250,7 +251,7 @@ export class CommondataProvider {
 	bank:{ account_name:string, bsb:string, account_no:string }={ account_name:'', bsb:'', account_no:'' };
 	LoadBank()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetBank',{user_id:this.User.id})
+		this.httpClient.post<any>(this.source+'/api/GetBank',{user_id:this.User.id})
 		.subscribe(data => {
 			this.bank=data;
 		},
@@ -264,7 +265,7 @@ export class CommondataProvider {
 	};
 	LoadService()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetService',{basic_id:this.tradie_basic.id})
+		this.httpClient.post<any>(this.source+'/api/GetService',{basic_id:this.tradie_basic.id})
 		.subscribe(data => {
 			if(data.Service!=null)
 			{
@@ -278,7 +279,7 @@ export class CommondataProvider {
 	taglines:any=[];
 	LoadTaglines()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetTaglines',{fl_basic_id:this.tradie_basic.id})
+		this.httpClient.post<any>(this.source+'/api/GetTaglines',{fl_basic_id:this.tradie_basic.id})
 		.subscribe(data => {
 			this.taglines=data.Taglines;
 		},
@@ -289,7 +290,7 @@ export class CommondataProvider {
 	keywords:any=[];
 	LoadKeywords()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetKeywords',{fl_basic_id:this.tradie_basic.id})
+		this.httpClient.post<any>(this.source+'/api/GetKeywords',{fl_basic_id:this.tradie_basic.id})
 		.subscribe(data => {
 			this.keywords=data.Keywords;
 		},

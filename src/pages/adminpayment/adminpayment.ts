@@ -2,14 +2,10 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Platform, MenuController, LoadingController, ModalController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { Device } from '@ionic-native/device';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { SQLite } from '@ionic-native/sqlite';
 import { CommondataProvider } from '../../providers/commondata/commondata';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
-import { LocationSelect } from '../location-select/location-select';
-import { MyApp } from '../../app/app.component';
-import { TradiebasicPage } from '../tradiebasic/tradiebasic';
-import { TradieadvancePage } from '../tradieadvance/tradieadvance';
-import { IonicSelectableComponent } from 'ionic-selectable';
+
 class User {
     public user_id: number;
     public name: string;
@@ -37,7 +33,10 @@ export class AdminpaymentPage {
 	withdraw:any=0;
 	balance:any=0;
 	withdraw_amount:any;
-
+	search_result:any=0;
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
+	AdminWallet:{TotalRegistration:any, TotalProjectIn:any, TotalProjectOut:any}={TotalRegistration:0, TotalProjectIn:0, TotalProjectOut:0};
+	AdminBalance:any=0;
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient:HttpClient, public device:Device, public toastCtrl: ToastController, public sqlite: SQLite, public platform: Platform, public commonProvider: CommondataProvider, public menuController:MenuController, public loadingCtrl: LoadingController, public modalCtrl: ModalController) {
 	  this.LoadUsers();
 	  var d1=new Date();
@@ -57,15 +56,15 @@ export class AdminpaymentPage {
   }
 	LoadUsers()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetAllUsers').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetAllUsers').subscribe(data => {
 			for(var i=0;i<data.Customers.length;i++)
 			{
 				this.port={user_id:data.Customers[i].id, name:data.Customers[i].first_name+' '+data.Customers[i].last_name};
 				this.Customers.push(this.port);	
 			}
-			for(var i=0;i<data.Tradies.length;i++)
+			for(var j=0;j<data.Tradies.length;j++)
 			{
-				this.port={user_id:data.Tradies[i].id, name:data.Tradies[i].fullname};
+				this.port={user_id:data.Tradies[j].id, name:data.Tradies[j].fullname};
 				this.Tradies.push(this.port);	
 			}
 		},
@@ -101,7 +100,7 @@ export class AdminpaymentPage {
 		});
 		loader.present();
 		setTimeout(()=>{
-			this.httpClient.post<any>('https://ptezone.com.au/api/GetTransactios',{
+			this.httpClient.post<any>(this.source+'/api/GetTransactios',{
 				transaction_type:this.transaction_type,
 				user_type:this.user_type,
 				customer:this.Customer.user_id,
@@ -109,11 +108,15 @@ export class AdminpaymentPage {
 				from_date:this.from_date,
 				to_date:this.to_date
 			}).subscribe(data => {
+				this.search_result=1;
 				loader.dismiss();
 				this.Transactions=data.Transactions;
 				this.receive=data.received;
 				this.withdraw=data.withdraw;
 				this.balance=data.balance;
+				
+				this.AdminWallet={TotalRegistration:data.AdminWallet.TotalRegistration, TotalProjectIn:data.AdminWallet.TotalProjectIn, TotalProjectOut:data.AdminWallet.TotalProjectOut};
+				this.AdminBalance=parseFloat(this.AdminWallet.TotalRegistration)+parseFloat(this.AdminWallet.TotalProjectIn)-parseFloat(this.AdminWallet.TotalProjectOut);
 			},
 			err => {
 				loader.dismiss();
@@ -173,7 +176,7 @@ export class AdminpaymentPage {
 	{
 		if(this.withdraw_amount!="" && this.withdraw_amount<=this.balance)
 		{
-			this.httpClient.post<any>('https://ptezone.com.au/api/WithdrawMoney',{id:this.commonProvider.tradie_basic.user_id, amount: this.withdraw_amount})
+			this.httpClient.post<any>(this.source+'/api/WithdrawMoney',{id:this.commonProvider.tradie_basic.user_id, amount: this.withdraw_amount})
 			.subscribe(data => {
 				alert(data.message);
 				this.Search();

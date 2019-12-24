@@ -89,6 +89,7 @@ export class EditprofilePage {
 	account_name:string="";
 	bsb:string="";
 	account_no:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 	
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient:HttpClient, public device:Device, public toastCtrl: ToastController, public sqlite: SQLite, public platform: Platform, public commonProvider: CommondataProvider, public menuController:MenuController, public loadingCtrl: LoadingController, public modalCtrl: ModalController, public myApp: MyApp, public imageViewerController:ImageViewerController) {
 	  this.LoadProfile();
@@ -290,7 +291,7 @@ export class EditprofilePage {
 						</div>`
 		});
 		loader.present();
-		this.httpClient.post<any>('https://ptezone.com.au/api/UpdateProfile',{
+		this.httpClient.post<any>(this.source+'/api/UpdateProfile',{
 			DeviceID:this.commonProvider.DeviceID,
 			firstname:this.User.first_name,
 			lastname:this.User.last_name,
@@ -304,7 +305,7 @@ export class EditprofilePage {
 			{
 				setTimeout(() => {
 						this.commonProvider.GetLoginDetails(this.commonProvider.DeviceID);
-					}, 1000);
+					}, 5000);
 				this.presentToast(data.Message);
 			}
 			else
@@ -335,7 +336,7 @@ export class EditprofilePage {
 								</div>`
 					});
 				loader.present();
-				this.httpClient.post<any>('https://ptezone.com.au/api/UpdateAvatar',{
+				this.httpClient.post<any>(this.source+'/api/UpdateAvatar',{
 					id:this.User.id,
 					image:item.upload
 				}).subscribe(data => {
@@ -444,7 +445,7 @@ export class EditprofilePage {
 	}
 	LoadCategories()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetCategories').subscribe(data => {
 			for(var i=0;i<data.Categories.length;i++)
 			{
 				this.port={ID:data.Categories[i].ID, CategoryID:0, Name:data.Categories[i].CategoryName};
@@ -459,7 +460,7 @@ export class EditprofilePage {
 	LoadSubCategories()
 	{
 		this.SubCategories=[];
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:0}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:0}).subscribe(data => {
 			
 			this.sub_category=[];
 			for(var i=0;i<data.SubCategories.length;i++)
@@ -573,7 +574,7 @@ export class EditprofilePage {
 						</div>`
 			});
 			loader.present();
-			this.httpClient.post<any>('https://ptezone.com.au/api/SaveFreelanceBasicAll',
+			this.httpClient.post<any>(this.source+'/api/SaveFreelanceBasicAll',
 			{
 				device_id:this.commonProvider.DeviceID,
 				firstname:this.User.first_name,
@@ -617,7 +618,7 @@ export class EditprofilePage {
 					this.presentToast("Profile updated successfully");
 					setTimeout(()=>{
 						loader.dismiss();
-					},3000);
+					},5000);
 				}
 				else
 				{

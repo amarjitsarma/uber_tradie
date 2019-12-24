@@ -30,6 +30,7 @@ export class PaymentPage {
 	Projects:any[]=[];
 	balance_amount:any=0.00;
 	withdraw_amount:any=0.00;
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device, public sqlite: SQLite, public platform: Platform, public commonProvider:CommondataProvider, public imageViewerController:ImageViewerController, private stripe: Stripe)  {
 	  this.Amount=this.navParams.get("amount");
 	  this.ProjectID=this.navParams.get("project_id");
@@ -92,7 +93,7 @@ export class PaymentPage {
 	}
 	LoadUnpainProjects()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetUnpaidJobsByCustomer/'+this.commonProvider.User.id).subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetUnpaidJobsByCustomer/'+this.commonProvider.User.id).subscribe(data => {
 			this.Projects=data;
 		},
 		err => {
@@ -116,7 +117,7 @@ export class PaymentPage {
   }
   GetBalance()
   {
-	  this.httpClient.get<any>('https://ptezone.com.au/api/GetLastBalance/'+this.commonProvider.User.id).subscribe(data => {
+	  this.httpClient.get<any>(this.source+'/api/GetLastBalance/'+this.commonProvider.User.id).subscribe(data => {
 			if(data.balance==null)
 			{
 				this.balance_amount=0.00;

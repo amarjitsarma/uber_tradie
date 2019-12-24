@@ -41,7 +41,7 @@
 		</ion-item>
 		<ion-item no-lines>
 			<ion-label stacked><ion-icon name="cash"></ion-icon>&nbsp;Call Out Fees*</ion-label>
-			<ion-input type="text" [(ngModel)]="Bid.call_out_charge" placeholder="Call Out Charge in AUD" onFocus="this.select();" required></ion-input>
+			<ion-input type="text" [(ngModel)]="Bid.call_out_charge" placeholder="Call Out Charge in AUD" onFocus="this.select();" (keyup)="keyUpCheckerCOF($event)" required></ion-input>
 		</ion-item>
 		
 		<ion-item no-lines>

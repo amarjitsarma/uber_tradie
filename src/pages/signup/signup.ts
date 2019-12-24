@@ -59,6 +59,7 @@ export class SignupPage {
 	Error:string="No error";
   // Our translated text strings
   private signupErrorString: string;
+  source:string="https://ptezone.com.au";//"http://localhost:8000";
 
   constructor(public navCtrl: NavController,
 	public navParams: NavParams,
@@ -130,7 +131,7 @@ export class SignupPage {
   TryLogin()
 	{
 		
-		this.httpClient.post<any>('https://ptezone.com.au/api/CheckLogin',{
+		this.httpClient.post<any>(this.source+'/api/CheckLogin',{
 			DeviceID:this.commonProvider.DeviceID
 		})
 		.subscribe(data => {
@@ -288,7 +289,7 @@ export class SignupPage {
 					</div>`
 		});
 		loader.present();
-		this.httpClient.post<any>('https://ptezone.com.au/api/send-otp',{
+		this.httpClient.post<any>(this.source+'/api/send-otp',{
 			phone:this.account.phone,
 			email:this.account.email,
 			username:this.account.username,
@@ -367,7 +368,7 @@ export class SignupPage {
 	}
 	LoadSubCategories()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:0/*this.category.ID*/}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:0/*this.category.ID*/}).subscribe(data => {
 			this.SubCategories=[];
 			this.sub_category=[];/*new Port1();/*.ID=0;
 			this.sub_category.Name="";*/

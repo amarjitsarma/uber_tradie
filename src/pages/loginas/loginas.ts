@@ -15,6 +15,7 @@ import { MainPage } from '../pages';
 export class LoginasPage {
 
   DeviceID:string="";
+  source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,
@@ -36,7 +37,7 @@ export class LoginasPage {
 		{
 			this.DeviceID="534b8b5aeb906015";
 		}
-		this.httpClient.post<any>('https://ptezone.com.au/api/UpdateLoginType',{
+		this.httpClient.post<any>(this.source+'/api/UpdateLoginType',{
 			DeviceID:this.DeviceID,
 			LoginType:1
 		})
@@ -72,7 +73,7 @@ export class LoginasPage {
 		{
 			this.DeviceID="534b8b5aeb906015";
 		}
-		this.httpClient.post<any>('https://ptezone.com.au/api/CheckLogin',{
+		this.httpClient.post<any>(this.source+'/api/CheckLogin',{
 			DeviceID:this.DeviceID
 		})
 		.subscribe(data => {

@@ -16,12 +16,13 @@ export class GivereviewPage {
 
   Projects:any=[];
 	DeviceID:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public modalCtrl : ModalController, public device: Device, public commonProvider:CommondataProvider) {
 	  this.LoadProjects();
   }
   LoadProjects()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetMyAssignedPosts',{device_id:this.commonProvider.DeviceID}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetMyAssignedPosts',{device_id:this.commonProvider.DeviceID}).subscribe(data => {
 			this.Projects=data.Projects;
 		},
 		err => {

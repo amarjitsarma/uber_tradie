@@ -31,8 +31,10 @@ export class ItemCreatePage {
   basic_id:any="";
 
   form: FormGroup;
+  source:string="https://ptezone.com.au";//"http://localhost:8000";
 
   constructor(public navCtrl: NavController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public imageCompress: NgxImageCompressService, private transfer: FileTransfer, private fileChooser: FileChooser, private filePath: FilePath, private file: File) {
+	 
 	  if(this.navParams.get("basic_id"))
 	  {
 		  this.basic_id=this.navParams.get("basic_id");
@@ -177,6 +179,7 @@ export class ItemCreatePage {
    * The user cancelled, so we dismiss without sending data back.
    */
   cancel() {
+	 // this.backgroundMode.disable();
     this.viewCtrl.dismiss();
   }
 
@@ -187,11 +190,12 @@ export class ItemCreatePage {
    avatar:any=0;
   done() 
   {
+	 // this.backgroundMode.disable();
 	  if(this.navParams.get("basic_id"))
 	  {
 		if(this.photo!="" && this.account.title!="")
 		{
-			this.httpClient.post<any>('https://ptezone.com.au/api/SavePhoto',{
+			this.httpClient.post<any>(this.source+'/api/SavePhoto',{
 				basic_id:this.navParams.get("basic_id"),
 				Photos:[this.photo],
 				title:this.account.title

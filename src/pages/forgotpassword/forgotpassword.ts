@@ -17,7 +17,7 @@ import { MyApp } from '../../app/app.component';
 })
 export class ForgotpasswordPage {
 	email:string="";
-
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController,
 	public navParams: NavParams,
     public user: User,
@@ -69,7 +69,7 @@ export class ForgotpasswordPage {
   }
   UpdatePassword()
   {
-	  this.httpClient.post<any>('https://ptezone.com.au/api/ResetPassword',{
+	  this.httpClient.post<any>(this.source+'/api/ResetPassword',{
 			email:this.email
 		})
 		.subscribe(data => {

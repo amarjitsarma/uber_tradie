@@ -15,6 +15,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 export class BidlistPage {
 	Bids:any=[];
 	DeviceID:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 	
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public sqlite: SQLite) {
 	  this.LoadBids();
@@ -38,7 +39,7 @@ export class BidlistPage {
 			type:"sender",	
 			device_id:DeviceID
 		};
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetBids',PostData).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetBids',PostData).subscribe(data => {
 			this.Bids=data.Bids;
 		},
 		err => {

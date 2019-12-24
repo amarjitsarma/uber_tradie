@@ -20,6 +20,7 @@ export class OtpPage {
 	DeviceID:string="";
 	otp:string="";
 	main_data:{device_id:string, otp:string, firstname:string, lastname:string, phone:string, email:string, username:string, password:string, login_type: any, location: string, street_name:string, state:string, code:string, postcode:string, longitude:any, latitude:any, category:any, sub_category:any};
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 	constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,
@@ -80,7 +81,7 @@ export class OtpPage {
 					</div>`
 		});
 		loader.present();
-		this.httpClient.post<any>('https://ptezone.com.au/api/ResendVerification',{
+		this.httpClient.post<any>(this.source+'/api/ResendVerification',{
 			email: this.main_data.email
 		})
 		.subscribe(data => {
@@ -104,7 +105,7 @@ export class OtpPage {
 		}
 		
 		scope.main_data.otp=scope.otp;
-		this.httpClient.post<any>('https://ptezone.com.au/api/signup',scope.main_data)
+		this.httpClient.post<any>(this.source+'/api/signup',scope.main_data)
 		.subscribe(data => {
 			this.presentToast(data.message);
 			if(data.status==1)

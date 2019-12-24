@@ -88,16 +88,20 @@
 						<h2 class="Title">{{Task.Project.title}}</h2>
 					</ion-col>
 					<ion-col col-4>
-						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==1">Open</h2>
-						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==2">Assigned</h2>
-						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==3">Completed & Closed</h2>
-						<h2 class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==4">Canceled & Closed</h2>
+						<p class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==1">Open</p>
+						<p class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==2">Assigned</p>
+						<p class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==3 && Task.Project.payment_status==1">Completed & Closed</p>
+						<p class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==3 && Task.Project.payment_status==0">Payment Pending</p>
+						<p class="Status{{Task.Project.status}}" *ngIf="Task.Project.status==4">Canceled & Closed</p>
 					</ion-col>
 					<ion-col col-12>
 						<h2><strong>Published On: </strong>{{this.commonProvider.GetFormattedDate(Task.Project.created_at)}}</h2>
 					</ion-col>
 					<ion-col col-12>
 						<h2><strong>Bidded Amount: </strong>{{Task.bid_amount}} AUD</h2>
+					</ion-col>
+					<ion-col col-12>
+						<p><strong>Total Bids: </strong>{{Task.Project.TotalBids}}</p>
 					</ion-col>
 				</ion-row>
 			</ion-grid>

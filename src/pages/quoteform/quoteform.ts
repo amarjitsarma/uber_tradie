@@ -21,6 +21,7 @@ export class QuoteformPage {
 	payment_mode:string="";
 	estimate_duration:string="";
 	DeviceID:string="";
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public sqlite: SQLite, public commonProvider:CommondataProvider){
 	  
   }
@@ -42,7 +43,7 @@ export class QuoteformPage {
 						payment_mode:this.payment_mode,
 						estimate_duration:this.estimate_duration
 					};
-			this.httpClient.post<any>('https://ptezone.com.au/api/SaveQuote',PostData).subscribe(data => {
+			this.httpClient.post<any>(this.source+'/api/SaveQuote',PostData).subscribe(data => {
 				alert("Quote Sent!");
 				this.navCtrl.pop();
 			},

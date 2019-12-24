@@ -1,18 +1,16 @@
-import { Component, NgZone, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, ModalController, Slides, Platform, Nav } from 'ionic-angular';
 
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl } from '@angular/forms';
-import { SearchPage } from './../search/search';
+
 import { Device } from '@ionic-native/device';
-import { Observable } from 'rxjs/Observable';
+
 import { SelectSearchableComponent } from 'ionic-select-searchable';
-import { ItemDetailPage } from '../item-detail/item-detail';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+
+import { SQLite } from '@ionic-native/sqlite';
 import { TradieproviderProvider } from '../../providers/tradieprovider/tradieprovider';
 import { LocationSelect } from '../location-select/location-select';
 import { CommondataProvider } from '../../providers/commondata/commondata';
-import { IonicSelectableComponent } from 'ionic-selectable';
 
 class PortTradies {
     public ID: number;
@@ -46,6 +44,7 @@ export class CardsPage {
 			this.LoadSubCategories();
 		}
     }
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
 	
     constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public sqlite: SQLite, public tradieProvider:TradieproviderProvider, public modalController:ModalController, public commonProvider: CommondataProvider) {
 		this.LoadSubCategories();
@@ -54,9 +53,13 @@ export class CardsPage {
 	{
 		return parseInt(string);
 	}
+	ionViewDidEnter()
+	{
+		this.tradieProvider.LoadMyLocation();
+	}
 	LoadCategories()
 	{
-		this.httpClient.get<any>('https://ptezone.com.au/api/GetCategories').subscribe(data => {
+		this.httpClient.get<any>(this.source+'/api/GetCategories').subscribe(data => {
 			this.port={ID:0, Name:"All Categories"};
 			this.Categories.push(this.port);
 			for(var i=0;i<data.Categories.length;i++)
@@ -78,7 +81,7 @@ export class CardsPage {
 	
 	LoadSubCategories()
 	{
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetSubCategories',{ID:0/*this.category.ID*/}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetSubCategories',{ID:0/*this.category.ID*/}).subscribe(data => {
 			this.SubCategories=[];
 			
 			/*this.port={ID:0, Name:"All Categories"};
@@ -125,7 +128,7 @@ export class CardsPage {
 		{
 			this.sub_category.push({ID:this.navParams.get("sub_category"), Name:"Selected"});
 		}
-		this.httpClient.post<any>('https://ptezone.com.au/api/GetFreelancers',{sub_category:this.sub_category, longitude: this.tradieProvider.location.longitude,latitude: this.tradieProvider.location.latitude, distance: this.distance}).subscribe(data => {
+		this.httpClient.post<any>(this.source+'/api/GetFreelancers',{sub_category:this.sub_category, longitude: this.tradieProvider.location.longitude,latitude: this.tradieProvider.location.latitude, distance: this.distance}).subscribe(data => {
 			this.cardItems=data.Freelancers;
 			if(this.cardItems.length==0)
 			{

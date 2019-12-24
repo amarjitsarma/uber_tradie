@@ -15,6 +15,7 @@ import { CommondataProvider } from '../../providers/commondata/commondata';
 export class Freelancelist6Page {
 	services:string="";
 	fl_basic_id:number=0;
+	source:string="https://ptezone.com.au";//"http://localhost:8000";
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpClient: HttpClient, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public device: Device, public platform: Platform, public nav:Nav, public modalCtrl: ModalController, public menuController:MenuController, public commonProvider: CommondataProvider) {
 	  this.fl_basic_id=this.navParams.get("basic_id");
 	  this.LoadService();
@@ -35,7 +36,7 @@ export class Freelancelist6Page {
 	SaveService()
 	{
 		this.fl_basic_id=this.navParams.get("basic_id");
-		this.httpClient.post<any>('https://ptezone.com.au/api/SaveService',{
+		this.httpClient.post<any>(this.source+'/api/SaveService',{
 			fl_basic_id:this.fl_basic_id,
 			services:this.services
 		}).subscribe(data => {

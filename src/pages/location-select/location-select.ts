@@ -71,7 +71,7 @@ export class LocationSelect {
 		}
 		else
 		{
-			this.presentToast("Sorry. We're not able to get the longitude & latitude of your location. Please try again.");
+			//this.presentToast("Sorry. We're not able to get the longitude & latitude of your location. Please try again.");
 		}
 	},1000);
   }
